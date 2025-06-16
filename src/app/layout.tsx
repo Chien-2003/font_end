@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/ui/Header";
 import Footer from "@/components/ui/Footer";
+import Navbar from "@/components/ui/Header";
 
 export const metadata: Metadata = {
   title: "Hello | Nền tảng luyện viết IELTS với AI",
@@ -16,8 +16,8 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <body className="bg-gray-50">
-        <Header />
-        <main>{children}</main>
+        <Navbar />
+        <main className="min-h-screen">{children}</main>
         <Footer />
       </body>
     </html>

@@ -1,7 +1,7 @@
 export default function page() {
   return (
     <>
-      <div className="">con mẹ nó chứ</div>
+      <div className="">nguyen dinh chien</div>
     </>
   );
 }
