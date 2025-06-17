@@ -9,7 +9,8 @@ export default function NavLinks({ className = "" }: { className?: string }) {
   const pathname = usePathname();
 
   const links = [
-    { name: "Dashboard", href: "/" },
+    { name: "Home", href: "/" },
+    { name: "Product", href: "/products" },
     { name: "Team", href: "/team" },
     { name: "Projects", href: "/projects" },
     { name: "Calendar", href: "/calendar" },

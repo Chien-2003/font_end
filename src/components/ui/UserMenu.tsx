@@ -3,11 +3,12 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useUser } from "@/contexts/UserContext";
 
 export default function UserMenu() {
   const [open, setOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 👈 Trạng thái đăng nhập
   const ref = useRef<HTMLDivElement>(null);
+  const { user, setUser } = useUser();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -19,13 +20,13 @@ export default function UserMenu() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // 🔁 Giả lập trạng thái login
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token); // true nếu có token
-  }, []);
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+    window.location.href = "/";
+  };
 
-  if (!isLoggedIn) {
+  if (!user) {
     return (
       <div className="ml-3 flex space-x-2">
         <Link
@@ -49,11 +50,10 @@ export default function UserMenu() {
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-none"
+        className="relative flex items-center space-x-2 rounded-full bg-gray-800 text-sm px-3 py-2 text-white hover:bg-gray-700"
         id="user-menu-button"
         aria-haspopup="true"
       >
-        <span className="sr-only">Open user menu</span>
         <Image
           className="size-8 rounded-full"
           src="/logo.svg"
@@ -61,7 +61,9 @@ export default function UserMenu() {
           width={32}
           height={32}
         />
+        <span>{user.full_name}</span>
       </button>
+
       {open && (
         <div
           className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5"
@@ -69,23 +71,24 @@ export default function UserMenu() {
           aria-orientation="vertical"
           aria-labelledby="user-menu-button"
         >
-          <Link href="#" className="block px-4 py-2 text-sm text-gray-700">
-            Your Profile
-          </Link>
-          <Link href="#" className="block px-4 py-2 text-sm text-gray-700">
-            Settings
-          </Link>
           <Link
-            href="#"
-            onClick={() => {
-              localStorage.removeItem("token");
-              setIsLoggedIn(false);
-              setOpen(false);
-            }}
+            href="/profile"
             className="block px-4 py-2 text-sm text-gray-700"
           >
-            Sign out
+            Thông tin cá nhân
           </Link>
+          <Link
+            href="/settings"
+            className="block px-4 py-2 text-sm text-gray-700"
+          >
+            Cài đặt
+          </Link>
+          <button
+            onClick={handleLogout}
+            className="block w-full text-left px-4 py-2 text-sm text-gray-700"
+          >
+            Đăng xuất
+          </button>
         </div>
       )}
     </div>

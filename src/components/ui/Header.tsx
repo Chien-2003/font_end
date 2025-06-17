@@ -7,6 +7,7 @@ import UserMenu from "./UserMenu";
 import MobileMenu from "./MobileMenu";
 import Link from "next/link";
 
+
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
