@@ -10,7 +10,7 @@ interface User {
 interface UserContextType {
   user: User | null;
   fetchUser: () => Promise<void>;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>; // <-- Thêm dòng này
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 const UserContext = createContext<UserContextType | null>(null);
