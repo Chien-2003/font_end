@@ -1,7 +1,11 @@
+import HomeBanner from "@/components/ui/HomeBanner";
+import HomeCategorySection from "@/components/ui/HomeCategorySection";
+
 export default function page() {
   return (
     <>
-      <div className="">nguyen dinh chien</div>
+      <HomeBanner />
+      <HomeCategorySection />
     </>
   );
 }

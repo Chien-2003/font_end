@@ -31,13 +31,13 @@ export default function UserMenu() {
       <div className="ml-3 flex space-x-2">
         <Link
           href="/login"
-          className="text-white text-sm px-3 py-2 rounded-md hover:bg-gray-700"
+          className="text-white text-sm px-3 py-2 rounded-md bg-gray-800 hover:bg-gray-800"
         >
           Đăng nhập
         </Link>
         <Link
           href="/register"
-          className="text-white text-sm px-3 py-2 rounded-md hover:bg-gray-700"
+          className="text-white text-sm px-3 py-2 rounded-md bg-gray-800 hover:bg-gray-800"
         >
           Đăng ký
         </Link>
@@ -50,7 +50,7 @@ export default function UserMenu() {
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="relative flex items-center space-x-2 rounded-full bg-gray-800 text-sm px-3 py-2 text-white hover:bg-gray-700"
+        className="relative flex items-center font-bold space-x-2 rounded-full text-gray-800 text-md px-3 py-2"
         id="user-menu-button"
         aria-haspopup="true"
       >
@@ -76,12 +76,6 @@ export default function UserMenu() {
             className="block px-4 py-2 text-sm text-gray-700"
           >
             Thông tin cá nhân
-          </Link>
-          <Link
-            href="/settings"
-            className="block px-4 py-2 text-sm text-gray-700"
-          >
-            Cài đặt
           </Link>
           <button
             onClick={handleLogout}
