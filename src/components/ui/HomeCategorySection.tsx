@@ -57,7 +57,7 @@ const categories: CategoryItem[] = [
 
 export default function HomeCategorySection() {
   return (
-    <section className="py-8">
+    <section className="py-8 bg-white">
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap justify-center gap-x-4 gap-y-8">
           {categories.map((item, index) => (

@@ -26,7 +26,7 @@ const banners = [
 
 export default function HomeBanner() {
   return (
-    <div className="pb-3 h-full">
+    <div className="pb-3 h-full bg-white">
       <Swiper
         modules={[Autoplay, Pagination]}
         autoplay={{ delay: 3000 }}
@@ -43,7 +43,7 @@ export default function HomeBanner() {
                   alt={item.alt}
                   width={1920}
                   height={640}
-                  className="w-full h-auto "
+                  className="w-full h-full"
                 />
               </div>
             </Link>

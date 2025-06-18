@@ -13,7 +13,7 @@ export default function Navbar() {
   return (
     <nav className="bg-white sticky top-0 z-50 shadow">
   <div className="px-2 sm:px-6 lg:px-8 container mx-auto">
-    <div className="relative w-full max-w-md mx-auto my-2">
+    <div className="relative w-full max-w-md mx-auto py-2">
       <input
         type="text"
         placeholder="Tìm kiếm sản phẩm..."
