@@ -60,7 +60,7 @@ export default function PersonalInfoPage() {
     fetchProfile();
   }, []);
   return (
-    <Container maxWidth="sm" sx={{ mt: 4 }}>
+    <Container maxWidth="sm" sx={{ mt: 4, mb: 4 }}>
       <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
         <Grid
           gap={2}
@@ -76,7 +76,7 @@ export default function PersonalInfoPage() {
               sx={{ width: 100, height: 100, margin: "auto" }}
             />
             <Typography variant="h5" sx={{ mt: 2 }}>
-              {profile.full_name || "Thông tin cá nhân"}
+              {profile.full_name}
             </Typography>
           </Grid>
 
@@ -111,7 +111,7 @@ export default function PersonalInfoPage() {
             <button
               ref={btnRef}
               onClick={handleClick}
-              className="px-6 py-3 bg-blue-500 text-white rounded-md shadow-md"
+              className="px-6 py-3 bg-blue-500 text-white rounded-md shadow-md cursor-pointer"
             >
               Cập nhật thông tin
             </button>

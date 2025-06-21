@@ -9,10 +9,13 @@ export default function NavLinks({ className = "" }: { className?: string }) {
 
   const links = [
     { name: "Home", href: "/" },
-    { name: "Product", href: "/products" },
-    { name: "Team", href: "/team" },
-    { name: "Projects", href: "/projects" },
-    { name: "Calendar", href: "/calendar" },
+    { name: "Áo nam", href: "/san-pham" },
+    { name: "Quần nam", href: "#" },
+    { name: "Phụ kiện nam", href: "#" },
+    { name: "Áo nữ", href: "#" },
+    { name: "Quần nữ", href: "#" },
+    { name: "Phụ kiện nữ", href: "#" },
+    { name: "Blog", href: "#" },
   ];
 
   return (
@@ -22,7 +25,7 @@ export default function NavLinks({ className = "" }: { className?: string }) {
           key={link.name}
           href={link.href}
           className={clsx(
-            "rounded-md px-3 py-2 text-md uppercase font-bold",
+            "rounded-md lg:px-4 py-2 text-md uppercase font-bold",
             pathname === link.href
               ? "text-[#b4282b]"
               : "text-gray-900"

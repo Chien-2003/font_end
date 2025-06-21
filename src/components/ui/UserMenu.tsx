@@ -21,6 +21,7 @@ export default function UserMenu() {
   }, []);
 
   const handleLogout = () => {
+    setOpen(false);
     localStorage.removeItem("token");
     setUser(null);
     window.location.href = "/";
@@ -46,7 +47,7 @@ export default function UserMenu() {
   }
 
   return (
-    <div className="relative ml-3" ref={ref}>
+    <div className="relative" ref={ref}>
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
@@ -61,25 +62,26 @@ export default function UserMenu() {
           width={32}
           height={32}
         />
-        <span>{user.full_name}</span>
+        <span className="cursor-pointer">{user.full_name}</span>
       </button>
 
       {open && (
         <div
-          className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5"
+          className="absolute right-0 z-10 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="user-menu-button"
         >
           <Link
             href="/profile"
-            className="block px-4 py-2 text-sm text-gray-700"
+            onClick={() => setOpen(false)}
+            className="block px-4 py-2 text-sm text-gray-700 hover:text-gray-800"
           >
             Thông tin cá nhân
           </Link>
           <button
             onClick={handleLogout}
-            className="block w-full text-left px-4 py-2 text-sm text-gray-700"
+            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:text-gray-800"
           >
             Đăng xuất
           </button>

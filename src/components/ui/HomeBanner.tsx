@@ -8,17 +8,17 @@ import React from "react";
 
 const banners = [
   {
-    href: "https://johnhenry.vn/collections/john-henry",
+    href: "#",
     src: "https://file.hstatic.net/1000402464/file/hero_1-100_8edbb021f9e14c8883e99e728ca20759.jpg",
     alt: "Banner 1",
   },
   {
-    href: "https://johnhenry.vn/collections/john-henry",
+    href: "#",
     src: "https://file.hstatic.net/1000402464/file/jh_slide_chinh.jpg",
     alt: "Banner 2",
   },
   {
-    href: "https://johnhenry.vn/collections/fl-nu",
+    href: "#",
     src: "https://file.hstatic.net/1000402464/file/fl_slide_chinh.jpg",
     alt: "Banner 3",
   },

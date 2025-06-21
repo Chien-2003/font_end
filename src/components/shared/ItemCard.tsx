@@ -3,6 +3,7 @@
 import { useRef, useEffect } from "react";
 import Image from "next/image";
 import gsap from "gsap";
+import { IoCartOutline } from "react-icons/io5";
 
 interface ProductCardProps {
   name: string;
@@ -86,7 +87,7 @@ export default function ProductCard({
         </>
         <div className="p-2 flex-grow flex flex-col justify-between">
           <div>
-            <p className="text-gray-600 text-sm mb-3">
+            <p className="text-gray-600 text-sm mb-2">
               {description.length > 50
                 ? `${description.slice(0, 50)}...`
                 : description}
@@ -94,7 +95,7 @@ export default function ProductCard({
           </div>
           <div className="flex items-center justify-between mt-auto">
             <div className="flex items-baseline">
-              <span className="text-2xl font-bold text-gray-900">{price}</span>
+              <span className="text-xl font-bold text-gray-900">{price}</span>
               {oldPrice && (
                 <span className="text-sm text-gray-500 line-through ml-2">
                   {oldPrice}
@@ -102,18 +103,10 @@ export default function ProductCard({
               )}
             </div>
             <button
-              className="bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700 transition-colors duration-200 ease-in-out focus:outline-none flex items-center justify-center"
+              className=" text-black p-2 cursor-pointer transition-colors duration-200 ease-in-out focus:outline-none flex items-center justify-center"
               aria-label="Thêm vào giỏ hàng"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553L16.5 4H5.129L5 3H3z" />
-                <path d="M16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
-              </svg>
+              <IoCartOutline className="text-2xl text-black w-6 h-6"/>
             </button>
           </div>
         </div>

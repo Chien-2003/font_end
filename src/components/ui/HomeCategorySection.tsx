@@ -66,7 +66,7 @@ export default function HomeCategorySection() {
               className="w-28 flex flex-col items-center text-center"
             >
               <Link href={item.href} className="group">
-                <div className="relative w-auto h- mx-auto overflow-hidden transition-transform group-hover:scale-105">
+                <div className="relative w-auto h- mx-auto overflow-hidden transition-transform group-hover:scale-110">
                   <Image
                     src={item.src}
                     alt={item.alt}
