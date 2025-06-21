@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Container,
   Typography,
@@ -10,8 +10,22 @@ import {
   Button,
   Grid,
 } from "@mui/material";
+import gsap from "gsap";
 
 export default function PersonalInfoPage() {
+  const btnRef = useRef<HTMLButtonElement>(null);
+
+  const handleClick = () => {
+    if (btnRef.current) {
+      gsap.to(btnRef.current, {
+        scale: 0.95,
+        duration: 0.2,
+        yoyo: true,
+        repeat: 1,
+        ease: "power1.inOut",
+      });
+    }
+  };
   const [profile, setProfile] = useState({
     full_name: "",
     email: "",
@@ -93,11 +107,14 @@ export default function PersonalInfoPage() {
             variant="outlined"
             value={profile.address}
           />
-
           <Grid sx={{ textAlign: "center", mt: 2 }}>
-            <Button variant="contained" color="primary">
+            <button
+              ref={btnRef}
+              onClick={handleClick}
+              className="px-6 py-3 bg-blue-500 text-white rounded-md shadow-md"
+            >
               Cập nhật thông tin
-            </Button>
+            </button>
           </Grid>
         </Grid>
       </Paper>

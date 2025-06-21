@@ -1,14 +1,17 @@
 "use client";
 
+import { useRef, useEffect } from "react";
 import Image from "next/image";
+import gsap from "gsap";
 
 interface ProductCardProps {
   name: string;
   description: string;
-  price: number;
+  price: string;
   oldPrice?: number;
   discountPercent?: number;
-  imageUrl: string;
+  image_url: string;
+  image_hover_url?: string;
 }
 
 export default function ProductCard({
@@ -17,43 +20,89 @@ export default function ProductCard({
   price,
   oldPrice,
   discountPercent,
-  imageUrl,
+  image_url,
+  image_hover_url,
 }: ProductCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const hoverImageRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    if (!cardRef.current || !hoverImageRef.current) return;
+
+    const tl = gsap.timeline({ paused: true });
+    tl.to(hoverImageRef.current, {
+      opacity: 1,
+      duration: 0.6,
+      ease: "power3.out",
+    });
+
+    const onEnter = () => tl.play();
+    const onLeave = () => tl.reverse();
+
+    const card = cardRef.current;
+    card.addEventListener("mouseenter", onEnter);
+    card.addEventListener("mouseleave", onLeave);
+
+    return () => {
+      card.removeEventListener("mouseenter", onEnter);
+      card.removeEventListener("mouseleave", onLeave);
+    };
+  }, []);
+
   return (
     <div className="w-full sm:w-1/2 lg:w-1/4 px-3 py-3 mb-6 pro-loop">
-      <div className="bg-white overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-in-out h-full flex flex-col">
-        <div className="relative">
-          <img
-            className="w-full h-48 object-cover rounded-t-lg"
-            src={imageUrl}
+      <div
+        ref={cardRef}
+        className="bg-white overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-in-out h-full flex flex-col"
+      >
+        <>
+        <div className="relative w-full h-[431px]">
+          <Image
+            width={287}
+            height={431}
+            className="w-full h-full object-cover absolute top-0 left-0 z-10"
+            src={image_url}
             alt={name}
           />
+          {image_hover_url && (
+            <Image
+              ref={hoverImageRef}
+              width={287}
+              height={431}
+              className="w-full h-full object-cover absolute top-0 left-0 z-20 opacity-0 pointer-events-none"
+              src={image_hover_url}
+              alt={`${name} hover`}
+            />
+          )}
           {discountPercent && (
-            <div className="absolute top-2 right-2 bg-blue-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
+            <div className="absolute top-2 right-2 bg-blue-500 text-white text-xs font-semibold px-2 py-1 rounded-full z-30">
               {discountPercent}%
             </div>
           )}
         </div>
-        <div className="p-4 flex-grow flex flex-col justify-between">
+        <h3 className="text-sm font-semibold px-2 pt-2 text-gray-800 hover:text-[#b4282b]">
+          {name.length > 32 ? `${name.slice(0, 32)}...` : name}
+        </h3>
+        </>
+        <div className="p-2 flex-grow flex flex-col justify-between">
           <div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">
-              {name}
-            </h3>
-            <p className="text-gray-600 text-sm mb-3">{description}</p>
+            <p className="text-gray-600 text-sm mb-3">
+              {description.length > 50
+                ? `${description.slice(0, 50)}...`
+                : description}
+            </p>
           </div>
           <div className="flex items-center justify-between mt-auto">
             <div className="flex items-baseline">
-              <span className="text-2xl font-bold text-gray-900">
-                ${price.toFixed(2)}
-              </span>
+              <span className="text-2xl font-bold text-gray-900">{price}</span>
               {oldPrice && (
                 <span className="text-sm text-gray-500 line-through ml-2">
-                  ${oldPrice.toFixed(2)}
+                  {oldPrice}
                 </span>
               )}
             </div>
             <button
-              className="bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 flex items-center justify-center"
+              className="bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700 transition-colors duration-200 ease-in-out focus:outline-none flex items-center justify-center"
               aria-label="Thêm vào giỏ hàng"
             >
               <svg
