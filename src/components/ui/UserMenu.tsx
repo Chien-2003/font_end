@@ -11,20 +11,26 @@ export default function UserMenu() {
   const { user, setUser } = useUser();
 
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
+    const handleClickOutside = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
         setOpen(false);
       }
-    }
+    };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleLogout = () => {
-    setOpen(false);
-    localStorage.removeItem("token");
-    setUser(null);
-    window.location.href = "/";
+  const handleLogout = async () => {
+    try {
+      await fetch("http://localhost:4000/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      setUser(null);
+      window.location.href = "/login";
+    } catch (error) {
+      console.error("Lỗi khi đăng xuất:", error);
+    }
   };
 
   if (!user) {
@@ -32,13 +38,13 @@ export default function UserMenu() {
       <div className="ml-3 flex space-x-2">
         <Link
           href="/login"
-          className="text-white text-sm px-3 py-2 rounded-md bg-gray-800 hover:bg-gray-800"
+          className="text-white text-sm px-3 py-2 rounded-md bg-gray-800 hover:bg-gray-700"
         >
           Đăng nhập
         </Link>
         <Link
           href="/register"
-          className="text-white text-sm px-3 py-2 rounded-md bg-gray-800 hover:bg-gray-800"
+          className="text-white text-sm px-3 py-2 rounded-md bg-gray-800 hover:bg-gray-700"
         >
           Đăng ký
         </Link>
@@ -49,39 +55,31 @@ export default function UserMenu() {
   return (
     <div className="relative" ref={ref}>
       <button
-        type="button"
-        onClick={() => setOpen((prev) => !prev)}
-        className="relative flex items-center font-bold space-x-2 rounded-full text-gray-800 text-md px-3 py-2"
-        id="user-menu-button"
-        aria-haspopup="true"
+        onClick={() => setOpen(!open)}
+        className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 rounded"
       >
         <Image
-          className="size-8 rounded-full"
           src="/logo.svg"
-          alt="User avatar"
+          alt="User Avatar"
           width={32}
           height={32}
+          className="rounded-full"
         />
-        <span className="cursor-pointer">{user.full_name}</span>
+        <span>{user.full_name}</span>
       </button>
 
       {open && (
-        <div
-          className="absolute right-0 z-10 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5"
-          role="menu"
-          aria-orientation="vertical"
-          aria-labelledby="user-menu-button"
-        >
+        <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black/5 z-50">
           <Link
             href="/profile"
+            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
             onClick={() => setOpen(false)}
-            className="block px-4 py-2 text-sm text-gray-700 hover:text-gray-800"
           >
             Thông tin cá nhân
           </Link>
           <button
             onClick={handleLogout}
-            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:text-gray-800"
+            className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
           >
             Đăng xuất
           </button>

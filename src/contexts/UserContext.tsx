@@ -1,6 +1,12 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 
 interface User {
   full_name: string;
@@ -27,13 +33,16 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const fetchUser = useCallback(async () => {
     try {
       const res = await fetch("http://localhost:4000/profile/get-user", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
+        credentials: "include",
       });
 
+      if (!res.ok) {
+        setUser(null);
+        return;
+      }
+
       const result = await res.json();
-      if (res.ok && result.data) {
+      if (result?.data) {
         setUser({
           full_name: result.data.full_name,
           email: result.data.email,

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { showSuccess, showError } from "@/lib/swal";
 import { useUser } from "@/contexts/UserContext";
+import { login } from "@/app/actions/login";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -18,30 +19,17 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const res = await fetch("http://localhost:4000/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        showError(data.message || "Đăng nhập thất bại");
-        return;
-      }
-      localStorage.setItem("token", data.token);
-      await fetchUser();
+      const data = await login(email, password);
+      await fetchUser(); // Dùng token từ cookie
       await showSuccess(data.message || "Đăng nhập thành công");
       router.push("/");
-    } catch (error) {
-      showError("Lỗi kết nối đến máy chủ");
+    } catch (error: any) {
+      showError(error.message || "Lỗi đăng nhập");
     } finally {
       setIsLoading(false);
     }
   };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4">
       <form

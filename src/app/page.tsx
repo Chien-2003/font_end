@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import ProductCard from "@/components/shared/ItemCard";
 import HomeBanner from "@/components/ui/HomeBanner";
 import HomeCategorySection from "@/components/ui/HomeCategorySection";
-import { getAllProducts, Product } from "@/lib/api/products";
+import { getAllProducts, Product } from "@/lib/products";
 
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
