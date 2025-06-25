@@ -8,35 +8,31 @@ const baseConfig = {
   },
 };
 
-export const showSuccess = (message: string, title = 'Thành công') => {
+export const showSuccess = (message: string) => {
   return Swal.fire({
     ...baseConfig,
     icon: 'success',
-    title,
-    text: message,
+    title: message,
   });
 };
 
-export const showError = (message: string, title = 'Lỗi') => {
+export const showError = (message: string) => {
   return Swal.fire({
     ...baseConfig,
     icon: 'error',
-    title,
-    text: message,
+    title: message,
   });
 };
 
 export const showConfirm = (
   message: string,
-  title = 'Xác nhận',
   onConfirm?: () => void,
   onCancel?: () => void
 ) => {
   return Swal.fire({
     ...baseConfig,
     icon: 'question',
-    title,
-    text: message,
+    title: message,
     showCancelButton: true,
     confirmButtonText: 'Đồng ý',
     cancelButtonText: 'Huỷ',
