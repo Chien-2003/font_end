@@ -11,6 +11,10 @@ import React, {
 interface User {
   full_name: string;
   email: string;
+  phone?: string;
+  address?: string;
+  birth_date?: string;
+  gender?: boolean;
 }
 
 interface UserContextType {
@@ -46,6 +50,10 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         setUser({
           full_name: result.data.full_name,
           email: result.data.email,
+          phone: result.data.phone,
+          address: result.data.address,
+          birth_date: result.data.birth_date,
+          gender: result.data.gender,
         });
       } else {
         setUser(null);

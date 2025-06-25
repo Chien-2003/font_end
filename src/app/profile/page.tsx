@@ -1,123 +1,129 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import {
-  Container,
-  Typography,
-  Avatar,
-  TextField,
-  Paper,
-  Button,
+  Box,
   Grid,
+  Paper,
+  Tabs,
+  Tab,
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
-import gsap from "gsap";
 
-export default function PersonalInfoPage() {
-  const btnRef = useRef<HTMLButtonElement>(null);
+import PersonalInfoPage from "./components/PersonalInfoPage";
+import OrdersPage from "./components/OrdersPage";
+import FavoritesPage from "./components/FavoritesPage";
+import AddressesPage from "./components/AddressesPage";
+import Link from "next/link";
+import Image from "next/image";
+import { useUser } from "@/contexts/UserContext";
 
-  const handleClick = () => {
-    if (btnRef.current) {
-      gsap.to(btnRef.current, {
-        scale: 0.95,
-        duration: 0.2,
-        yoyo: true,
-        repeat: 1,
-        ease: "power1.inOut",
-      });
+const tabLabels = [
+  "Thông tin cá nhân",
+  "Đơn hàng của bạn",
+  "Sản phẩm yêu thích",
+  "Địa chỉ đặt hàng",
+];
+
+export default function ProfilePage() {
+  const [selectedTab, setSelectedTab] = useState(0);
+  const { user } = useUser();
+  const theme = useTheme();
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
+
+  const renderTabContent = () => {
+    switch (selectedTab) {
+      case 0:
+        return <PersonalInfoPage />;
+      case 1:
+        return <OrdersPage />;
+      case 2:
+        return <FavoritesPage />;
+      case 3:
+        return <AddressesPage />;
+      default:
+        return null;
     }
   };
-  const [profile, setProfile] = useState({
-    full_name: "",
-    email: "",
-    phone: "",
-    address: "",
-  });
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const res = await fetch("http://localhost:4000/profile/get-user", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-
-        const result = await res.json();
-        if (res.ok && result.data) {
-          setProfile({
-            full_name: result.data.full_name,
-            email: result.data.email,
-            phone: result.data.phone,
-            address: result.data.address,
-          });
-        }
-      } catch (err) {
-        console.error("Lỗi khi lấy thông tin người dùng:", err);
-      }
-    };
-
-    fetchProfile();
-  }, []);
   return (
-    <Container maxWidth="sm" sx={{ mt: 4, mb: 4 }}>
-      <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
-        <Grid
-          gap={2}
-          justifyContent="center"
-          alignItems="center"
-          display="flex"
-          flexDirection="column"
-        >
-          <Grid sx={{ textAlign: "center" }}>
-            <Avatar
-              alt="User Avatar"
-              src="/image.webp"
-              sx={{ width: 100, height: 100, margin: "auto" }}
-            />
-            <Typography variant="h5" sx={{ mt: 2 }}>
-              {profile.full_name}
-            </Typography>
-          </Grid>
-
-          <TextField
-            label="Họ và tên"
-            fullWidth
-            variant="outlined"
-            value={profile.full_name}
-          />
-
-          <TextField
-            label="Email"
-            fullWidth
-            variant="outlined"
-            value={profile.email}
-          />
-
-          <TextField
-            label="Số điện thoại"
-            fullWidth
-            variant="outlined"
-            value={profile.phone}
-          />
-
-          <TextField
-            label="Địa chỉ"
-            fullWidth
-            variant="outlined"
-            value={profile.address}
-          />
-          <Grid sx={{ textAlign: "center", mt: 2 }}>
-            <button
-              ref={btnRef}
-              onClick={handleClick}
-              className="px-6 py-3 bg-blue-500 text-white rounded-md shadow-md cursor-pointer"
+    <Box sx={{ p: { xs: 2, md: 4 }, minHeight: "100vh" }}>
+      <Grid container spacing={4} sx={{ minHeight: "100%" }}>
+        <Grid item xs={12} md={4}>
+          <Paper
+            elevation={3}
+            sx={{
+              p: 3,
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: isMdUp ? "flex-start" : "center",
+              textAlign: isMdUp ? "left" : "center",
+            }}
+          >
+            <Link
+              href="/"
+              className="flex items-center space-x-2 shrink-0 mb-8"
+              style={{
+                justifyContent: isMdUp ? "flex-start" : "center",
+                width: "100%",
+              }}
             >
-              Cập nhật thông tin
-            </button>
-          </Grid>
+              <Image src="/logo.svg" alt="Elysia Wear" width={32} height={32} />
+              <span className="text-gray-900 font-semibold text-lg">
+                Elysia Wear
+              </span>
+            </Link>
+
+            <Typography variant="h5" sx={{ mb: 4 }}>
+              {user?.full_name || "Chưa có tên"}
+            </Typography>
+
+            <Tabs
+              orientation={isMdUp ? "vertical" : "horizontal"}
+              variant="scrollable"
+              value={selectedTab}
+              onChange={(_, newValue) => setSelectedTab(newValue)}
+              TabIndicatorProps={{
+                style: {
+                  left: isMdUp ? 0 : undefined,
+                  bottom: isMdUp ? undefined : 0,
+                  width: isMdUp ? "2px" : "100%",
+                  height: isMdUp ? "auto" : "2px",
+                  backgroundColor: "#009966",
+                },
+              }}
+              sx={{
+                width: "100%",
+              }}
+            >
+              {tabLabels.map((label, index) => (
+                <Tab
+                  key={index}
+                  label={label}
+                  sx={{
+                    textAlign: isMdUp ? "left" : "center",
+                    alignItems: isMdUp ? "flex-start" : "center",
+                    justifyContent: isMdUp ? "flex-start" : "center",
+                    px: 2,
+                    "&.Mui-selected": {
+                      color: "primary.main",
+                    },
+                  }}
+                />
+              ))}
+            </Tabs>
+          </Paper>
         </Grid>
-      </Paper>
-    </Container>
+
+        <Grid item xs={12} md={8}>
+          <Paper elevation={3} sx={{ p: { xs: 2, md: 3 }, height: "100%" }}>
+            {renderTabContent()}
+          </Paper>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
