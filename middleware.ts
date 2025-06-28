@@ -5,8 +5,7 @@ const JWT_SECRET = "my-secret-key";
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("token")?.value;
-
-  if (!token) {
+if (!token) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
