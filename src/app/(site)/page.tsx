@@ -10,7 +10,6 @@ export default async function HomePage() {
     <>
       <HomeBanner />
       <HomeCategorySection />
-
       <div className="px-2 sm:px-6 lg:px-8 container mx-auto">
         <div className="flex flex-wrap">
           {products.length === 0 ? (

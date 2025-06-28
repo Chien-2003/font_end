@@ -1,0 +1,27 @@
+"use client";
+import { useUser } from "@/contexts/UserContext";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+export default function AdminPage() {
+  const { user } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!user) return;
+    if (user.email !== "nguyendinhchien19042003@gmail.com") {
+      router.replace("/");
+    }
+  }, [user]);
+
+  if (!user || user.email !== "nguyendinhchien19042003@gmail.com") {
+    return null;
+  }
+
+  return (
+    <div className="p-6">
+      <h1 className="text-2xl font-bold">Quản lý hệ thống</h1>
+
+    </div>
+  );
+}

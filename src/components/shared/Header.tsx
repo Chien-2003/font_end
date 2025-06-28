@@ -68,7 +68,7 @@ export default function Navbar() {
             </div>
           </div>
         </div>
-        <div className="relative flex h-16 items-center justify-center">
+        <div className="relative flex items-center justify-center">
           <div className="hidden sm:block">
             <NavLinks className="flex space-x-4 text-gray-900" />
           </div>
