@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   Box,
@@ -8,27 +8,53 @@ import {
   TextField,
   Typography,
   Stack,
+  Link as MuiLink,
+  CircularProgress,
 } from "@mui/material";
 import { register } from "@/app/actions/register";
 import { showError, showSuccess } from "@/lib/swal";
-
+import PasswordField from "@/components/shared/PasswordField";
+import { useUser } from "@/contexts/UserContext";
 
 export default function RegisterPage() {
   const router = useRouter();
+  const { user } = useUser();
+
+  const [checkingUser, setCheckingUser] = useState(true);
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Redirect nếu đã đăng nhập
+  useEffect(() => {
+    if (user) {
+      router.replace("/");
+    } else {
+      setCheckingUser(false);
+    }
+  }, [user, router]);
+
+  // Không hiển thị giao diện khi đang kiểm tra đăng nhập
+  if (checkingUser) {
+    return (
+      <Box display="flex" justifyContent="center" mt={10}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
       const res = await register(userName, email, password);
-      showSuccess(res.message);
-
-      setTimeout(() => router.push("/login"), 1500);
+      await showSuccess(res.message || "Đăng ký thành công");
+      router.push("/login");
     } catch (err: any) {
-      showError(err.message);
+      showError(err.message || "Lỗi đăng ký");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -64,18 +90,31 @@ export default function RegisterPage() {
             required
             fullWidth
           />
-          <TextField
+          <PasswordField
             label="Mật khẩu"
-            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            fullWidth
           />
 
-          <Button type="submit" variant="contained" color="primary" fullWidth>
-            Đăng ký
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            disabled={isLoading}
+          >
+            {isLoading ? <CircularProgress size={24} color="inherit" /> : "Đăng ký"}
           </Button>
+
+          <Box mt={2} textAlign="center">
+            <Typography variant="body2">
+              Bạn đã có tài khoản?{" "}
+              <MuiLink href="/login" underline="hover" sx={{ fontWeight: 500 }}>
+                Đăng nhập
+              </MuiLink>
+            </Typography>
+          </Box>
         </Stack>
       </form>
     </Box>
