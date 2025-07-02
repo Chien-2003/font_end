@@ -1,24 +1,19 @@
-"use client"
+"use client";
+
 import {
   AppBar,
   Box,
+  Container,
   CssBaseline,
   Divider,
   Drawer,
   IconButton,
   Toolbar,
   Typography,
-  useTheme,
   useMediaQuery,
+  useTheme,
 } from "@mui/material";
-import {
-  Dashboard as DashboardIcon,
-  Menu as MenuIcon,
-  ShoppingCart as ShoppingCartIcon,
-  BarChart as BarChartIcon,
-  Description as DescriptionIcon,
-  Layers as LayersIcon,
-} from "@mui/icons-material";
+import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 import SidebarMenu from "./components/SidebarMenu";
 
@@ -35,13 +30,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   };
 
   const drawerContent = (
-    <div>
+    <>
       <Toolbar>
         <Typography variant="h6">Trang quản trị</Typography>
       </Toolbar>
       <Divider />
       <SidebarMenu />
-    </div>
+    </>
   );
 
   return (
@@ -59,50 +54,40 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <MenuIcon />
             </IconButton>
           )}
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="h6" noWrap>
             Quản lý Elysia Wear
           </Typography>
         </Toolbar>
       </AppBar>
-      {isMobile && (
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{ keepMounted: true }}
-          sx={{
-            display: { xs: "block", md: "none" },
-            "& .MuiDrawer-paper": { width: drawerWidth },
-          }}
-        >
-          {drawerContent}
-        </Drawer>
-      )}
-      {!isMobile && (
-        <Drawer
-          variant="permanent"
-          sx={{
+
+      <Drawer
+        variant={isMobile ? "temporary" : "permanent"}
+        open={isMobile ? mobileOpen : true}
+        onClose={handleDrawerToggle}
+        ModalProps={{ keepMounted: true }}
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
             width: drawerWidth,
-            flexShrink: 0,
-            [`& .MuiDrawer-paper`]: {
-              width: drawerWidth,
-              boxSizing: "border-box",
-            },
-          }}
-        >
-          {drawerContent}
-        </Drawer>
-      )}
+            boxSizing: "border-box",
+          },
+          display: { xs: "block", md: "block" },
+        }}
+      >
+        {drawerContent}
+      </Drawer>
+
       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
-          ml: { md: `${drawerWidth}px` },
+          pt: { xs: 7, sm: 8 },
+          px: 2,
+          mt:3,
         }}
       >
-        <Toolbar />
-        {children}
+        <Container maxWidth="lg">{children}</Container>
       </Box>
     </Box>
   );

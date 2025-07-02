@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Box,
   List,
   ListItem,
   ListItemButton,
@@ -12,12 +13,13 @@ import {
 import {
   Dashboard as DashboardIcon,
   ShoppingCart as ShoppingCartIcon,
-  BarChart as BarChartIcon,
-  Description as DescriptionIcon,
-  Layers as LayersIcon,
+  Article as ArticleIcon,
+  PostAdd as PostAddIcon,
+  ArrowBack as ArrowBackIcon,
+  Inventory2 as InventoryIcon,
   ExpandLess,
   ExpandMore,
-  Article as ArticleIcon,
+  Category as CategoryIcon,
 } from "@mui/icons-material";
 import Link from "next/link";
 import { useState } from "react";
@@ -40,53 +42,70 @@ const menuItems = [
   },
 ];
 
-const reportItems = [
+const productItems = [
   {
-    label: "Sales",
-    icon: <DescriptionIcon />,
-    href: "/admin/reports/sales",
+    label: "Tạo sản phẩm",
+    icon: <PostAddIcon />,
+    href: "/admin/tao-san-pham",
   },
   {
-    label: "Traffic",
-    icon: <DescriptionIcon />,
-    href: "/admin/reports/traffic",
+    label: "Danh sách sản phẩm",
+    icon: <InventoryIcon />,
+    href: "/admin/danh-sach-san-pham",
   },
 ];
 
 export default function SidebarMenu() {
-  const [openReports, setOpenReports] = useState(false);
+  const [openProduct, setOpenProduct] = useState(false);
 
   return (
-    <List>
-      {menuItems.map((item) => (
-        <ListItem key={item.href} disablePadding>
-          <ListItemButton component={Link} href={item.href}>
-            <ListItemIcon>{item.icon}</ListItemIcon>
-            <ListItemText primary={item.label} />
-          </ListItemButton>
-        </ListItem>
-      ))}
-
-      <Divider sx={{ my: 1 }} />
-
-      <ListItemButton onClick={() => setOpenReports(!openReports)}>
-        <ListItemIcon>
-          <BarChartIcon />
-        </ListItemIcon>
-        <ListItemText primary="Reports" />
-        {openReports ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-
-      <Collapse in={openReports} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          {reportItems.map((item) => (
-            <ListItemButton key={item.href} component={Link} href={item.href} sx={{ pl: 4 }}>
+    <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
+      <List>
+        {menuItems.map((item) => (
+          <ListItem key={item.href} disablePadding>
+            <ListItemButton component={Link} href={item.href}>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.label} />
             </ListItemButton>
-          ))}
-        </List>
-      </Collapse>
-    </List>
+          </ListItem>
+        ))}
+
+        <Divider sx={{ my: 1 }} />
+
+        <ListItemButton onClick={() => setOpenProduct(!openProduct)}>
+          <ListItemIcon>
+            <CategoryIcon />
+          </ListItemIcon>
+          <ListItemText primary="Sản phẩm" />
+          {openProduct ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+
+        <Collapse in={openProduct} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {productItems.map((item) => (
+              <ListItemButton
+                key={item.href}
+                component={Link}
+                href={item.href}
+                sx={{ pl: 4 }}
+              >
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.label} />
+              </ListItemButton>
+            ))}
+          </List>
+        </Collapse>
+      </List>
+      <Box sx={{ mt: "auto", p: 1 }}>
+        <ListItem disablePadding>
+          <ListItemButton component={Link} href="/">
+            <ListItemIcon>
+              <ArrowBackIcon />
+            </ListItemIcon>
+            <ListItemText primary="Quay lại Web" />
+          </ListItemButton>
+        </ListItem>
+      </Box>
+    </Box>
   );
 }

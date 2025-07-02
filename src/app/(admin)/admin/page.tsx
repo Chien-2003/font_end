@@ -19,9 +19,8 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold">Quản lý hệ thống</h1>
-
+    <div className="container mx-auto">
+      <h1 className="text-2xl font-bold text-center">Quản lý hệ thống</h1>
     </div>
   );
 }
