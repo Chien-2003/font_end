@@ -11,11 +11,11 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { createProduct, CreateProductData } from "@/lib/products";
 import { Category, getAllCategories } from "@/lib/categoryApi";
+import { Subcategory, getAllSubcategories } from "@/lib/subcategoryApi";
 import { showError, showSuccess } from "@/lib/swal";
-
 interface ProductForm {
   name: string;
   description: string;
@@ -23,14 +23,13 @@ interface ProductForm {
   image_url: string;
   image_hover_url: string;
   category_id: string;
+  subcategory_id: string;
 }
-
 interface Variant {
   color: string;
   size: string;
   quantity: number;
 }
-
 export default function CreateProductPage() {
   const [product, setProduct] = useState<ProductForm>({
     name: "",
@@ -39,25 +38,32 @@ export default function CreateProductPage() {
     image_url: "",
     image_hover_url: "",
     category_id: "",
+    subcategory_id: "",
   });
-
   const [variants, setVariants] = useState<Variant[]>([
     { color: "", size: "", quantity: 0 },
   ]);
-
   const [categories, setCategories] = useState<Category[]>([]);
-
+  const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
   useEffect(() => {
-    getAllCategories()
-      .then(setCategories)
-      .catch((err) => console.error("Lỗi lấy danh mục:", err));
+    getAllCategories().then(setCategories).catch(console.error);
+    getAllSubcategories().then(setSubcategories).catch(console.error);
   }, []);
-
+  const filteredSubcategories = useMemo(
+    () =>
+      subcategories.filter(
+        (sc) => sc.categoryId === Number(product.category_id)
+      ),
+    [subcategories, product.category_id]
+  );
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setProduct((prev) => ({ ...prev, [name]: value }));
+    setProduct((prev) => ({
+      ...prev,
+      [name]: value,
+      ...(name === "category_id" ? { subcategory_id: "" } : {}),
+    }));
   };
-
   const handleVariantChange = (
     index: number,
     field: keyof Variant,
@@ -71,26 +77,29 @@ export default function CreateProductPage() {
       )
     );
   };
-
   const addVariant = () => {
     setVariants((prev) => [...prev, { color: "", size: "", quantity: 0 }]);
   };
-
   const removeVariant = (index: number) => {
     setVariants((prev) => prev.filter((_, i) => i !== index));
   };
-
   const handleSubmit = async () => {
-    const payload: CreateProductData = {
-      ...product,
-      price: parseFloat(product.price),
-      category_id: Number(product.category_id),
-      variants,
-    };
     if (!product.name || !product.price || !product.category_id) {
       showError("Vui lòng điền đầy đủ tên, giá và danh mục.");
       return;
     }
+    const payload: CreateProductData = {
+      name: product.name,
+      description: product.description,
+      price: parseFloat(product.price),
+      image_url: product.image_url,
+      image_hover_url: product.image_hover_url,
+      category_id: Number(product.category_id),
+      subcategory_id: product.subcategory_id
+        ? Number(product.subcategory_id)
+        : undefined,
+      variants,
+    };
     try {
       await createProduct(payload);
       showSuccess("Tạo sản phẩm thành công!");
@@ -101,6 +110,7 @@ export default function CreateProductPage() {
         image_url: "",
         image_hover_url: "",
         category_id: "",
+        subcategory_id: "",
       });
       setVariants([{ color: "", size: "", quantity: 0 }]);
     } catch (error) {
@@ -113,7 +123,6 @@ export default function CreateProductPage() {
       <Typography variant="h4" fontWeight="bold" mb={3}>
         Tạo sản phẩm mới
       </Typography>
-
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
@@ -124,19 +133,17 @@ export default function CreateProductPage() {
             fullWidth
           />
         </Grid>
-
         <Grid item xs={12}>
           <TextField
             label="Mô tả"
             name="description"
             multiline
-            rows={3}
+            rows={5}
             value={product.description}
             onChange={handleChange}
             fullWidth
           />
         </Grid>
-
         <Grid item xs={6}>
           <TextField
             label="Giá"
@@ -147,7 +154,6 @@ export default function CreateProductPage() {
             fullWidth
           />
         </Grid>
-
         <Grid item xs={6}>
           <TextField
             select
@@ -164,7 +170,23 @@ export default function CreateProductPage() {
             ))}
           </TextField>
         </Grid>
-
+        <Grid item xs={6}>
+          <TextField
+            select
+            label="Danh mục con"
+            name="subcategory_id"
+            value={product.subcategory_id}
+            onChange={handleChange}
+            fullWidth
+            disabled={!product.category_id}
+          >
+            {filteredSubcategories.map((sc) => (
+              <MenuItem key={sc.id} value={sc.id}>
+                {sc.name}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Grid>
         <Grid item xs={6}>
           <TextField
             label="Ảnh chính"
@@ -174,7 +196,6 @@ export default function CreateProductPage() {
             fullWidth
           />
         </Grid>
-
         <Grid item xs={6}>
           <TextField
             label="Ảnh hover"
@@ -184,12 +205,10 @@ export default function CreateProductPage() {
             fullWidth
           />
         </Grid>
-
         <Grid item xs={12}>
           <Typography variant="subtitle1" fontWeight="bold" mb={1}>
             Biến thể sản phẩm
           </Typography>
-
           {variants.map((variant, index) => (
             <Grid
               container
@@ -240,7 +259,6 @@ export default function CreateProductPage() {
               </Grid>
             </Grid>
           ))}
-
           <Button
             startIcon={<AddIcon />}
             onClick={addVariant}
@@ -250,7 +268,6 @@ export default function CreateProductPage() {
             Thêm biến thể
           </Button>
         </Grid>
-
         <Grid item xs={12} sx={{ mt: 2 }}>
           <Button variant="contained" color="primary" onClick={handleSubmit}>
             Tạo sản phẩm

@@ -1,3 +1,4 @@
+// File: components/shared/ItemCard.tsx
 "use client";
 
 import { useRef, useEffect } from "react";
@@ -57,33 +58,33 @@ export default function ProductCard({
         className="bg-white overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-in-out h-full flex flex-col"
       >
         <>
-        <div className="relative w-full h-[431px]">
-          <Image
-            width={287}
-            height={431}
-            className="w-full h-full object-cover absolute top-0 left-0 z-10"
-            src={image_url}
-            alt={name}
-          />
-          {image_hover_url && (
+          <div className="relative w-full h-[431px]">
             <Image
-              ref={hoverImageRef}
               width={287}
               height={431}
-              className="w-full h-full object-cover absolute top-0 left-0 z-20 opacity-0 pointer-events-none"
-              src={image_hover_url}
-              alt={`${name} hover`}
+              className="w-full h-full object-cover absolute top-0 left-0 z-10"
+              src={image_url}
+              alt={name}
             />
-          )}
-          {discountPercent && (
-            <div className="absolute top-2 right-2 bg-blue-500 text-white text-xs font-semibold px-2 py-1 rounded-full z-30">
-              {discountPercent}%
-            </div>
-          )}
-        </div>
-        <h3 className="text-sm font-semibold px-2 pt-2 text-gray-800 hover:text-[#b4282b]">
-          {name.length > 32 ? `${name.slice(0, 32)}...` : name}
-        </h3>
+            {image_hover_url && (
+              <Image
+                ref={hoverImageRef}
+                width={287}
+                height={431}
+                className="w-full h-full object-cover absolute top-0 left-0 z-20 opacity-0 pointer-events-none"
+                src={image_hover_url}
+                alt={`${name} hover`}
+              />
+            )}
+            {discountPercent && (
+              <div className="absolute top-2 right-2 bg-blue-500 text-white text-xs font-semibold px-2 py-1 rounded-full z-30">
+                {discountPercent}%
+              </div>
+            )}
+          </div>
+          <h3 className="text-sm font-semibold px-2 pt-2 text-gray-800 hover:text-[#b4282b]">
+            {name.length > 32 ? `${name.slice(0, 32)}...` : name}
+          </h3>
         </>
         <div className="p-2 flex-grow flex flex-col justify-between">
           <div>
@@ -95,10 +96,12 @@ export default function ProductCard({
           </div>
           <div className="flex items-center justify-between mt-auto">
             <div className="flex items-baseline">
-              <span className="text-xl font-bold text-gray-900">{price}</span>
+              <span className="text-xl font-bold text-gray-900">
+                {price}
+              </span>
               {oldPrice && (
                 <span className="text-sm text-gray-500 line-through ml-2">
-                  {oldPrice}
+                  {oldPrice.toLocaleString("vi-VN")}₫
                 </span>
               )}
             </div>
@@ -106,7 +109,7 @@ export default function ProductCard({
               className=" text-black p-2 cursor-pointer transition-colors duration-200 ease-in-out focus:outline-none flex items-center justify-center"
               aria-label="Thêm vào giỏ hàng"
             >
-              <IoCartOutline className="text-2xl text-black w-6 h-6"/>
+              <IoCartOutline className="text-2xl text-black w-6 h-6" />
             </button>
           </div>
         </div>

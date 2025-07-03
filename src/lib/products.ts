@@ -1,4 +1,5 @@
 import { Category } from "./categoryApi";
+import { Subcategory } from "./subcategoryApi";
 
 export interface ProductVariant {
   id: number;
@@ -18,6 +19,7 @@ export interface Product {
   updated_at: string;
   variants?: ProductVariant[];
   category: Category;
+  subcategory?: Subcategory;
 }
 
 export async function getAllProducts(): Promise<Product[]> {
@@ -38,6 +40,7 @@ export interface CreateProductData {
   image_url: string;
   image_hover_url?: string;
   category_id: number;
+  subcategory_id?: number;
   variants: Omit<ProductVariant, "id">[];
 }
 export async function createProduct(data: CreateProductData): Promise<Product> {
