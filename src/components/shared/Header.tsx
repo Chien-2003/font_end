@@ -6,10 +6,18 @@ import Link from "next/link";
 import NavLinks from "../ui/NavLinks";
 import UserMenu from "../ui/UserMenu";
 import MobileMenu from "../ui/MobileMenu";
+import CartPage from "../ui/CartButton";
+import { NotificationsOutlined } from "@mui/icons-material";
+import { Badge, IconButton } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const router = useRouter();
 
+  const handleClick = () => {
+    router.push("/notification");
+  };
   return (
     <nav className="bg-white sticky top-0 z-50 shadow">
       <div className="px-2 sm:px-6 lg:px-8 container mx-auto">
@@ -45,26 +53,23 @@ export default function Navbar() {
               </div>
             </div>
             <div className="flex items-center gap-3 shrink-0">
-              <button
-                type="button"
-                className="relative rounded-full bg-white p-1 text-gray-600 hover:text-black focus:outline-none"
-              >
-                <span className="sr-only">View notifications</span>
-                <svg
-                  className="size-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
-                  />
-                </svg>
-              </button>
               <UserMenu />
+              <IconButton
+                aria-label="notifications"
+                sx={{
+                  bgcolor: "white",
+                  p: 1,
+                  color: "gray",
+                }}
+                onClick={handleClick}
+              >
+                <Badge badgeContent={3} color="error">
+                  <NotificationsOutlined color="primary"/>
+                </Badge>
+              </IconButton>
+              <Link href="/cart">
+                <CartPage />
+              </Link>
             </div>
           </div>
         </div>
