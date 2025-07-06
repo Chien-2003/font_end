@@ -14,7 +14,7 @@ export default function CreatePostPage() {
   };
 
   return (
-    <Container maxWidth="md" className="py-10">
+    <Container maxWidth="md" className="py-10" sx={{ p: 0 }}>
       <Typography variant="h4" gutterBottom>
         Tạo bài viết
       </Typography>
