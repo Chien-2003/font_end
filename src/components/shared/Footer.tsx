@@ -112,9 +112,9 @@ export default function Footer() {
             &copy; 2025 Elysia Wear. All Rights Reserved.
           </p>
           <div className="flex items-center space-x-2">
-            <FaCcVisa className=" text-2xl text-gray-400"/>
-            <FaCcMastercard className=" text-2xl text-gray-400"/>
-            <FaPaypal className=" text-2xl text-gray-400"/>
+            <FaCcVisa className=" text-2xl text-gray-400" />
+            <FaCcMastercard className=" text-2xl text-gray-400" />
+            <FaPaypal className=" text-2xl text-gray-400" />
           </div>
         </div>
       </div>

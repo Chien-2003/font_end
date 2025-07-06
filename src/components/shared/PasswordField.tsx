@@ -11,7 +11,10 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 type PasswordFieldProps = TextFieldProps & {
   label?: string;
 };
-export default function PasswordField({ label = "Mật khẩu", ...props }: PasswordFieldProps) {
+export default function PasswordField({
+  label = "Mật khẩu",
+  ...props
+}: PasswordFieldProps) {
   const [showPassword, setShowPassword] = useState(false);
   const toggleVisibility = () => {
     setShowPassword((prev) => !prev);

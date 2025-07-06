@@ -104,7 +104,11 @@ export default function RegisterPage() {
             fullWidth
             disabled={isLoading}
           >
-            {isLoading ? <CircularProgress size={24} color="inherit" /> : "Đăng ký"}
+            {isLoading ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : (
+              "Đăng ký"
+            )}
           </Button>
 
           <Box mt={2} textAlign="center">

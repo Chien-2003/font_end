@@ -4,7 +4,7 @@ import { UserProvider } from "@/contexts/UserContext";
 import "swiper/css";
 import "swiper/css/pagination";
 import "@/app/globals.css";
-
+import { CartProvider } from "@/contexts/CartContext";
 
 export const metadata: Metadata = {
   title: "Elysia Wear | Thời trang cao cấp cho phái đẹp",
@@ -53,7 +53,9 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <body className={inter.className}>
-        <UserProvider>{children}</UserProvider>
+        <UserProvider>
+          <CartProvider>{children}</CartProvider>
+        </UserProvider>
       </body>
     </html>
   );

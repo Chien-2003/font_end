@@ -1,4 +1,8 @@
-export async function register(user_name: string, email: string, password: string) {
+export async function register(
+  user_name: string,
+  email: string,
+  password: string,
+) {
   const res = await fetch("http://localhost:4000/auth/register", {
     method: "POST",
     headers: {

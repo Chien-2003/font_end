@@ -36,7 +36,7 @@ const menuItems = [
     href: "/admin/orders",
   },
   {
-    label: "Bài viết",
+    label: "Tạo bài viết",
     icon: <ArticleIcon />,
     href: "/admin/blog",
   },

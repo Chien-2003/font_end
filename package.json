@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@date-io/date-fns": "^2.16.0",
@@ -15,9 +16,21 @@
     "@mui/icons-material": "^6.4.12",
     "@mui/material": "^6.4.12",
     "@mui/x-date-pickers": "^8.5.3",
+    "@tiptap/extension-highlight": "^2.24.2",
+    "@tiptap/extension-history": "^2.24.2",
+    "@tiptap/extension-image": "^2.24.2",
+    "@tiptap/extension-link": "^2.24.2",
+    "@tiptap/extension-placeholder": "^2.24.2",
+    "@tiptap/extension-subscript": "^2.24.2",
+    "@tiptap/extension-superscript": "^2.24.2",
+    "@tiptap/extension-text-align": "^2.24.2",
+    "@tiptap/extension-underline": "^2.24.2",
+    "@tiptap/react": "^2.24.2",
+    "@tiptap/starter-kit": "^2.24.2",
     "clsx": "^2.1.1",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.13",
+    "framer-motion": "^12.23.0",
     "gsap": "^3.13.0",
     "jsonwebtoken": "^9.0.2",
     "next": "15.3.3",
@@ -34,6 +47,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "prettier": "^3.6.2",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

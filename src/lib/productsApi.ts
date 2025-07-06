@@ -56,7 +56,10 @@ export async function createProduct(data: CreateProductData): Promise<Product> {
 
   return res.json();
 }
-export async function updateProduct(id: number, data: CreateProductData): Promise<Product> {
+export async function updateProduct(
+  id: number,
+  data: CreateProductData,
+): Promise<Product> {
   const res = await fetch(`http://localhost:4000/products/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },

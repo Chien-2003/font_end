@@ -1,5 +1,6 @@
 "use client";
 
+import { getProfile } from "@/lib/profileApi";
 import React, {
   createContext,
   useContext,
@@ -8,13 +9,14 @@ import React, {
   useCallback,
 } from "react";
 
-interface User {
+export interface User {
   full_name: string;
   email: string;
   phone?: string;
   address?: string;
+  order_address?: string;
   birth_date?: string;
-  gender?: boolean;
+  gender?: 0 | 1 | 2;
 }
 
 interface UserContextType {
@@ -36,28 +38,8 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   const fetchUser = useCallback(async () => {
     try {
-      const res = await fetch("http://localhost:4000/profile/get-user", {
-        credentials: "include",
-      });
-
-      if (!res.ok) {
-        setUser(null);
-        return;
-      }
-
-      const result = await res.json();
-      if (result?.data) {
-        setUser({
-          full_name: result.data.full_name,
-          email: result.data.email,
-          phone: result.data.phone,
-          address: result.data.address,
-          birth_date: result.data.birth_date,
-          gender: result.data.gender,
-        });
-      } else {
-        setUser(null);
-      }
+      const data = await getProfile();
+      setUser(data);
     } catch (error) {
       console.error("Lỗi khi lấy thông tin user:", error);
       setUser(null);

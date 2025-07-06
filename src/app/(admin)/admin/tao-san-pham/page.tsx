@@ -12,7 +12,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect, useState, useMemo } from "react";
-import { createProduct, CreateProductData } from "@/lib/products";
+import { createProduct, CreateProductData } from "@/lib/productsApi";
 import { Category, getAllCategories } from "@/lib/categoryApi";
 import { Subcategory, getAllSubcategories } from "@/lib/subcategoryApi";
 import { showError, showSuccess } from "@/lib/swal";
@@ -52,9 +52,9 @@ export default function CreateProductPage() {
   const filteredSubcategories = useMemo(
     () =>
       subcategories.filter(
-        (sc) => sc.categoryId === Number(product.category_id)
+        (sc) => sc.categoryId === Number(product.category_id),
       ),
-    [subcategories, product.category_id]
+    [subcategories, product.category_id],
   );
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -67,14 +67,14 @@ export default function CreateProductPage() {
   const handleVariantChange = (
     index: number,
     field: keyof Variant,
-    value: string
+    value: string,
   ) => {
     setVariants((prev) =>
       prev.map((v, i) =>
         i === index
           ? { ...v, [field]: field === "quantity" ? Number(value) : value }
-          : v
-      )
+          : v,
+      ),
     );
   };
   const addVariant = () => {

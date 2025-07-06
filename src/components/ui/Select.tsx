@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import Select from 'react-select';
-import type { SingleValue } from 'react-select';
+import Select from "react-select";
+import type { SingleValue } from "react-select";
 
 export type Option = {
   value: string;
@@ -19,7 +19,7 @@ export default function CustomSelect({
   options,
   value,
   onChange,
-  placeholder = 'Chọn...',
+  placeholder = "Chọn...",
 }: Props) {
   const handleChange = (selected: SingleValue<Option>) => {
     onChange(selected ?? null);

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import {
   Box,
   Grid,
@@ -12,39 +12,78 @@ import {
   useTheme,
 } from "@mui/material";
 
-import PersonalInfoPage from "./components/PersonalInfoPage";
+import PersonalInfoPage, {
+  PersonalInfoPageRef,
+} from "./components/PersonalInfoPage";
 import OrdersPage from "./components/OrdersPage";
 import FavoritesPage from "./components/FavoritesPage";
-import AddressesPage from "./components/AddressesPage";
+import AddressesPage, { AddressesPageRef } from "./components/AddressesPage";
 import Link from "next/link";
 import Image from "next/image";
 import { useUser } from "@/contexts/UserContext";
+import gsap from "gsap";
+import { showError, showSuccess } from "@/lib/swal";
+import { UpdateProfileResponse } from "@/lib/profileApi";
 
 const tabLabels = [
   "Thông tin cá nhân",
   "Đơn hàng của bạn",
   "Sản phẩm yêu thích",
-  "Địa chỉ đặt hàng",
+  "Địa chỉ nhận hàng",
 ];
 
 export default function ProfilePage() {
-  const [selectedTab, setSelectedTab] = useState(0);
-  const { user } = useUser();
+  const [selectedTab, setSelectedTab] = React.useState(0);
+  const { user, fetchUser } = useUser();
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
+  const btnRef = useRef<HTMLButtonElement>(null);
+
+  const personalInfoRef = useRef<PersonalInfoPageRef>(null);
+  const addressRef = useRef<AddressesPageRef>(null);
 
   const renderTabContent = () => {
     switch (selectedTab) {
       case 0:
-        return <PersonalInfoPage />;
+        return <PersonalInfoPage ref={personalInfoRef} />;
       case 1:
         return <OrdersPage />;
       case 2:
         return <FavoritesPage />;
       case 3:
-        return <AddressesPage />;
+        return <AddressesPage ref={addressRef} />;
       default:
         return null;
+    }
+  };
+
+  const handleUpdate = async () => {
+    gsap.to(btnRef.current, {
+      scale: 0.95,
+      duration: 0.2,
+      yoyo: true,
+      repeat: 1,
+      ease: "power1.inOut",
+    });
+
+    try {
+      let response: UpdateProfileResponse | undefined;
+
+      if (selectedTab === 0 && personalInfoRef.current) {
+        response = await personalInfoRef.current.handleUpdate();
+      }
+      if (selectedTab === 3 && addressRef.current) {
+        response = await addressRef.current.handleUpdate();
+      }
+
+      await fetchUser();
+
+      if (response?.message) {
+        showSuccess(response.message);
+      }
+    } catch (err: any) {
+      console.error("Lỗi cập nhật:", err);
+      if (err?.message) showError(err.message);
     }
   };
 
@@ -95,9 +134,7 @@ export default function ProfilePage() {
                   backgroundColor: "#009966",
                 },
               }}
-              sx={{
-                width: "100%",
-              }}
+              sx={{ width: "100%" }}
             >
               {tabLabels.map((label, index) => (
                 <Tab
@@ -108,9 +145,7 @@ export default function ProfilePage() {
                     alignItems: isMdUp ? "flex-start" : "center",
                     justifyContent: isMdUp ? "flex-start" : "center",
                     px: 2,
-                    "&.Mui-selected": {
-                      color: "primary.main",
-                    },
+                    "&.Mui-selected": { color: "primary.main" },
                   }}
                 />
               ))}
@@ -121,6 +156,17 @@ export default function ProfilePage() {
         <Grid item xs={12} md={8}>
           <Paper elevation={3} sx={{ p: { xs: 2, md: 3 }, height: "100%" }}>
             {renderTabContent()}
+            {(selectedTab === 0 || selectedTab === 3) && (
+              <Box sx={{ textAlign: "center", mt: 3 }}>
+                <button
+                  ref={btnRef}
+                  onClick={handleUpdate}
+                  className="px-6 py-3 bg-blue-500 text-white rounded-md shadow-md cursor-pointer"
+                >
+                  Cập nhật thông tin
+                </button>
+              </Box>
+            )}
           </Paper>
         </Grid>
       </Grid>

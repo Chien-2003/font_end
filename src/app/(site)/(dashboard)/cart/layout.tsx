@@ -2,7 +2,8 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Giỏ hàng | Elysia Wear",
-  description: "Xem và quản lý các sản phẩm trong giỏ hàng của bạn tại Elysia Wear.",
+  description:
+    "Xem và quản lý các sản phẩm trong giỏ hàng của bạn tại Elysia Wear.",
 };
 
 export default function CartLayout({

@@ -1,8 +1,11 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-import gsap from "gsap";
-import { useUser } from "@/contexts/UserContext";
+import React, {
+  useEffect,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import {
   Avatar,
   Grid,
@@ -17,27 +20,45 @@ import {
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
+import { useUser } from "@/contexts/UserContext";
+import { updateProfile, UpdateProfileResponse } from "@/lib/profileApi";
 
-export default function PersonalInfoPage() {
-  const btnRef = useRef<HTMLButtonElement>(null);
+export interface PersonalInfoPageRef {
+  handleUpdate: () => Promise<UpdateProfileResponse>;
+}
+
+const PersonalInfoPage = forwardRef<PersonalInfoPageRef>((_, ref) => {
   const { user } = useUser();
-  const [gender, setGender] = useState<boolean>(user?.gender ?? true);
-  const [birthDate, setBirthDate] = useState(
-    user?.birth_date ? dayjs(user.birth_date) : null
-  );
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [birthDate, setBirthDate] = useState<Dayjs | null>(null);
+  const [gender, setGender] = useState<0 | 1 | 2>(0);
 
-  const handleClick = () => {
-    if (btnRef.current) {
-      gsap.to(btnRef.current, {
-        scale: 0.95,
-        duration: 0.2,
-        yoyo: true,
-        repeat: 1,
-        ease: "power1.inOut",
-      });
+  useEffect(() => {
+    if (user) {
+      setFullName(user.full_name || "");
+      setEmail(user.email || "");
+      setPhone(user.phone || "");
+      setAddress(user.address || "");
+      setBirthDate(user.birth_date ? dayjs(user.birth_date) : null);
+      setGender(user.gender ?? 0);
     }
-  };
+  }, [user]);
+
+  useImperativeHandle(ref, () => ({
+    handleUpdate: async () => {
+      return await updateProfile({
+        full_name: fullName,
+        phone,
+        address,
+        birth_date: birthDate ? birthDate.format("YYYY-MM-DD") : null,
+        gender,
+      });
+    },
+  }));
 
   return (
     <Grid
@@ -54,7 +75,7 @@ export default function PersonalInfoPage() {
           sx={{ width: 100, height: 100, margin: "auto" }}
         />
         <Typography variant="h5" sx={{ mt: 2 }}>
-          {user?.full_name || "Chưa có tên"}
+          {fullName || "Chưa có tên"}
         </Typography>
       </Grid>
 
@@ -64,15 +85,17 @@ export default function PersonalInfoPage() {
             label="Họ và tên"
             fullWidth
             variant="outlined"
-            value={user?.full_name || ""}
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
           />
         </Grid>
         <Grid item xs={12} md={6}>
           <TextField
-            label="Địa chỉ"
+            label="Địa chỉ thường trú"
             fullWidth
             variant="outlined"
-            value={user?.address || ""}
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
           />
         </Grid>
       </Grid>
@@ -83,7 +106,8 @@ export default function PersonalInfoPage() {
             label="Email"
             fullWidth
             variant="outlined"
-            value={user?.email || ""}
+            value={email}
+            disabled
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -91,51 +115,45 @@ export default function PersonalInfoPage() {
             label="Số điện thoại"
             fullWidth
             variant="outlined"
-            value={user?.phone || ""}
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
           />
         </Grid>
       </Grid>
 
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={6}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Ngày sinh"
               value={birthDate}
               onChange={(newValue) => setBirthDate(newValue)}
               slotProps={{
-                textField: {
-                  fullWidth: true,
-                  variant: "outlined",
-                },
+                textField: { fullWidth: true, variant: "outlined" },
               }}
             />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <FormControl fullWidth>
-              <FormLabel>Giới tính</FormLabel>
-              <RadioGroup
-                row
-                value={gender ? "male" : "female"}
-                onChange={(e) => setGender(e.target.value === "male")}
-              >
-                <FormControlLabel value="male" control={<Radio />} label="Nam" />
-                <FormControlLabel value="female" control={<Radio />} label="Nữ" />
-              </RadioGroup>
-            </FormControl>
-          </Grid>
+          </LocalizationProvider>
         </Grid>
-      </LocalizationProvider>
+      </Grid>
 
-      <Grid sx={{ textAlign: "center", mt: 2 }}>
-        <button
-          ref={btnRef}
-          onClick={handleClick}
-          className="px-6 py-3 bg-blue-500 text-white rounded-md shadow-md cursor-pointer"
-        >
-          Cập nhật thông tin
-        </button>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <FormControl fullWidth>
+            <FormLabel>Giới tính</FormLabel>
+            <RadioGroup
+              row
+              value={String(gender)}
+              onChange={(e) => setGender(Number(e.target.value) as 0 | 1 | 2)}
+            >
+              <FormControlLabel value="0" control={<Radio />} label="Nam" />
+              <FormControlLabel value="1" control={<Radio />} label="Nữ" />
+              <FormControlLabel value="2" control={<Radio />} label="Khác" />
+            </RadioGroup>
+          </FormControl>
+        </Grid>
       </Grid>
     </Grid>
   );
-}
+});
+
+export default PersonalInfoPage;

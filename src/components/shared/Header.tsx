@@ -6,10 +6,10 @@ import Link from "next/link";
 import NavLinks from "../ui/NavLinks";
 import UserMenu from "../ui/UserMenu";
 import MobileMenu from "../ui/MobileMenu";
-import CartPage from "../ui/CartButton";
 import { NotificationsOutlined } from "@mui/icons-material";
 import { Badge, IconButton } from "@mui/material";
 import { useRouter } from "next/navigation";
+import CartButton from "../ui/CartButton";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -22,7 +22,7 @@ export default function Navbar() {
     <nav className="bg-white sticky top-0 z-50 shadow">
       <div className="px-2 sm:px-6 lg:px-8 container mx-auto">
         <div className="relative w-full mx-auto py-2">
-          <div className="flex items-center gap-4 w-full px-4 py-2 justify-between">
+          <div className="flex items-center flex-wrap gap-4 w-full px-4 py-2 justify-between">
             <Link href="/" className="flex items-center space-x-2 shrink-0">
               <Image src="/logo.svg" alt="Elysia Wear" width={32} height={32} />
               <span className="text-gray-900 font-semibold text-lg">
@@ -64,11 +64,11 @@ export default function Navbar() {
                 onClick={handleClick}
               >
                 <Badge badgeContent={3} color="error">
-                  <NotificationsOutlined color="primary"/>
+                  <NotificationsOutlined color="primary" />
                 </Badge>
               </IconButton>
               <Link href="/cart">
-                <CartPage />
+                <CartButton />
               </Link>
             </div>
           </div>

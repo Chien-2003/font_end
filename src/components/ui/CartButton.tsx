@@ -1,22 +1,36 @@
-import * as React from "react";
-import Badge, { BadgeProps } from "@mui/material/Badge";
-import { styled } from "@mui/material/styles";
-import IconButton from "@mui/material/IconButton";
-import { ShoppingCartOutlined } from "@mui/icons-material";
+"use client";
 
-export default function CartPage() {
+import { Badge, IconButton } from "@mui/material";
+import { ShoppingCartOutlined } from "@mui/icons-material";
+import { useCart } from "@/contexts/CartContext";
+import { motion, useAnimation } from "framer-motion";
+import { useEffect } from "react";
+
+export default function CartButton() {
+  const { cartItems } = useCart();
+  const totalCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
+  const controls = useAnimation();
+
+  useEffect(() => {
+    if (totalCount > 0) {
+      controls.start({
+        scale: [1, 1.2, 0.95, 1.05, 1],
+        transition: { duration: 0.4 },
+      });
+    }
+  }, [totalCount, controls]);
+
   return (
-    <IconButton
-      aria-label="notifications"
-      sx={{
-        bgcolor: "white",
-        p: 1,
-        color: "gray",
-      }}
-    >
-      <Badge badgeContent={3} color="primary">
-        <ShoppingCartOutlined color="warning" />
-      </Badge>
-    </IconButton>
+    <motion.div animate={controls}>
+      <IconButton
+        aria-label="cart"
+        sx={{ bgcolor: "white", p: 1, color: "gray" }}
+      >
+        <Badge badgeContent={totalCount} color="primary">
+          <ShoppingCartOutlined color="warning" />
+        </Badge>
+      </IconButton>
+    </motion.div>
   );
 }

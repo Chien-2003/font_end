@@ -19,7 +19,11 @@ import SidebarMenu from "./components/SidebarMenu";
 
 const drawerWidth = 260;
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const theme = useTheme();
@@ -42,7 +46,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+      <AppBar
+        position="fixed"
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      >
         <Toolbar>
           {isMobile && (
             <IconButton
@@ -84,7 +91,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           flexGrow: 1,
           pt: { xs: 7, sm: 8 },
           px: 2,
-          mt:3,
+          mt: 3,
         }}
       >
         <Container maxWidth="lg">{children}</Container>
