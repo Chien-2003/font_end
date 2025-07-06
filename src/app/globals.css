@@ -31,36 +31,36 @@ body {
 }
 
 .ProseMirror h1 {
-  font-size: 2.25rem;
-  font-weight: bold;
+  font-size: 2.375rem;
+  font-weight: 500;
 }
 
 .ProseMirror h2 {
-  font-size: 1.875rem;
-  font-weight: bold;
+  font-size: 2rem;
+  font-weight: 500;
 }
 
 .ProseMirror h3 {
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 1.75rem;
+  font-weight: 500;
 }
 
 .ProseMirror h4 {
-  font-size: 1.25rem;
-  font-weight: bold;
+  font-size: 1.5rem;
+  font-weight: 500;
 }
 
 .ProseMirror h5 {
-  font-size: 1.125rem;
-  font-weight: bold;
+  font-size: 1.25rem;
+  font-weight: 500;
 }
 
 .ProseMirror h6 {
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .ProseMirror p {
   font-size: 1rem;
-  line-height: 1.5;
+  line-height: 1.6;
 }
