@@ -1,28 +1,18 @@
 "use client";
 
-import {
-  Box,
-  Container,
-  Typography,
-  List,
-  ListItem,
-  ListItemAvatar,
-  Divider,
-  IconButton,
-  Button,
-  Paper,
-  Checkbox,
-  Dialog,
-  IconButton as MuiIconButton,
-} from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import Image from "next/image";
 import { useCart } from "@/contexts/CartContext";
 import { deleteCartItem } from "@/lib/cartApi";
 import { showError, showSuccess } from "@/lib/swal";
+
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+
+import { Trash2, ShoppingCart, X } from "lucide-react";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 function formatVND(value: number) {
   return value.toLocaleString("vi-VN", {
@@ -30,6 +20,7 @@ function formatVND(value: number) {
     currency: "VND",
   });
 }
+
 export default function CartPage() {
   const { cartItems, refreshCart } = useCart();
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
@@ -40,9 +31,7 @@ export default function CartPage() {
 
   const toggleSelectItem = (id: number) => {
     setSelectedItems((prev) =>
-      prev.includes(id)
-        ? prev.filter((itemId) => itemId !== id)
-        : [...prev, id],
+      prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id]
     );
   };
 
@@ -58,10 +47,7 @@ export default function CartPage() {
       showSuccess(res.message);
     } catch (err: any) {
       console.error("Lỗi khi xoá sản phẩm:", err);
-
-      const message = err.response?.data?.message || err.message;
-
-      showError(message);
+      showError(err?.response?.data?.message || err.message);
     }
   };
 
@@ -73,197 +59,149 @@ export default function CartPage() {
     }, 0);
 
   return (
-    <Container maxWidth="md" sx={{ py: 2 }}>
-      <Typography variant="h4" fontWeight="bold" gutterBottom>
-        Giỏ hàng của bạn
-      </Typography>
+    <div className="max-w-3xl w-full mx-auto px-4 py-6">
+      <h1 className="text-2xl font-bold mb-6">Giỏ hàng của bạn</h1>
 
       {cartItems.length === 0 ? (
-        <Box textAlign="center" mt={5}>
-          <ShoppingCartIcon sx={{ fontSize: 64, color: "gray" }} />
-          <Typography variant="h6" color="text.secondary" mt={2}>
-            Giỏ hàng đang trống
-          </Typography>
-        </Box>
+        <div className="flex flex-col items-center justify-center mt-16 text-gray-500">
+          <ShoppingCart className="w-12 h-12" />
+          <p className="mt-2 text-sm">Giỏ hàng đang trống</p>
+        </div>
       ) : (
-        <Paper elevation={3} sx={{ p: 2 }}>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-            mb={2}
-          >
-            <Box display="flex" alignItems="center">
-              <Checkbox checked={isAllSelected} onChange={toggleSelectAll} />
-              <Typography variant="body1">Chọn tất cả</Typography>
-            </Box>
+        <Card className="p-4">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                checked={isAllSelected}
+                onCheckedChange={toggleSelectAll}
+              />
+              <span className="text-sm">Chọn tất cả</span>
+            </div>
+
             {selectedItems.length > 0 && (
-              <Button
+              <button
+                className="text-sm text-muted-foreground hover:underline"
                 onClick={() => setSelectedItems([])}
-                size="small"
-                color="secondary"
               >
                 Bỏ chọn tất cả
-              </Button>
+              </button>
             )}
-          </Box>
+          </div>
 
-          <List>
+          <div className="space-y-4">
             {cartItems.map((item) => {
               const product = item.variant?.product;
               if (!product) return null;
 
               return (
-                <Box key={item.id}>
-                  <ListItem alignItems="center" disableGutters sx={{ mb: 1 }}>
-                    <Checkbox
-                      checked={selectedItems.includes(item.id)}
-                      onChange={() => toggleSelectItem(item.id)}
+                <div
+                  key={item.id}
+                  className="flex gap-3 items-start border-b pb-4"
+                >
+                  <Checkbox
+                    checked={selectedItems.includes(item.id)}
+                    onCheckedChange={() => toggleSelectItem(item.id)}
+                    className="mt-2"
+                  />
+
+                  <div
+                    className="w-[190px] h-[150px] rounded overflow-hidden shrink-0 cursor-pointer"
+                    onClick={() => {
+                      setPreviewImage(product.image_url);
+                      setOpenImage(true);
+                    }}
+                  >
+                    <Image
+                      src={product.image_url}
+                      alt={product.name}
+                      width={190}
+                      height={150}
+                      className="object-cover w-full h-full"
                     />
+                  </div>
 
-                    <ListItemAvatar>
+                  <div className="flex-1">
+                    <p className="font-medium">{product.name}</p>
+                    <p className="text-sm text-muted-foreground">
+                      Số lượng: {item.quantity}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Size: {item.variant?.size}
+                    </p>
+
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-sm text-muted-foreground">
+                        Màu:
+                      </span>
                       <div
-                        className="w-full h-full mr-2 rounded overflow-hidden shrink-0 cursor-pointer"
-                        onClick={() => {
-                          setPreviewImage(product.image_url);
-                          setOpenImage(true);
-                        }}
-                      >
-                        <Image
-                          src={product.image_url}
-                          alt={product.name}
-                          width={60}
-                          height={60}
-                          className="object-cover w-full h-full"
-                        />
-                      </div>
-                    </ListItemAvatar>
+                        className="w-4 h-4 border border-gray-300"
+                        style={{ backgroundColor: item.variant?.color }}
+                      />
+                    </div>
 
-                    <Box ml={2} flexGrow={1}>
-                      <Typography variant="subtitle1" fontWeight="bold">
-                        {product.name}
-                      </Typography>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-sm text-muted-foreground">
+                        Giá:
+                      </span>
+                      <span className="text-sm font-semibold text-primary">
+                        {formatVND(Number(product.price))}
+                      </span>
+                    </div>
+                  </div>
 
-                      <Typography variant="body2" color="text.secondary">
-                        Số lượng: {item.quantity}
-                      </Typography>
-
-                      <Typography variant="body2" color="text.secondary">
-                        Size: {item.variant?.size}
-                      </Typography>
-
-                      <Box display="flex" alignItems="center" mt={0.5}>
-                        <Typography variant="body2" color="text.secondary">
-                          Màu sắc
-                        </Typography>
-                        <Box
-                          sx={{
-                            width: 14,
-                            height: 14,
-                            bgcolor: item.variant?.color,
-                            ml: 1,
-                            border: "1px solid #ccc",
-                          }}
-                        />
-                      </Box>
-
-                      <Box display="flex" alignItems="center" mt={0.5}>
-                        <Typography
-                          variant="body2"
-                          color="text.secondary"
-                          mr={1}
-                        >
-                          Giá:
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          color="primary"
-                          fontWeight="bold"
-                        >
-                          {formatVND(Number(product.price))}
-                        </Typography>
-                      </Box>
-                    </Box>
-
-                    <IconButton
-                      onClick={() => removeItem(item.id)}
-                      color="error"
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItem>
-                  <Divider />
-                </Box>
+                  <button
+                    onClick={() => removeItem(item.id)}
+                    className="text-red-600 hover:text-red-800 mt-1"
+                  >
+                    <Trash2 className="w-5 h-5" />
+                  </button>
+                </div>
               );
             })}
-          </List>
+          </div>
 
-          <Box
-            mt={3}
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography variant="h6">Tổng cộng:</Typography>
-            <Typography variant="h6" color="primary">
+          <div className="flex justify-between items-center mt-6">
+            <h2 className="text-lg font-semibold">Tổng cộng:</h2>
+            <p className="text-lg text-primary font-semibold">
               {formatVND(totalPrice)}
-            </Typography>
-          </Box>
+            </p>
+          </div>
 
-          <Box textAlign="right" mt={3}>
-            <Button
-              variant="contained"
-              color="primary"
-              disabled={selectedItems.length === 0}
-            >
+          <div className="text-right mt-4">
+            <Button disabled={selectedItems.length === 0}>
               Thanh toán ({selectedItems.length} sản phẩm)
             </Button>
-          </Box>
-        </Paper>
+          </div>
+        </Card>
       )}
-      <Dialog
-        open={openImage}
-        onClose={() => setOpenImage(false)}
-        fullScreen
-        BackdropProps={{ sx: { backgroundColor: "rgba(0, 0, 0, 0.5)" } }}
-        PaperProps={{
-          sx: { backgroundColor: "transparent", boxShadow: "none", m: 0 },
-        }}
-      >
-        <Box
-          sx={{
-            position: "relative",
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            p: 2,
-          }}
-        >
-          <MuiIconButton
-            onClick={() => setOpenImage(false)}
-            sx={{
-              position: "absolute",
-              top: 10,
-              right: 10,
-              color: "#fff",
-              zIndex: 1,
-            }}
-          >
-            <CloseIcon />
-          </MuiIconButton>
-          {previewImage && (
-            <Image
-              src={previewImage}
-              alt="Xem ảnh sản phẩm"
-              width={1000}
-              height={1000}
-              className="object-contain w-full h-full"
-            />
-          )}
-        </Box>
+
+      {/* Modal xem ảnh */}
+      <Dialog open={openImage} onOpenChange={setOpenImage}>
+        <DialogContent className="p-0 max-w-4xl bg-transparent shadow-none border-none">
+          <VisuallyHidden>
+            <DialogTitle>Xem ảnh sản phẩm</DialogTitle>
+          </VisuallyHidden>
+
+          <div className="relative w-full h-full flex justify-center items-center p-4">
+            <button
+              onClick={() => setOpenImage(false)}
+              className="absolute top-4 right-4 text-white bg-black/60 rounded-full p-2 z-10"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {previewImage && (
+              <Image
+                src={previewImage}
+                alt="Xem ảnh sản phẩm"
+                width={1000}
+                height={1000}
+                className="object-contain max-h-[90vh] w-full"
+              />
+            )}
+          </div>
+        </DialogContent>
       </Dialog>
-    </Container>
+    </div>
   );
 }
