@@ -1,4 +1,5 @@
 import ProductCard from "@/components/shared/ItemCard";
+import { Button } from "@/components/ui/button";
 import HomeBanner from "@/components/ui/HomeBanner";
 import HomeCategorySection from "@/components/ui/HomeCategorySection";
 import { getAllProducts } from "@/lib/productsApi";
@@ -6,7 +7,7 @@ import { getAllProducts } from "@/lib/productsApi";
 export default async function HomePage() {
   const products = await getAllProducts();
   const validProducts = products.filter(
-    (product) => product.variants && product.variants.length > 0,
+    (product) => product.variants && product.variants.length > 0
   );
 
   return (

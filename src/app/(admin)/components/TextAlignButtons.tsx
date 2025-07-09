@@ -1,4 +1,3 @@
-// src/components/editor/buttons/TextAlignButtons.tsx
 import { Editor } from "@tiptap/react";
 import {
   MdFormatAlignLeft,

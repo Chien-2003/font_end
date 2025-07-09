@@ -5,16 +5,19 @@ import { useRouter } from "next/navigation";
 import { showSuccess, showError } from "@/lib/swal";
 import { useUser } from "@/contexts/UserContext";
 import { login } from "@/app/actions/login";
-import PasswordField from "@/components/shared/PasswordField";
+
 import {
-  Box,
-  Button,
-  TextField,
-  Typography,
-  Paper,
-  CircularProgress,
-  Link as MuiLink,
-} from "@mui/material";
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+
+import { Loader2 } from "lucide-react";
 import Swal from "sweetalert2";
 
 export default function LoginPage() {
@@ -22,7 +25,9 @@ export default function LoginPage() {
   const { user, fetchUser } = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     if (user) {
       router.replace("/");
@@ -89,94 +94,77 @@ export default function LoginPage() {
   };
 
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      bgcolor="#f3f4f6"
-      px={2}
-      mb={8}
-      mt={8}
-    >
-      <Paper elevation={3} sx={{ p: 4, width: "100%", maxWidth: 400 }}>
-        <Typography variant="h5" textAlign="center" mb={3}>
-          Đăng nhập
-        </Typography>
+    <div className="flex justify-center items-center px-4 mt-12 mb-16">
+      <Card className="w-full max-w-md p-6">
+        <CardHeader>
+          <CardTitle className="text-center text-xl font-semibold">
+            Đăng nhập
+          </CardTitle>
+        </CardHeader>
 
-        <form onSubmit={handleLogin}>
-          <TextField
-            label="Email"
-            type="email"
-            fullWidth
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            margin="normal"
-          />
-
-          <PasswordField
-            label="Mật khẩu"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Box display="flex" alignItems="center">
-              <input
-                type="checkbox"
-                id="remember"
-                style={{ marginRight: "8px" }}
+        <CardContent>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="you@example.com"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
-              <label htmlFor="remember" style={{ fontSize: "14px" }}>
-                Ghi nhớ đăng nhập
-              </label>
-            </Box>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Mật khẩu</Label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div className="flex items-center justify-between text-sm">
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="remember"
+                  checked={remember}
+                  onCheckedChange={(val) => setRemember(Boolean(val))}
+                />
+                <Label htmlFor="remember" className="text-sm cursor-pointer">
+                  Ghi nhớ đăng nhập
+                </Label>
+              </div>
 
-            <MuiLink
-              component="button"
-              variant="body2"
-              underline="hover"
-              sx={{ fontSize: 14, textTransform: "none", fontWeight: 400 }}
-              onClick={handleForgotPassword}
-            >
-              Quên mật khẩu?
-            </MuiLink>
-          </Box>
-
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            sx={{ mt: 3 }}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <CircularProgress size={24} color="inherit" />
-            ) : (
-              "Đăng nhập"
-            )}
-          </Button>
-
-          <Box mt={2} textAlign="center">
-            <Typography variant="body2">
+              <button
+                type="button"
+                onClick={handleForgotPassword}
+                className="text-blue-600 hover:underline text-sm"
+              >
+                Quên mật khẩu?
+              </button>
+            </div>
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                "Đăng nhập"
+              )}
+            </Button>
+            <p className="text-center text-sm mt-3">
               Bạn chưa có tài khoản?{" "}
-              <MuiLink
+              <a
                 href="/register"
-                underline="hover"
-                sx={{ fontWeight: 500 }}
+                className="text-blue-600 hover:underline font-medium"
               >
                 Tạo tài khoản
-              </MuiLink>
-            </Typography>
-          </Box>
-        </form>
-      </Paper>
-    </Box>
+              </a>
+            </p>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

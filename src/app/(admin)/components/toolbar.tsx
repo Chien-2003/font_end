@@ -20,5 +20,5 @@ export function ToolbarGroup({ children }: { children: React.ReactNode }) {
 }
 
 export function ToolbarSeparator() {
-  return <div className="w-px bg-gray-300 mx-2" />;
+  return <div className="w-px mx-2" />;
 }

@@ -1,37 +1,31 @@
-"use client";
+'use client'
 
-import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { useUser } from "@/contexts/UserContext";
+import Image from 'next/image'
+import Link from 'next/link'
+import { useUser } from '@/contexts/UserContext'
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from '@/components/ui/dropdown-menu'
 
 export default function UserMenu() {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const { user, setUser } = useUser();
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  const { user, setUser } = useUser()
 
   const handleLogout = async () => {
     try {
-      await fetch("http://localhost:4000/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-      setUser(null);
-      window.location.href = "/login";
+      await fetch('http://localhost:4000/auth/logout', {
+        method: 'POST',
+        credentials: 'include',
+      })
+      setUser(null)
+      window.location.href = '/login'
     } catch (error) {
-      console.error("Lỗi khi đăng xuất:", error);
+      console.error('Lỗi khi đăng xuất:', error)
     }
-  };
+  }
 
   if (!user) {
     return (
@@ -49,51 +43,41 @@ export default function UserMenu() {
           Đăng ký
         </Link>
       </div>
-    );
+    )
   }
 
   return (
-    <div className="relative" ref={ref}>
-      <button
-        onClick={() => setOpen(!open)}
-        className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 rounded"
-      >
-        <Image
-          src="/logo.svg"
-          alt="User Avatar"
-          width={32}
-          height={32}
-          className="rounded-full"
-        />
-        <span>{user.full_name}</span>
-      </button>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          className="flex items-center space-x-2 px-3 py-2 text-sm font-medium rounded
+            focus:outline-none border-none shadow-none cursor-pointer"
+        >
+          <Image
+            src="/logo.svg"
+            alt="User Avatar"
+            width={32}
+            height={32}
+            className="rounded-full"
+          />
+          <span>{user.full_name}</span>
+        </button>
+      </DropdownMenuTrigger>
 
-      {open && (
-        <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black/5 z-50">
-          <Link
-            href="/profile"
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-            onClick={() => setOpen(false)}
-          >
-            Thông tin cá nhân
-          </Link>
-          {user.email === "nguyendinhchien19042003@gmail.com" && (
-            <Link
-              href="/admin"
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              onClick={() => setOpen(false)}
-            >
-              Trang quản lý
-            </Link>
-          )}
-          <button
-            onClick={handleLogout}
-            className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-          >
-            Đăng xuất
-          </button>
-        </div>
-      )}
-    </div>
-  );
+      <DropdownMenuContent align="end" className="w-48">
+        <DropdownMenuItem asChild>
+          <Link href="/profile">Thông tin cá nhân</Link>
+        </DropdownMenuItem>
+
+        {user.email === 'nguyendinhchien19042003@gmail.com' && (
+          <DropdownMenuItem asChild>
+            <Link href="/admin">Trang quản lý</Link>
+          </DropdownMenuItem>
+        )}
+
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={handleLogout}>Đăng xuất</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
 }

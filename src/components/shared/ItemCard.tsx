@@ -58,7 +58,7 @@ export default function ProductCard({
     <div className="w-full sm:w-1/2 lg:w-1/4 px-3 py-3 mb-6 pro-loop">
       <div
         ref={cardRef}
-        className="bg-white overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-in-out h-full flex flex-col"
+        className="overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-in-out h-full flex flex-col border"
       >
         <div className="relative w-full h-[431px]">
           <Image
@@ -79,31 +79,31 @@ export default function ProductCard({
             />
           )}
           {discountPercent && (
-            <div className="absolute top-2 right-2 bg-blue-500 text-white text-xs font-semibold px-2 py-1 rounded-full z-30">
+            <div className="absolute top-2 right-2 bg-blue-50 text-xs font-semibold px-2 py-1 rounded-full z-30">
               {discountPercent}%
             </div>
           )}
         </div>
-        <h3 className="text-sm font-semibold px-2 pt-2 text-gray-800 hover:text-[#b4282b]">
+        <h3 className="text-sm font-semibold px-2 pt-2 hover:text-[#b4282b]">
           {name.length > 32 ? `${name.slice(0, 32)}...` : name}
         </h3>
         <div className="p-2 flex-grow flex flex-col justify-between">
-          <p className="text-gray-600 text-sm mb-2">
+          <p className="text-sm mb-2">
             {description.length > 50
               ? `${description.slice(0, 50)}...`
               : description}
           </p>
           <div className="flex items-center justify-between mt-auto">
             <div className="flex items-baseline">
-              <span className="text-xl font-bold text-gray-900">{price}</span>
+              <span className="text-xl font-bold">{price}</span>
               {oldPrice && (
-                <span className="text-sm text-gray-500 line-through ml-2">
+                <span className="text-smline-through ml-2">
                   {oldPrice.toLocaleString("vi-VN")}₫
                 </span>
               )}
             </div>
             <button
-              className="text-black p-2 cursor-pointer transition-colors duration-200 ease-in-out focus:outline-none flex items-center justify-center"
+              className="p-2 cursor-pointer transition-colors duration-200 ease-in-out focus:outline-none flex items-center justify-center"
               aria-label="Thêm vào giỏ hàng"
               onClick={async () => {
                 try {
@@ -116,7 +116,7 @@ export default function ProductCard({
                 }
               }}
             >
-              <IoCartOutline className="text-2xl text-black w-6 h-6" />
+              <IoCartOutline className="text-2xl w-6 h-6" />
             </button>
           </div>
         </div>

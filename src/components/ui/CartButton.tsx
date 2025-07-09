@@ -25,7 +25,7 @@ export default function CartButton() {
     <motion.div animate={controls}>
       <IconButton
         aria-label="cart"
-        sx={{ bgcolor: "white", p: 1, color: "gray" }}
+        sx={{ p: 1,}}
       >
         <Badge badgeContent={totalCount} color="primary">
           <ShoppingCartOutlined color="warning" />

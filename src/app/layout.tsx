@@ -5,7 +5,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "@/app/globals.css";
 import { CartProvider } from "@/contexts/CartContext";
-
+import { ThemeProvider } from "@/components/theme-provider";
 export const metadata: Metadata = {
   title: "Elysia Wear | Thời trang cao cấp cho phái đẹp",
   description:
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     siteName: "Elysia Wear",
     images: [
       {
-        url: "https://elysiawear.com/og-image.jpg", // ✅ thay bằng link ảnh thật nếu có
+        url: "https://elysiawear.com/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Elysia Wear - Thời trang nữ cao cấp",
@@ -51,11 +51,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="vi">
+    <html lang="vi" suppressHydrationWarning>
       <body className={inter.className}>
-        <UserProvider>
-          <CartProvider>{children}</CartProvider>
-        </UserProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <UserProvider>
+            <CartProvider>{children}</CartProvider>
+          </UserProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

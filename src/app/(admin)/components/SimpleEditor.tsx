@@ -58,7 +58,7 @@ export default function SimpleEditor({ onChange }: Props) {
   if (!editor) return null;
 
   return (
-    <div className="border rounded shadow-sm bg-white">
+    <div className="border rounded shadow-sm">
       <Toolbar>
         <ToolbarGroup>
           <UndoRedoButtons editor={editor} />

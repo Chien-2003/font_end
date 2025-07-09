@@ -111,7 +111,7 @@ export default function ProfilePage() {
               }}
             >
               <Image src="/logo.svg" alt="Elysia Wear" width={32} height={32} />
-              <span className="text-gray-900 font-semibold text-lg">
+              <span className="font-semibold text-lg">
                 Elysia Wear
               </span>
             </Link>
@@ -161,7 +161,7 @@ export default function ProfilePage() {
                 <button
                   ref={btnRef}
                   onClick={handleUpdate}
-                  className="px-6 py-3 bg-blue-500 text-white rounded-md shadow-md cursor-pointer"
+                  className="px-6 py-3 rounded-md shadow-md cursor-pointer"
                 >
                   Cập nhật thông tin
                 </button>

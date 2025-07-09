@@ -1,20 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  Box,
-  Button,
-  TextField,
-  Typography,
-  Stack,
-  Link as MuiLink,
-  CircularProgress,
-} from "@mui/material";
 import { register } from "@/app/actions/register";
 import { showError, showSuccess } from "@/lib/swal";
-import PasswordField from "@/components/shared/PasswordField";
 import { useUser } from "@/contexts/UserContext";
+
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -26,7 +22,6 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // Redirect nếu đã đăng nhập
   useEffect(() => {
     if (user) {
       router.replace("/");
@@ -35,12 +30,11 @@ export default function RegisterPage() {
     }
   }, [user, router]);
 
-  // Không hiển thị giao diện khi đang kiểm tra đăng nhập
   if (checkingUser) {
     return (
-      <Box display="flex" justifyContent="center" mt={10}>
-        <CircularProgress />
-      </Box>
+      <div className="flex justify-center mt-10">
+        <Loader2 className="h-6 w-6 animate-spin text-gray-500" />
+      </div>
     );
   }
 
@@ -59,68 +53,71 @@ export default function RegisterPage() {
   };
 
   return (
-    <Box
-      maxWidth={400}
-      mx="auto"
-      mt={8}
-      mb={8}
-      p={4}
-      border="1px solid #ccc"
-      borderRadius={2}
-      boxShadow={2}
-    >
-      <Typography variant="h5" mb={3} textAlign="center">
-        Đăng ký tài khoản
-      </Typography>
+    <div className="flex justify-center px-4 mt-12 mb-16">
+      <Card className="w-full max-w-md p-6">
+        <CardHeader>
+          <CardTitle className="text-center text-xl font-semibold">
+            Đăng ký tài khoản
+          </CardTitle>
+        </CardHeader>
 
-      <form onSubmit={handleRegister}>
-        <Stack spacing={2}>
-          <TextField
-            label="Tên người dùng"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-            required
-            fullWidth
-          />
-          <TextField
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            fullWidth
-          />
-          <PasswordField
-            label="Mật khẩu"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+        <CardContent>
+          <form onSubmit={handleRegister} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="username">Tên người dùng</Label>
+              <Input
+                id="username"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                placeholder="Tên của bạn"
+                required
+              />
+            </div>
 
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <CircularProgress size={24} color="inherit" />
-            ) : (
-              "Đăng ký"
-            )}
-          </Button>
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                required
+              />
+            </div>
 
-          <Box mt={2} textAlign="center">
-            <Typography variant="body2">
+            <div className="space-y-2">
+              <Label htmlFor="password">Mật khẩu</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                required
+              />
+            </div>
+
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                "Đăng ký"
+              )}
+            </Button>
+
+            <p className="text-center text-sm mt-3">
               Bạn đã có tài khoản?{" "}
-              <MuiLink href="/login" underline="hover" sx={{ fontWeight: 500 }}>
+              <a
+                href="/login"
+                className="text-blue-600 hover:underline font-medium"
+              >
                 Đăng nhập
-              </MuiLink>
-            </Typography>
-          </Box>
-        </Stack>
-      </form>
-    </Box>
+              </a>
+            </p>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
