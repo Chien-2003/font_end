@@ -7,7 +7,7 @@ import { getAllProducts } from "@/lib/productsApi";
 export default async function HomePage() {
   const products = await getAllProducts();
   const validProducts = products.filter(
-    (product) => product.variants && product.variants.length > 0
+    (product) => product.variants && product.variants.length > 0,
   );
 
   return (

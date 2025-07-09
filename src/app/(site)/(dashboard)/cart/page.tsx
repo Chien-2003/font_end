@@ -31,7 +31,9 @@ export default function CartPage() {
 
   const toggleSelectItem = (id: number) => {
     setSelectedItems((prev) =>
-      prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id]
+      prev.includes(id)
+        ? prev.filter((itemId) => itemId !== id)
+        : [...prev, id],
     );
   };
 

@@ -6,12 +6,7 @@ import { showSuccess, showError } from "@/lib/swal";
 import { useUser } from "@/contexts/UserContext";
 import { login } from "@/app/actions/login";
 
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

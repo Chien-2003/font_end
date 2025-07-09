@@ -1,31 +1,31 @@
-'use client'
+"use client";
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { useUser } from '@/contexts/UserContext'
+import Image from "next/image";
+import Link from "next/link";
+import { useUser } from "@/contexts/UserContext";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu'
+} from "@/components/ui/dropdown-menu";
 
 export default function UserMenu() {
-  const { user, setUser } = useUser()
+  const { user, setUser } = useUser();
 
   const handleLogout = async () => {
     try {
-      await fetch('http://localhost:4000/auth/logout', {
-        method: 'POST',
-        credentials: 'include',
-      })
-      setUser(null)
-      window.location.href = '/login'
+      await fetch("http://localhost:4000/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      setUser(null);
+      window.location.href = "/login";
     } catch (error) {
-      console.error('Lỗi khi đăng xuất:', error)
+      console.error("Lỗi khi đăng xuất:", error);
     }
-  }
+  };
 
   if (!user) {
     return (
@@ -43,7 +43,7 @@ export default function UserMenu() {
           Đăng ký
         </Link>
       </div>
-    )
+    );
   }
 
   return (
@@ -69,7 +69,7 @@ export default function UserMenu() {
           <Link href="/profile">Thông tin cá nhân</Link>
         </DropdownMenuItem>
 
-        {user.email === 'nguyendinhchien19042003@gmail.com' && (
+        {user.email === "nguyendinhchien19042003@gmail.com" && (
           <DropdownMenuItem asChild>
             <Link href="/admin">Trang quản lý</Link>
           </DropdownMenuItem>
@@ -79,5 +79,5 @@ export default function UserMenu() {
         <DropdownMenuItem onClick={handleLogout}>Đăng xuất</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

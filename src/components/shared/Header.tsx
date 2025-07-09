@@ -1,24 +1,24 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import NavLinks from '../ui/NavLinks'
-import UserMenu from '../ui/UserMenu'
-import MobileMenu from '../ui/MobileMenu'
-import { NotificationsOutlined } from '@mui/icons-material'
-import { Badge, IconButton } from '@mui/material'
-import { useRouter } from 'next/navigation'
-import CartButton from '../ui/CartButton'
-import { ModeToggle } from '@/components/ui/ModeToggle'
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import NavLinks from "../ui/NavLinks";
+import UserMenu from "../ui/UserMenu";
+import MobileMenu from "../ui/MobileMenu";
+import { NotificationsOutlined } from "@mui/icons-material";
+import { Badge, IconButton } from "@mui/material";
+import { useRouter } from "next/navigation";
+import CartButton from "../ui/CartButton";
+import { ModeToggle } from "@/components/ui/ModeToggle";
 
 export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const router = useRouter()
+  const [menuOpen, setMenuOpen] = useState(false);
+  const router = useRouter();
 
   const handleClick = () => {
-    router.push('/notification')
-  }
+    router.push("/notification");
+  };
 
   return (
     <nav className="sticky top-0 z-50 shadow bg-white dark:bg-gray-900">
@@ -82,5 +82,5 @@ export default function Navbar() {
       </div>
       {menuOpen && <MobileMenu />}
     </nav>
-  )
+  );
 }

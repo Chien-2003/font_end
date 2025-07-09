@@ -111,9 +111,7 @@ export default function ProfilePage() {
               }}
             >
               <Image src="/logo.svg" alt="Elysia Wear" width={32} height={32} />
-              <span className="font-semibold text-lg">
-                Elysia Wear
-              </span>
+              <span className="font-semibold text-lg">Elysia Wear</span>
             </Link>
 
             <Typography variant="h5" sx={{ mb: 4 }}>

@@ -60,7 +60,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <UserProvider>
-            <CartProvider>{children}</CartProvider>
+            <CartProvider>
+              <div className="dark:bg-gray-900">{children}</div>
+            </CartProvider>
           </UserProvider>
         </ThemeProvider>
       </body>
