@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import Link from "next/link";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -108,12 +109,12 @@ export default function RegisterPage() {
 
             <p className="text-center text-sm mt-3">
               Bạn đã có tài khoản?{" "}
-              <a
+              <Link
                 href="/login"
                 className="text-blue-600 hover:underline font-medium"
               >
                 Đăng nhập
-              </a>
+              </Link>
             </p>
           </form>
         </CardContent>

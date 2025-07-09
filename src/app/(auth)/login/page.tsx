@@ -14,6 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 import { Loader2 } from "lucide-react";
 import Swal from "sweetalert2";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -150,12 +151,12 @@ export default function LoginPage() {
             </Button>
             <p className="text-center text-sm mt-3">
               Bạn chưa có tài khoản?{" "}
-              <a
+              <Link
                 href="/register"
                 className="text-blue-600 hover:underline font-medium"
               >
                 Tạo tài khoản
-              </a>
+              </Link>
             </p>
           </form>
         </CardContent>
