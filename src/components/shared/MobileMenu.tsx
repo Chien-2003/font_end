@@ -1,4 +1,4 @@
-import NavLinks from "./NavLinks";
+import NavLinks from "../ui/NavLinks";
 
 export default function MobileMenu() {
   return (

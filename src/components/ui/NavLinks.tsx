@@ -18,6 +18,7 @@ export default function NavLinks({ className = "" }: { className?: string }) {
 
   const links = [
     { name: "Home", href: "/" },
+    { name: "Danh mục", href: "/danh-muc" },
     {
       name: "Thời trang nam",
       submenu: [

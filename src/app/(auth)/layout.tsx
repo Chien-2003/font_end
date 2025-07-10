@@ -9,7 +9,7 @@ export default function AuthLayout({
   return (
     <>
       <Navbar />
-      <main>{children}</main>
+      <main className="w-full mx-auto">{children}</main>
       <Footer />
     </>
   );

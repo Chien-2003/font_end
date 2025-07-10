@@ -1,7 +1,7 @@
 import ProductCard from "@/components/shared/ItemCard";
 import { Button } from "@/components/ui/button";
-import HomeBanner from "@/components/ui/HomeBanner";
-import HomeCategorySection from "@/components/ui/HomeCategorySection";
+import HomeBanner from "@/components/shared/HomeBanner";
+import HomeCategorySection from "@/components/shared/HomeCategorySection";
 import { getAllProducts } from "@/lib/productsApi";
 
 export default async function HomePage() {

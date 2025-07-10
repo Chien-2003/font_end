@@ -6,23 +6,23 @@ import React, {
   forwardRef,
   useImperativeHandle,
 } from "react";
+import { AvatarImage, Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
-  Avatar,
-  Grid,
-  TextField,
-  Typography,
-  FormControl,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-} from "@mui/material";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs, { Dayjs } from "dayjs";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { useUser } from "@/contexts/UserContext";
 import { updateProfile, UpdateProfileResponse } from "@/lib/profileApi";
+import dayjs from "dayjs";
 
 export interface PersonalInfoPageRef {
   handleUpdate: () => Promise<UpdateProfileResponse>;
@@ -34,8 +34,8 @@ const PersonalInfoPage = forwardRef<PersonalInfoPageRef>((_, ref) => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
-  const [birthDate, setBirthDate] = useState<Dayjs | null>(null);
-  const [gender, setGender] = useState<0 | 1 | 2>(0);
+  const [birthDate, setBirthDate] = useState<Date | undefined>(undefined);
+  const [gender, setGender] = useState<"0" | "1" | "2">("0");
 
   useEffect(() => {
     if (user) {
@@ -43,8 +43,8 @@ const PersonalInfoPage = forwardRef<PersonalInfoPageRef>((_, ref) => {
       setEmail(user.email || "");
       setPhone(user.phone || "");
       setAddress(user.address || "");
-      setBirthDate(user.birth_date ? dayjs(user.birth_date) : null);
-      setGender(user.gender ?? 0);
+      setBirthDate(user.birth_date ? new Date(user.birth_date) : undefined);
+      setGender(String(user.gender ?? 0) as "0" | "1" | "2");
     }
   }, [user]);
 
@@ -54,105 +54,111 @@ const PersonalInfoPage = forwardRef<PersonalInfoPageRef>((_, ref) => {
         full_name: fullName,
         phone,
         address,
-        birth_date: birthDate ? birthDate.format("YYYY-MM-DD") : null,
-        gender,
+        birth_date: birthDate ? dayjs(birthDate).format("YYYY-MM-DD") : null,
+        gender: Number(gender) as 0 | 1 | 2,
       });
     },
   }));
 
   return (
-    <Grid
-      gap={2}
-      justifyContent="center"
-      alignItems="center"
-      display="flex"
-      flexDirection="column"
-    >
-      <Grid sx={{ textAlign: "center" }}>
-        <Avatar
-          alt="User Avatar"
-          src="/image.webp"
-          sx={{ width: 100, height: 100, margin: "auto" }}
-        />
-        <Typography variant="h5" sx={{ mt: 2 }}>
+    <div className="space-y-6">
+      <div className="text-center">
+        <Avatar className="mx-auto w-24 h-24">
+          <AvatarImage src="/image.webp" />
+          <AvatarFallback>U</AvatarFallback>
+        </Avatar>
+        <h2 className="text-xl font-semibold mt-2">
           {fullName || "Chưa có tên"}
-        </Typography>
-      </Grid>
+        </h2>
+      </div>
 
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <TextField
-            label="Họ và tên"
-            fullWidth
-            variant="outlined"
+      <div className="grid md:grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="fullName" className="mb-2">
+            Họ và tên
+          </Label>
+          <Input
+            id="fullName"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
           />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            label="Địa chỉ thường trú"
-            fullWidth
-            variant="outlined"
+        </div>
+        <div>
+          <Label htmlFor="address" className="mb-2">
+            Địa chỉ thường trú
+          </Label>
+          <Input
+            id="address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
           />
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <TextField
-            label="Email"
-            fullWidth
-            variant="outlined"
-            value={email}
-            disabled
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            label="Số điện thoại"
-            fullWidth
-            variant="outlined"
+        </div>
+        <div>
+          <Label htmlFor="email" className="mb-2">
+            Email
+          </Label>
+          <Input id="email" value={email} disabled />
+        </div>
+        <div>
+          <Label htmlFor="phone" className="mb-2">
+            Số điện thoại
+          </Label>
+          <Input
+            id="phone"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label="Ngày sinh"
-              value={birthDate}
-              onChange={(newValue) => setBirthDate(newValue)}
-              slotProps={{
-                textField: { fullWidth: true, variant: "outlined" },
-              }}
-            />
-          </LocalizationProvider>
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <FormControl fullWidth>
-            <FormLabel>Giới tính</FormLabel>
-            <RadioGroup
-              row
-              value={String(gender)}
-              onChange={(e) => setGender(Number(e.target.value) as 0 | 1 | 2)}
-            >
-              <FormControlLabel value="0" control={<Radio />} label="Nam" />
-              <FormControlLabel value="1" control={<Radio />} label="Nữ" />
-              <FormControlLabel value="2" control={<Radio />} label="Khác" />
-            </RadioGroup>
-          </FormControl>
-        </Grid>
-      </Grid>
-    </Grid>
+        </div>
+        <div>
+          <Label htmlFor="birthDate" className="mb-2">
+            Ngày sinh
+          </Label>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={cn(
+                  "w-full justify-start text-left font-normal",
+                  !birthDate && "text-muted-foreground",
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {birthDate ? format(birthDate, "dd/MM/yyyy") : "Chọn ngày"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={birthDate}
+                onSelect={setBirthDate}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
+        <div>
+          <Label className="mb-2">Giới tính</Label>
+          <RadioGroup
+            defaultValue={gender}
+            onValueChange={(val) => setGender(val as "0" | "1" | "2")}
+            className="flex gap-4 mt-1"
+          >
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="0" id="nam" />
+              <Label htmlFor="nam">Nam</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="1" id="nu" />
+              <Label htmlFor="nu">Nữ</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="2" id="khac" />
+              <Label htmlFor="khac">Khác</Label>
+            </div>
+          </RadioGroup>
+        </div>
+      </div>
+    </div>
   );
 });
 

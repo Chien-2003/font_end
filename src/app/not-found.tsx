@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <>
-      <main className="grid min-h-screen place-items-center px-6 py-24 sm:py-32 lg:px-8">
+      <section className="grid min-h-screen place-items-center px-6 py-24 sm:py-32 lg:px-8">
         <div className="text-center">
           <p className="text-base font-semibold text-indigo-600">404</p>
           <h1 className="mt-4 text-5xl font-semibold tracking-tight text-balance sm:text-7xl">
@@ -30,7 +30,7 @@ export default function NotFound() {
             </Link>
           </div>
         </div>
-      </main>
+      </section>
     </>
   );
 }

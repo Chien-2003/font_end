@@ -7,8 +7,9 @@ import React, {
   useImperativeHandle,
 } from "react";
 import { useUser } from "@/contexts/UserContext";
-import { Typography, Box, TextField } from "@mui/material";
 import { updateProfile, UpdateProfileResponse } from "@/lib/profileApi";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 export interface AddressesPageRef {
   handleUpdate: () => Promise<UpdateProfileResponse>;
@@ -34,19 +35,18 @@ const AddressesPage = forwardRef<AddressesPageRef>((_, ref) => {
   }));
 
   return (
-    <Box sx={{ p: { xs: 0, md: 4 } }}>
-      <Typography variant="h5" gutterBottom>
-        Địa chỉ nhận hàng
-      </Typography>
-      <TextField
-        label="Địa chỉ nhận hàng"
-        fullWidth
-        variant="outlined"
-        sx={{ mt: 3 }}
-        value={orderAddress}
-        onChange={(e) => setOrderAddress(e.target.value)}
-      />
-    </Box>
+    <div className="space-y-4">
+      <h2 className="text-2xl font-semibold">Địa chỉ nhận hàng</h2>
+      <div className="space-y-2">
+        <Label htmlFor="order_address">Địa chỉ nhận hàng</Label>
+        <Input
+          id="order_address"
+          value={orderAddress}
+          onChange={(e) => setOrderAddress(e.target.value)}
+          placeholder="Nhập địa chỉ nhận hàng"
+        />
+      </div>
+    </div>
   );
 });
 

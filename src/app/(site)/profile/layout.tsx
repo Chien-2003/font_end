@@ -11,5 +11,5 @@ export default function ProfileLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <main>{children}</main>;
+  return <section>{children}</section>;
 }
