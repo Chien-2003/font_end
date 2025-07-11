@@ -28,7 +28,10 @@ export default function Breadcrumbs() {
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink asChild>
+          <BreadcrumbLink
+            asChild
+            className="dark:text-accent-foreground text-gray-900"
+          >
             <Link href="/">Trang chủ</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>

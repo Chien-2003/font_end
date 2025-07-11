@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import { signOut } from "next-auth/react";
 
 export default function UserMenu() {
   const { user, setUser } = useUser();
@@ -20,6 +21,7 @@ export default function UserMenu() {
         method: "POST",
         credentials: "include",
       });
+      await signOut({ redirect: false });
       setUser(null);
       window.location.href = "/login";
     } catch (error) {
@@ -54,7 +56,7 @@ export default function UserMenu() {
             focus:outline-none border-none shadow-none cursor-pointer"
         >
           <Image
-            src="/logo.svg"
+            src={user.avatar || "/image.webp"}
             alt="User Avatar"
             width={32}
             height={32}

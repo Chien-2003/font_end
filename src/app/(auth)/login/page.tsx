@@ -15,6 +15,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Loader2 } from "lucide-react";
 import Swal from "sweetalert2";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
+import LoginWithGoogleButton from "@/components/shared/LoginWithGoogleButton";
+import LoginWithFacebookButton from "@/components/shared/LoginWithFacebookButton";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -149,6 +152,8 @@ export default function LoginPage() {
                 "Đăng nhập"
               )}
             </Button>
+            <LoginWithGoogleButton />
+            <LoginWithFacebookButton />
             <p className="text-center text-sm mt-3">
               Bạn chưa có tài khoản?{" "}
               <Link

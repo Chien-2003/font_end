@@ -64,7 +64,7 @@ const PersonalInfoPage = forwardRef<PersonalInfoPageRef>((_, ref) => {
     <div className="space-y-6">
       <div className="text-center">
         <Avatar className="mx-auto w-24 h-24">
-          <AvatarImage src="/image.webp" />
+          <AvatarImage src={user?.avatar || "/image.webp"} />
           <AvatarFallback>U</AvatarFallback>
         </Avatar>
         <h2 className="text-xl font-semibold mt-2">

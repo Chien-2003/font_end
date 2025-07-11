@@ -8,6 +8,7 @@ const nextConfig = {
       "file.hstatic.net",
       "product.hstatic.net",
       "cdn.hstatic.net",
+      "lh3.googleusercontent.com",
     ],
   },
 };
