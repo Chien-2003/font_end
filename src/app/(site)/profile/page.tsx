@@ -55,7 +55,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="container py-6 mx-auto">
+    <div className="mx-auto max-w-full md:px-4 lg:py-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 w-full h-full">
       <Tabs value={tab} onValueChange={setTab} className="w-full">
         <div className="grid md:grid-cols-4 gap-6">
           <Card className="p-6 flex flex-col">

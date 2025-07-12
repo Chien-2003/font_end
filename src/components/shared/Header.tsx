@@ -22,7 +22,10 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 shadow bg-white dark:bg-gray-900">
-      <div className="px-2 sm:px-6 lg:px-8 container mx-auto">
+      <div
+        data-label="container"
+        className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 w-full h-full"
+      >
         <div className="relative w-full mx-auto py-2">
           <div className="flex items-center flex-wrap gap-4 w-full px-4 py-2 justify-between">
             <Link href="/" className="flex items-center space-x-2 shrink-0">

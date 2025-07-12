@@ -19,7 +19,7 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="container mx-auto">
+    <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 w-full h-full">
       <h1 className="text-2xl font-bold text-center">Quản lý hệ thống</h1>
     </div>
   );

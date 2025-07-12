@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -12,68 +12,34 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import * as React from "react";
+import { Category, getAllCategories } from "@/lib/categoryApi";
+
+function chunkArray<T>(arr: T[], size: number): T[][] {
+  const result: T[][] = [];
+  for (let i = 0; i < arr.length; i += size) {
+    result.push(arr.slice(i, i + size));
+  }
+  return result;
+}
 
 export default function NavLinks({ className = "" }: { className?: string }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const [categories, setCategories] = React.useState<Category[]>([]);
 
-  const links = [
-    { name: "Home", href: "/" },
-    { name: "Danh mục", href: "/danh-muc" },
-    {
-      name: "Thời trang nam",
-      submenu: [
-        {
-          name: "Áo thun",
-          href: "/nam/ao-thun",
-          description: "Áo thun nam đa dạng phong cách.",
-        },
-        {
-          name: "Áo sơ mi",
-          href: "/nam/ao-so-mi",
-          description: "Sơ mi cho môi trường công sở.",
-        },
-        {
-          name: "Quần jean",
-          href: "/nam/quan-jean",
-          description: "Quần jean bền đẹp cho nam.",
-        },
-      ],
-    },
-    {
-      name: "Thời trang nữ",
-      submenu: [
-        {
-          name: "Váy",
-          href: "/nu/vay",
-          description: "Váy đẹp, nữ tính, hợp thời trang.",
-        },
-        {
-          name: "Áo kiểu",
-          href: "/nu/ao-kieu",
-          description: "Áo kiểu đa dạng phong cách.",
-        },
-        {
-          name: "Quần",
-          href: "/nu/quan",
-          description: "Quần nữ năng động, hiện đại.",
-        },
-      ],
-    },
-    {
-      name: "Phụ kiện",
-      submenu: [
-        {
-          name: "Túi xách",
-          href: "/phu-kien/tui",
-          description: "Túi xách sành điệu cho mọi dịp.",
-        },
-        {
-          name: "Giày",
-          href: "/phu-kien/giay",
-          description: "Giày thời trang và thoải mái.",
-        },
-      ],
-    },
+  React.useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await getAllCategories();
+        setCategories(data);
+      } catch (err) {
+        console.error("Error fetching categories:", err);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  const staticLinks = [
     { name: "Liên hệ", href: "/lien-he" },
     { name: "Về chúng tôi", href: "/ve-chung-toi" },
     { name: "Blog", href: "/blog" },
@@ -82,40 +48,57 @@ export default function NavLinks({ className = "" }: { className?: string }) {
   return (
     <NavigationMenu className={className}>
       <NavigationMenuList>
-        {links.map((link) => (
-          <NavigationMenuItem key={link.name}>
-            {link.submenu ? (
-              <>
-                <NavigationMenuTrigger className="uppercase text-sm font-medium dark:bg-gray-900">
-                  {link.name}
-                </NavigationMenuTrigger>
+        {categories.map((category) => {
+          const href = `/${category.slug_category}`;
+          const isActive = pathname === href || pathname.startsWith(`${href}/`);
+
+          return (
+            <NavigationMenuItem key={category.id}>
+              <NavigationMenuTrigger
+                onClick={() => router.push(href)}
+                className={`uppercase text-sm font-medium dark:bg-gray-900 px-4 py-2 ${
+                  isActive ? "text-[#b4282b]" : ""
+                }`}
+              >
+                {category.name}
+              </NavigationMenuTrigger>
+              {category.subcategories && category.subcategories.length > 0 && (
                 <NavigationMenuContent>
-                  <ul className="grid gap-2 p-4 md:w-[400px] lg:w-[500px]">
-                    {link.submenu.map((sub) => (
-                      <ListItem
-                        key={sub.name}
-                        title={sub.name}
-                        href={sub.href}
-                        active={pathname === sub.href}
-                      >
-                        {sub.description}
-                      </ListItem>
-                    ))}
-                  </ul>
+                  <div className="flex gap-x-6 p-4 md:w-[400px] lg:w-[500px]">
+                    {chunkArray(category.subcategories, 4).map(
+                      (group, index) => (
+                        <ul key={index} className="flex flex-col space-y-2">
+                          {group.map((sub) => (
+                            <ListItem
+                              key={sub.id}
+                              title={sub.name}
+                              href={`${href}/${sub.slug}`}
+                              active={pathname === `${href}/${sub.slug}`}
+                            >
+                              {sub.name}
+                            </ListItem>
+                          ))}
+                        </ul>
+                      ),
+                    )}
+                  </div>
                 </NavigationMenuContent>
-              </>
-            ) : (
-              <NavigationMenuLink asChild>
-                <Link
-                  href={link.href}
-                  className={`${navigationMenuTriggerStyle()} uppercase text-base font-medium dark:bg-gray-900 ${
-                    pathname === link.href ? "text-[#b4282b]" : ""
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              </NavigationMenuLink>
-            )}
+              )}
+            </NavigationMenuItem>
+          );
+        })}
+        {staticLinks.map((link) => (
+          <NavigationMenuItem key={link.name}>
+            <NavigationMenuLink asChild>
+              <Link
+                href={link.href}
+                className={`${navigationMenuTriggerStyle()} uppercase text-base font-medium dark:bg-gray-900 ${
+                  pathname === link.href ? "text-[#b4282b]" : ""
+                }`}
+              >
+                {link.name}
+              </Link>
+            </NavigationMenuLink>
           </NavigationMenuItem>
         ))}
       </NavigationMenuList>
@@ -129,7 +112,10 @@ function ListItem({
   href,
   active = false,
   ...props
-}: React.ComponentPropsWithoutRef<"li"> & { href: string; active?: boolean }) {
+}: React.ComponentPropsWithoutRef<"li"> & {
+  href: string;
+  active?: boolean;
+}) {
   return (
     <li {...props}>
       <NavigationMenuLink asChild>
@@ -138,7 +124,9 @@ function ListItem({
           className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
         >
           <div
-            className={`text-sm font-medium leading-none ${active ? "text-[#b4282b]" : ""}`}
+            className={`text-sm font-medium leading-none ${
+              active ? "text-[#b4282b]" : ""
+            }`}
           >
             {title}
           </div>

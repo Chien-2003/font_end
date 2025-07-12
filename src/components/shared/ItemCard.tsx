@@ -18,7 +18,7 @@ interface ProductCardProps {
   variant_id: number;
   name: string;
   description: string;
-  price: string;
+  price: number;
   oldPrice?: number;
   discountPercent?: number;
   image_url: string;

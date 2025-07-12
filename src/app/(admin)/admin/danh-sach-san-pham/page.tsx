@@ -2,14 +2,13 @@ import ProductCard from "@/components/shared/ItemCard";
 import { getAllProducts } from "@/lib/productsApi";
 
 export default async function page() {
-  const products = await getAllProducts();
-
-  const validProducts = products.filter(
+  const productsResponse = await getAllProducts({ page: 1, limit: 100 });
+  const validProducts = productsResponse.data.filter(
     (product) => product.variants && product.variants.length > 0,
   );
 
   return (
-    <div className="container mx-auto">
+    <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 w-full h-full">
       <div className="flex flex-wrap">
         {validProducts.length === 0 ? (
           <p className="text-center w-full">Không có sản phẩm nào.</p>
