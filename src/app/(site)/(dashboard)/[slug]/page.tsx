@@ -31,7 +31,7 @@ export async function generateMetadata({
 
   if (!category) return {};
 
-  const title = `Elysia Wear | Danh mục: ${category.name}`;
+  const title = `Danh mục: ${category.name}`;
   const description = category.description;
 
   const ogImageUrl =

@@ -91,7 +91,7 @@ export default function ProductCard({
               {discountPercent}%
             </div>
           )}
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out z-30 border-none">
+          <div className="absolute bottom-1 left-1/2 -translate-x-1/2 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out z-30 border-none">
             <div className="bg-gray-400/20 backdrop-blur-[15px] border-none p-5 rounded-lg shadow-none min-w-[calc(290px-16px)] text-center">
               <p className="text-base text-start text-black mb-2">
                 Thêm nhanh vào giỏ hàng <span className="text-lg">+</span>

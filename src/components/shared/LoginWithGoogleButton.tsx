@@ -43,7 +43,8 @@ export default function LoginWithGoogleButton() {
       onClick={() => signIn("google")}
       className="w-full dark:text-blue-600 dark:bg-accent-foreground bg-blue-600 text-white py-2 rounded mt-4 flex items-center justify-center"
     >
-      <FaGoogle className="mr-3" /> Đăng nhập bằng Google
+      <FaGoogle className="mr-3" />
+      Google
     </button>
   );
 }

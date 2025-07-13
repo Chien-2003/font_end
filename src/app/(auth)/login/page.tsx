@@ -152,8 +152,20 @@ export default function LoginPage() {
                 "Đăng nhập"
               )}
             </Button>
-            <LoginWithGoogleButton />
-            <LoginWithFacebookButton />
+            <div className="relative mt-3">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t"></span>
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-card text-muted-foreground px-2">
+                  Hoặc đăng nhập bằng
+                </span>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-6">
+              <LoginWithGoogleButton />
+              <LoginWithFacebookButton />
+            </div>
             <p className="text-center text-sm mt-3">
               Bạn chưa có tài khoản?{" "}
               <Link

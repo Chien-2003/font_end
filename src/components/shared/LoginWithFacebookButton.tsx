@@ -45,7 +45,8 @@ export default function LoginWithFacebookButton() {
       onClick={() => signIn("facebook")}
       className="w-full bg-blue-600 text-white py-2 rounded mt-4 flex items-center justify-center"
     >
-      <FaFacebookF className="mr-3" /> Đăng nhập bằng Facebook
+      <FaFacebookF className="mr-3" />
+      Facebook
     </button>
   );
 }

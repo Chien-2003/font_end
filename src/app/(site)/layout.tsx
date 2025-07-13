@@ -2,37 +2,52 @@ import Navbar from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "Elysia Wear | Thời trang cao cấp cho phái đẹp",
+  title: {
+    default: "Elysia Wear | Thời trang hiện đại",
+    template: "Elysia Wear | %s",
+  },
   description:
-    "Khám phá bộ sưu tập thời trang nữ sang trọng, tinh tế và hiện đại tại Elysia Wear. Nơi tôn vinh vẻ đẹp tự tin của bạn mỗi ngày.",
+    "Elysia Wear - cửa hàng thời trang hiện đại, cập nhật xu hướng mỗi ngày.",
   keywords: [
-    "Elysia Wear",
-    "thời trang nữ",
-    "đầm dạ tiệc",
-    "váy công sở",
-    "phong cách hiện đại",
-    "thời trang cao cấp",
+    "elysia",
+    "thời trang nam nữ",
+    "áo quần hiện đại",
+    "elysia wear",
+    "quần áo đẹp",
   ],
+  authors: [{ name: "Elysia Team", url: "https://elysiawear.vn" }],
   openGraph: {
-    title: "Elysia Wear | Thời trang cao cấp cho phái đẹp",
+    title: "Elysia Wear | Thời trang hiện đại",
     description:
-      "Khám phá bộ sưu tập sang trọng và hiện đại dành cho phái đẹp tại Elysia Wear.",
-    url: "https://elysiawear.com",
+      "Elysia Wear - cửa hàng thời trang hiện đại, cập nhật xu hướng mỗi ngày.",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
     siteName: "Elysia Wear",
     images: [
       {
-        url: "https://elysiawear.com/og-image.jpg",
+        url:
+          process.env.NEXT_PUBLIC_SITE_URL + "/og-default.jpg" ||
+          "https://n7media.coolmate.me/uploads/July2025/EXCOOL_-_Desktop-1.jpg",
         width: 1200,
         height: 630,
-        alt: "Elysia Wear - Thời trang nữ cao cấp",
+        alt: "Elysia Wear",
       },
     ],
     locale: "vi_VN",
     type: "website",
   },
-  icons: {
-    icon: "/favicon.ico",
+  twitter: {
+    card: "summary_large_image",
+    title: "Elysia Wear",
+    description:
+      "Elysia Wear - cửa hàng thời trang hiện đại, cập nhật xu hướng mỗi ngày.",
+    images: [
+      process.env.NEXT_PUBLIC_SITE_URL + "/og-default.jpg" ||
+        "https://n7media.coolmate.me/uploads/July2025/EXCOOL_-_Desktop-1.jpg",
+    ],
   },
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+  ),
 };
 export default function SiteLayout({
   children,

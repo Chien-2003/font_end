@@ -7,6 +7,7 @@ import "@/app/globals.css";
 import { CartProvider } from "@/contexts/CartContext";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SessionProvider } from "next-auth/react";
+import SessionProviderWrapper from "@/components/providers/SessionProviderWrapper";
 const inter = Inter({
   subsets: ["latin"],
   weight: ["400"],
@@ -20,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="vi" suppressHydrationWarning>
       <body className={inter.className}>
-        <SessionProvider>
+        <SessionProviderWrapper>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -33,7 +34,7 @@ export default function RootLayout({
               </CartProvider>
             </UserProvider>
           </ThemeProvider>
-        </SessionProvider>
+        </SessionProviderWrapper>
       </body>
     </html>
   );
