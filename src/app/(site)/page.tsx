@@ -24,7 +24,7 @@ export default async function HomePage() {
               return (
                 <ProductCard
                   key={product.id}
-                  variant_id={firstVariant.id}
+                  variants={product.variants!}
                   name={product.name}
                   description={product.description}
                   price={product.price}

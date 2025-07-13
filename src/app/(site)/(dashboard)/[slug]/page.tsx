@@ -1,3 +1,11 @@
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationPrevious,
+  PaginationNext,
+} from "@/components/ui/pagination";
 import { notFound } from "next/navigation";
 import ProductCard from "@/components/shared/ItemCard";
 import {
@@ -9,15 +17,15 @@ import {
 import type { Metadata } from "next";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
 
-interface PageProps {
-  params: { slug: string };
-}
+const PAGE_SIZE = 7;
+
 export async function generateMetadata({
   params,
 }: {
   params: any;
 }): Promise<Metadata> {
-  const { slug } = params;
+  const awaitedParams = await params;
+  const { slug } = awaitedParams;
   const category = await getCategoryBySlug(slug);
 
   if (!category) return {};
@@ -29,7 +37,7 @@ export async function generateMetadata({
     slug === "trang-phuc-nam"
       ? (process.env.NEXT_PUBLIC_SITE_URL ??
         "https://n7media.coolmate.me/uploads/July2025/EXCOOL_-_Desktop-1.jpg")
-      : "https://yourdomain.com/og-default.jpg";
+      : "https://n7media.coolmate.me/uploads/July2025/EXCOOL_-_Desktop-1.jpg";
 
   return {
     title,
@@ -38,7 +46,7 @@ export async function generateMetadata({
       title,
       description,
       type: "website",
-      url: `https://yourdomain.com/${slug}`,
+      url: `http://localhost:3000/${slug}`,
       images: [
         {
           url: ogImageUrl,
@@ -57,14 +65,29 @@ export async function generateMetadata({
   };
 }
 
-export default async function CategoryPage({ params }: { params: any }) {
-  const { slug } = params;
+export default async function CategoryPage({
+  params,
+  searchParams,
+}: {
+  params: any;
+  searchParams?: any;
+}) {
+  const awaitedParams = await params;
+  const awaitedSearchParams = await searchParams;
+  const { slug } = awaitedParams;
+  const page = Number(awaitedSearchParams?.page) || 1;
 
   const category: Category | null = await getCategoryBySlug(slug);
   if (!category) return notFound();
 
-  const productsResponse = await getProductsByCategoryId(category.id);
+  const productsResponse = await getProductsByCategoryId(
+    category.id,
+    page,
+    PAGE_SIZE,
+  );
   const products: Product[] = productsResponse.data;
+  const total = productsResponse.pagination?.total || products.length;
+  const totalPages = Math.ceil(total / PAGE_SIZE);
 
   const validProducts = products.filter(
     (product) => product.variants && product.variants.length > 0,
@@ -83,7 +106,7 @@ export default async function CategoryPage({ params }: { params: any }) {
             return (
               <ProductCard
                 key={product.id}
-                variant_id={firstVariant.id}
+                variants={product.variants!}
                 name={product.name}
                 description={product.description}
                 price={product.price}
@@ -94,6 +117,41 @@ export default async function CategoryPage({ params }: { params: any }) {
           })
         )}
       </div>
+
+      {totalPages > 1 && (
+        <Pagination className="mt-8">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                href={`?page=${page - 1}`}
+                isActive={false}
+                aria-disabled={page <= 1}
+                className={page <= 1 ? "pointer-events-none opacity-50" : ""}
+              />
+            </PaginationItem>
+            {Array.from({ length: totalPages }).map((_, i) => (
+              <PaginationItem key={i}>
+                <PaginationLink
+                  href={`?page=${i + 1}`}
+                  isActive={page === i + 1}
+                >
+                  {i + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+            <PaginationItem>
+              <PaginationNext
+                href={`?page=${page + 1}`}
+                isActive={false}
+                aria-disabled={page >= totalPages}
+                className={
+                  page >= totalPages ? "pointer-events-none opacity-50" : ""
+                }
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
     </div>
   );
 }

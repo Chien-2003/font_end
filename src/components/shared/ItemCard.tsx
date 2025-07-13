@@ -3,19 +3,18 @@
 import { useRef, useEffect } from "react";
 import Image from "next/image";
 import gsap from "gsap";
-import { IoCartOutline } from "react-icons/io5";
 import { addToCart } from "@/lib/cartApi";
 import { showError, showSuccess } from "@/lib/swal";
 import { useCart } from "@/contexts/CartContext";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+
+interface Variant {
+  id: number;
+  size: string;
+  quantity: number;
+}
 
 interface ProductCardProps {
-  variant_id: number;
   name: string;
   description: string;
   price: number;
@@ -23,10 +22,10 @@ interface ProductCardProps {
   discountPercent?: number;
   image_url: string;
   image_hover_url?: string;
+  variants: Variant[];
 }
 
 export default function ProductCard({
-  variant_id,
   name,
   description,
   price,
@@ -34,6 +33,7 @@ export default function ProductCard({
   discountPercent,
   image_url,
   image_hover_url,
+  variants,
 }: ProductCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const hoverImageRef = useRef<HTMLImageElement>(null);
@@ -68,7 +68,7 @@ export default function ProductCard({
         ref={cardRef}
         className="flex flex-col h-full border shadow-none py-0 rounded-none"
       >
-        <CardHeader className="p-0 relative h-[431px] overflow-hidden">
+        <CardHeader className="p-0 relative h-[431px] overflow-hidden group">
           <Image
             width={287}
             height={431}
@@ -91,6 +91,31 @@ export default function ProductCard({
               {discountPercent}%
             </div>
           )}
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out z-30 border-none">
+            <div className="bg-gray-400/20 backdrop-blur-[15px] border-none p-5 rounded-lg shadow-none min-w-[calc(290px-16px)] text-center">
+              <p className="text-base text-start text-black mb-2">
+                Thêm nhanh vào giỏ hàng <span className="text-lg">+</span>
+              </p>
+              <div className="flex flex-wrap items-center gap-3">
+                {variants.map((variant) => (
+                  <button
+                    key={variant.id}
+                    className="text-sm bg-white text-black hover:bg-black text-center hover:text-white px-4 py-2 rounded-md transition-colors cursor-pointer"
+                    onClick={() => {
+                      addToCart(variant.id, 1)
+                        .then(() => {
+                          refreshCart();
+                          showSuccess("Đã thêm vào giỏ hàng!");
+                        })
+                        .catch(() => showError("Thêm vào giỏ hàng thất bại!"));
+                    }}
+                  >
+                    {variant.size}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
         </CardHeader>
 
         <CardContent className="p-3 flex flex-col flex-grow">
@@ -104,34 +129,15 @@ export default function ProductCard({
           </p>
           <div className="flex justify-between items-end mt-auto">
             <div className="flex items-baseline">
-              <span className="text-xl font-bold">{price}</span>
+              <span className="text-lg font-bold">{price}</span>
               {oldPrice && (
                 <span className="text-sm line-through ml-2 text-muted-foreground">
-                  {oldPrice.toLocaleString("vi-VN")}₫
+                  {oldPrice}
                 </span>
               )}
             </div>
           </div>
         </CardContent>
-
-        <CardFooter className="pb-2 mt-auto">
-          <button
-            className="ml-auto p-2 px-2 rounded transition-colors duration-200 ease-in-out cursor-pointer"
-            aria-label="Thêm vào giỏ hàng"
-            onClick={async () => {
-              try {
-                await addToCart(variant_id, 1);
-                await refreshCart();
-                showSuccess("Đã thêm vào giỏ hàng!");
-              } catch (err) {
-                console.error(err);
-                showError("Thêm vào giỏ hàng thất bại!");
-              }
-            }}
-          >
-            <IoCartOutline className="text-2xl w-6 h-6" />
-          </button>
-        </CardFooter>
       </Card>
     </div>
   );

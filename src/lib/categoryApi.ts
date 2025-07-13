@@ -63,9 +63,11 @@ export async function getCategoryBySlug(
 }
 export async function getProductsByCategoryId(
   categoryId: number,
+  page: number = 1,
+  limit: number = 7,
 ): Promise<PaginatedProducts> {
   const res = await fetch(
-    `http://localhost:4000/products?category_id=${categoryId}`,
+    `http://localhost:4000/products?category_id=${categoryId}&page=${page}&limit=${limit}`,
     { cache: "no-store" },
   );
   if (!res.ok) throw new Error("Không thể lấy sản phẩm theo danh mục");
