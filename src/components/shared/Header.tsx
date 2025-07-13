@@ -1,23 +1,23 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import NavLinks from "../ui/NavLinks";
-import UserMenu from "./UserMenu";
-import MobileMenu from "./MobileMenu";
-import { NotificationsOutlined } from "@mui/icons-material";
-import { Badge, IconButton } from "@mui/material";
-import { useRouter } from "next/navigation";
-import CartButton from "./CartButton";
-import { ModeToggle } from "@/components/shared/ModeToggle";
+import { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import NavLinks from '../ui/NavLinks';
+import UserMenu from './UserMenu';
+import MobileMenu from './MobileMenu';
+import { NotificationsOutlined } from '@mui/icons-material';
+import { Badge, IconButton } from '@mui/material';
+import { useRouter } from 'next/navigation';
+import CartButton from './CartButton';
+import { ModeToggle } from '@/components/shared/ModeToggle';
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
 
   const handleClick = () => {
-    router.push("/notification");
+    router.push('/notification');
   };
 
   return (
@@ -28,8 +28,16 @@ export default function Navbar() {
       >
         <div className="relative w-full mx-auto py-2">
           <div className="flex items-center flex-wrap gap-4 w-full px-4 py-2 justify-between">
-            <Link href="/" className="flex items-center space-x-2 shrink-0">
-              <Image src="/logo.svg" alt="Elysia Wear" width={32} height={32} />
+            <Link
+              href="/"
+              className="flex items-center space-x-2 shrink-0"
+            >
+              <Image
+                src="/logo.svg"
+                alt="Elysia Wear"
+                width={32}
+                height={32}
+              />
               <span className="text-gray-900 dark:text-white font-semibold text-lg">
                 Elysia Wear
               </span>

@@ -16,20 +16,24 @@ export interface CartItem {
   };
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+const BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 
-export async function addToCart(variant_id: number, quantity: number = 1) {
+export async function addToCart(
+  variant_id: number,
+  quantity: number = 1,
+) {
   const res = await fetch(`${BASE_URL}/cart/add`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
-    credentials: "include",
+    credentials: 'include',
     body: JSON.stringify({ variant_id, quantity }),
   });
 
   if (!res.ok) {
-    throw new Error("Không thể thêm sản phẩm vào giỏ hàng");
+    throw new Error('Không thể thêm sản phẩm vào giỏ hàng');
   }
 
   return res.json();
@@ -37,24 +41,24 @@ export async function addToCart(variant_id: number, quantity: number = 1) {
 
 export async function getUserCart(): Promise<CartItem[]> {
   const res = await fetch(`${BASE_URL}/cart`, {
-    method: "GET",
-    credentials: "include",
+    method: 'GET',
+    credentials: 'include',
   });
 
   if (!res.ok) {
-    throw new Error("Không thể lấy giỏ hàng");
+    throw new Error('Không thể lấy giỏ hàng');
   }
 
   return res.json();
 }
 export async function deleteCartItem(id: number) {
   const res = await fetch(`${BASE_URL}/cart/${id}`, {
-    method: "DELETE",
-    credentials: "include",
+    method: 'DELETE',
+    credentials: 'include',
   });
 
   if (!res.ok) {
-    throw new Error("Xoá sản phẩm khỏi giỏ hàng thất bại");
+    throw new Error('Xoá sản phẩm khỏi giỏ hàng thất bại');
   }
   return res.json();
 }

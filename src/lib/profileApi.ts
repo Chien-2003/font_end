@@ -23,8 +23,8 @@ export interface UserResponse {
 }
 
 export const getProfile = async (): Promise<UserResponse> => {
-  const res = await fetch("http://localhost:4000/profile/get-user", {
-    credentials: "include",
+  const res = await fetch('http://localhost:4000/profile/get-user', {
+    credentials: 'include',
   });
 
   const result = await res.json();
@@ -39,14 +39,17 @@ export const getProfile = async (): Promise<UserResponse> => {
 export const updateProfile = async (
   data: UpdateProfilePayload,
 ): Promise<UpdateProfileResponse> => {
-  const res = await fetch("http://localhost:4000/profile/create-user", {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
+  const res = await fetch(
+    'http://localhost:4000/profile/create-user',
+    {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
     },
-    body: JSON.stringify(data),
-  });
+  );
 
   const result: UpdateProfileResponse = await res.json();
 

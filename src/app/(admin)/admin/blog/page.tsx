@@ -1,16 +1,21 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { Button, Container, TextField, Typography } from "@mui/material";
-import SimpleEditor from "../../components/SimpleEditor";
+import React, { useState } from 'react';
+import {
+  Button,
+  Container,
+  TextField,
+  Typography,
+} from '@mui/material';
+import SimpleEditor from '../../components/SimpleEditor';
 
 export default function CreatePostPage() {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
 
   const handleSubmit = () => {
-    console.log("Tiêu đề:", title);
-    console.log("Nội dung:", content);
+    console.log('Tiêu đề:', title);
+    console.log('Nội dung:', content);
   };
 
   return (
@@ -31,7 +36,11 @@ export default function CreatePostPage() {
       <SimpleEditor onChange={(val) => setContent(val)} />
 
       <div className="mt-6">
-        <Button variant="contained" color="primary" onClick={handleSubmit}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSubmit}
+        >
           Đăng bài
         </Button>
       </div>

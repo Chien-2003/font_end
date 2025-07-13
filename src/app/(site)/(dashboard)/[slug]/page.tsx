@@ -5,18 +5,23 @@ import {
   PaginationLink,
   PaginationPrevious,
   PaginationNext,
-} from "@/components/ui/pagination";
-import { notFound } from "next/navigation";
-import ProductCard from "@/components/shared/ItemCard";
+} from '@/components/ui/pagination';
+import { notFound } from 'next/navigation';
+import ProductCard from '@/components/shared/ItemCard';
 import {
   getCategoryBySlug,
   getProductsByCategoryId,
   Category,
   Product,
-} from "@/lib/categoryApi";
-import type { Metadata } from "next";
-import Breadcrumbs from "@/components/shared/Breadcrumbs";
-import Image from "next/image";
+} from '@/lib/categoryApi';
+import type { Metadata } from 'next';
+import Breadcrumbs from '@/components/shared/Breadcrumbs';
+import Image from 'next/image';
+import {
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/shared/CategorySidebar';
 
 const PAGE_SIZE = 7;
 
@@ -35,10 +40,10 @@ export async function generateMetadata({
   const description = category.description;
 
   const ogImageUrl =
-    slug === "trang-phuc-nam"
+    slug === 'trang-phuc-nam'
       ? (process.env.NEXT_PUBLIC_SITE_URL ??
-        "https://n7media.coolmate.me/uploads/July2025/EXCOOL_-_Desktop-1.jpg")
-      : "https://n7media.coolmate.me/uploads/July2025/EXCOOL_-_Desktop-1.jpg";
+        'https://n7media.coolmate.me/uploads/July2025/EXCOOL_-_Desktop-1.jpg')
+      : 'https://n7media.coolmate.me/uploads/July2025/EXCOOL_-_Desktop-1.jpg';
 
   return {
     title,
@@ -46,7 +51,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      type: "website",
+      type: 'website',
       url: `http://localhost:3000/${slug}`,
       images: [
         {
@@ -58,7 +63,7 @@ export async function generateMetadata({
       ],
     },
     twitter: {
-      card: "summary_large_image",
+      card: 'summary_large_image',
       title,
       description,
       images: [ogImageUrl],
@@ -106,29 +111,35 @@ export default async function CategoryPage({
           />
         </div>
       )}
-      <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 w-full h-full">
-        <Breadcrumbs />
-        <div className="flex flex-wrap">
-          {validProducts.length === 0 ? (
-            <p className="text-center w-full">Không có sản phẩm nào.</p>
-          ) : (
-            validProducts.map((product) => {
-              const firstVariant = product.variants![0];
-              return (
-                <ProductCard
-                  key={product.id}
-                  variants={product.variants!}
-                  name={product.name}
-                  description={product.description}
-                  price={product.price}
-                  image_url={product.image_url}
-                  image_hover_url={product.image_hover_url}
-                />
-              );
-            })
-          )}
-        </div>
-
+      <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-2 sm:px-2 lg:px-8 w-full h-full">
+        <SidebarProvider className="mt-3">
+          <AppSidebar />
+          <main className="ml-2 lg:ml-3">
+            <Breadcrumbs />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {validProducts.length === 0 ? (
+                <p className="text-center w-full">
+                  Không có sản phẩm nào.
+                </p>
+              ) : (
+                validProducts.map((product) => {
+                  const firstVariant = product.variants![0];
+                  return (
+                    <ProductCard
+                      key={product.id}
+                      variants={product.variants!}
+                      name={product.name}
+                      description={product.description}
+                      price={product.price}
+                      image_url={product.image_url}
+                      image_hover_url={product.image_hover_url}
+                    />
+                  );
+                })
+              )}
+            </div>
+          </main>
+        </SidebarProvider>
         {totalPages > 1 && (
           <Pagination className="mt-8">
             <PaginationContent>
@@ -137,7 +148,9 @@ export default async function CategoryPage({
                   href={`?page=${page - 1}`}
                   isActive={false}
                   aria-disabled={page <= 1}
-                  className={page <= 1 ? "pointer-events-none opacity-50" : ""}
+                  className={
+                    page <= 1 ? 'pointer-events-none opacity-50' : ''
+                  }
                 />
               </PaginationItem>
               {Array.from({ length: totalPages }).map((_, i) => (
@@ -156,7 +169,9 @@ export default async function CategoryPage({
                   isActive={false}
                   aria-disabled={page >= totalPages}
                   className={
-                    page >= totalPages ? "pointer-events-none opacity-50" : ""
+                    page >= totalPages
+                      ? 'pointer-events-none opacity-50'
+                      : ''
                   }
                 />
               </PaginationItem>

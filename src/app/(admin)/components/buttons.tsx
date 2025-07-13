@@ -1,5 +1,5 @@
-import { Editor } from "@tiptap/react";
-import { useRef } from "react";
+import { Editor } from '@tiptap/react';
+import { useRef } from 'react';
 import {
   MdFormatBold,
   MdFormatItalic,
@@ -16,7 +16,7 @@ import {
   MdFormatListBulleted,
   MdFormatListNumbered,
   MdFormatQuote,
-} from "react-icons/md";
+} from 'react-icons/md';
 
 export function BoldButton({ editor }: { editor: Editor }) {
   if (!editor) return null;
@@ -24,9 +24,9 @@ export function BoldButton({ editor }: { editor: Editor }) {
     <button
       onClick={() => editor.chain().focus().toggleBold().run()}
       className={`p-1 rounded ${
-        editor.isActive("bold")
-          ? "bg-blue-100 text-blue-600"
-          : "hover:bg-gray-200"
+        editor.isActive('bold')
+          ? 'bg-blue-100 text-blue-600'
+          : 'hover:bg-gray-200'
       }`}
     >
       <MdFormatBold />
@@ -40,9 +40,9 @@ export function ItalicButton({ editor }: { editor: Editor }) {
     <button
       onClick={() => editor.chain().focus().toggleItalic().run()}
       className={`p-1 rounded ${
-        editor.isActive("italic")
-          ? "bg-blue-100 text-blue-600"
-          : "hover:bg-gray-200"
+        editor.isActive('italic')
+          ? 'bg-blue-100 text-blue-600'
+          : 'hover:bg-gray-200'
       }`}
     >
       <MdFormatItalic />
@@ -56,9 +56,9 @@ export function CodeButton({ editor }: { editor: Editor }) {
     <button
       onClick={() => editor.chain().focus().toggleCode().run()}
       className={`p-1 rounded ${
-        editor.isActive("code")
-          ? "bg-blue-100 text-blue-600"
-          : "hover:bg-gray-200"
+        editor.isActive('code')
+          ? 'bg-blue-100 text-blue-600'
+          : 'hover:bg-gray-200'
       }`}
     >
       <MdCode />
@@ -72,9 +72,9 @@ export function StrikeButton({ editor }: { editor: Editor }) {
     <button
       onClick={() => editor.chain().focus().toggleStrike().run()}
       className={`p-1 rounded ${
-        editor.isActive("strike")
-          ? "bg-blue-100 text-blue-600"
-          : "hover:bg-gray-200"
+        editor.isActive('strike')
+          ? 'bg-blue-100 text-blue-600'
+          : 'hover:bg-gray-200'
       }`}
     >
       <MdStrikethroughS />
@@ -88,9 +88,9 @@ export function UnderlineButton({ editor }: { editor: Editor }) {
     <button
       onClick={() => editor.chain().focus().toggleUnderline().run()}
       className={`p-1 rounded ${
-        editor.isActive("underline")
-          ? "bg-blue-100 text-blue-600"
-          : "hover:bg-gray-200"
+        editor.isActive('underline')
+          ? 'bg-blue-100 text-blue-600'
+          : 'hover:bg-gray-200'
       }`}
     >
       <MdFormatUnderlined />
@@ -104,9 +104,9 @@ export function HighlightButton({ editor }: { editor: Editor }) {
     <button
       onClick={() => editor.chain().focus().toggleHighlight().run()}
       className={`p-1 rounded ${
-        editor.isActive("highlight")
-          ? "bg-yellow-100 text-yellow-800"
-          : "hover:bg-gray-200"
+        editor.isActive('highlight')
+          ? 'bg-yellow-100 text-yellow-800'
+          : 'hover:bg-gray-200'
       }`}
     >
       <MdHighlight />
@@ -118,7 +118,7 @@ export function LinkButton({ editor }: { editor: Editor }) {
   if (!editor) return null;
 
   const handleLink = () => {
-    const url = window.prompt("Enter URL");
+    const url = window.prompt('Enter URL');
     if (url) {
       editor.chain().focus().setLink({ href: url }).run();
     }
@@ -128,9 +128,9 @@ export function LinkButton({ editor }: { editor: Editor }) {
     <button
       onClick={handleLink}
       className={`p-1 rounded ${
-        editor.isActive("link")
-          ? "bg-blue-100 text-blue-600"
-          : "hover:bg-gray-200"
+        editor.isActive('link')
+          ? 'bg-blue-100 text-blue-600'
+          : 'hover:bg-gray-200'
       }`}
     >
       <MdLink />
@@ -138,7 +138,11 @@ export function LinkButton({ editor }: { editor: Editor }) {
   );
 }
 
-export function SubSuperscriptButtons({ editor }: { editor: Editor }) {
+export function SubSuperscriptButtons({
+  editor,
+}: {
+  editor: Editor;
+}) {
   if (!editor) return null;
 
   return (
@@ -146,19 +150,21 @@ export function SubSuperscriptButtons({ editor }: { editor: Editor }) {
       <button
         onClick={() => editor.chain().focus().toggleSubscript().run()}
         className={`p-1 rounded ${
-          editor.isActive("subscript")
-            ? "bg-blue-100 text-blue-600"
-            : "hover:bg-gray-200"
+          editor.isActive('subscript')
+            ? 'bg-blue-100 text-blue-600'
+            : 'hover:bg-gray-200'
         }`}
       >
         <MdSubscript />
       </button>
       <button
-        onClick={() => editor.chain().focus().toggleSuperscript().run()}
+        onClick={() =>
+          editor.chain().focus().toggleSuperscript().run()
+        }
         className={`p-1 rounded ${
-          editor.isActive("superscript")
-            ? "bg-blue-100 text-blue-600"
-            : "hover:bg-gray-200"
+          editor.isActive('superscript')
+            ? 'bg-blue-100 text-blue-600'
+            : 'hover:bg-gray-200'
         }`}
       >
         <MdSuperscript />
@@ -174,23 +180,25 @@ export function ImageButton({ editor }: { editor: Editor }) {
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
     reader.onload = () => {
       const result = reader.result;
-      if (typeof result === "string") {
+      if (typeof result === 'string') {
         editor
           .chain()
           .focus()
           .insertContent({
-            type: "image",
+            type: 'image',
             attrs: {
               src: result,
               style:
-                "width: 400px; height: auto; display: block; margin: 0 auto;",
+                'width: 400px; height: auto; display: block; margin: 0 auto;',
             },
           })
           .run();
@@ -212,7 +220,7 @@ export function ImageButton({ editor }: { editor: Editor }) {
         type="file"
         accept="image/*"
         ref={fileInputRef}
-        style={{ display: "none" }}
+        style={{ display: 'none' }}
         onChange={handleFileChange}
       />
     </>
@@ -245,7 +253,9 @@ export function HeadingSelect({ editor }: { editor: Editor }) {
 
   const levels = [1, 2, 3, 4, 5, 6] as const;
   const activeLevel =
-    levels.find((lvl) => editor.isActive("heading", { level: lvl })) ?? 0;
+    levels.find((lvl) =>
+      editor.isActive('heading', { level: lvl }),
+    ) ?? 0;
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const level = parseInt(e.target.value, 10);
@@ -278,31 +288,37 @@ export function ListButtons({ editor }: { editor: Editor }) {
   return (
     <div className="flex gap-1">
       <button
-        onClick={() => editor.chain().focus().toggleBulletList().run()}
+        onClick={() =>
+          editor.chain().focus().toggleBulletList().run()
+        }
         className={`p-1 rounded ${
-          editor.isActive("bulletList")
-            ? "bg-blue-100 text-blue-600"
-            : "hover:bg-gray-200"
+          editor.isActive('bulletList')
+            ? 'bg-blue-100 text-blue-600'
+            : 'hover:bg-gray-200'
         }`}
       >
         <MdFormatListBulleted />
       </button>
       <button
-        onClick={() => editor.chain().focus().toggleOrderedList().run()}
+        onClick={() =>
+          editor.chain().focus().toggleOrderedList().run()
+        }
         className={`p-1 rounded ${
-          editor.isActive("orderedList")
-            ? "bg-blue-100 text-blue-600"
-            : "hover:bg-gray-200"
+          editor.isActive('orderedList')
+            ? 'bg-blue-100 text-blue-600'
+            : 'hover:bg-gray-200'
         }`}
       >
         <MdFormatListNumbered />
       </button>
       <button
-        onClick={() => editor.chain().focus().toggleBlockquote().run()}
+        onClick={() =>
+          editor.chain().focus().toggleBlockquote().run()
+        }
         className={`p-1 rounded ${
-          editor.isActive("blockquote")
-            ? "bg-blue-100 text-blue-600"
-            : "hover:bg-gray-200"
+          editor.isActive('blockquote')
+            ? 'bg-blue-100 text-blue-600'
+            : 'hover:bg-gray-200'
         }`}
       >
         <MdFormatQuote />

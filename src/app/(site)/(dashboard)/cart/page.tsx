@@ -1,23 +1,27 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Image from "next/image";
-import { useCart } from "@/contexts/CartContext";
-import { deleteCartItem } from "@/lib/cartApi";
-import { showError, showSuccess } from "@/lib/swal";
+import { useState } from 'react';
+import Image from 'next/image';
+import { useCart } from '@/contexts/CartContext';
+import { deleteCartItem } from '@/lib/cartApi';
+import { showError, showSuccess } from '@/lib/swal';
 
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
-import { Trash2, ShoppingCart, X } from "lucide-react";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { Trash2, ShoppingCart, X } from 'lucide-react';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 function formatVND(value: number) {
-  return value.toLocaleString("vi-VN", {
-    style: "currency",
-    currency: "VND",
+  return value.toLocaleString('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
   });
 }
 
@@ -25,7 +29,9 @@ export default function CartPage() {
   const { cartItems, refreshCart } = useCart();
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [openImage, setOpenImage] = useState(false);
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(
+    null,
+  );
 
   const isAllSelected = selectedItems.length === cartItems.length;
 
@@ -38,17 +44,21 @@ export default function CartPage() {
   };
 
   const toggleSelectAll = () => {
-    setSelectedItems(isAllSelected ? [] : cartItems.map((item) => item.id));
+    setSelectedItems(
+      isAllSelected ? [] : cartItems.map((item) => item.id),
+    );
   };
 
   const removeItem = async (id: number) => {
     try {
       const res = await deleteCartItem(id);
       await refreshCart();
-      setSelectedItems((prev) => prev.filter((itemId) => itemId !== id));
+      setSelectedItems((prev) =>
+        prev.filter((itemId) => itemId !== id),
+      );
       showSuccess(res.message);
     } catch (err: any) {
-      console.error("Lỗi khi xoá sản phẩm:", err);
+      console.error('Lỗi khi xoá sản phẩm:', err);
       showError(err?.response?.data?.message || err.message);
     }
   };
@@ -137,7 +147,9 @@ export default function CartPage() {
                       </span>
                       <div
                         className="w-4 h-4 border border-gray-300"
-                        style={{ backgroundColor: item.variant?.color }}
+                        style={{
+                          backgroundColor: item.variant?.color,
+                        }}
                       />
                     </div>
 

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, {
   createContext,
@@ -6,8 +6,8 @@ import React, {
   useEffect,
   useState,
   useCallback,
-} from "react";
-import { getUserCart } from "@/lib/cartApi";
+} from 'react';
+import { getUserCart } from '@/lib/cartApi';
 
 export interface CartItem {
   id: number;
@@ -37,11 +37,16 @@ const CartContext = createContext<CartContextType | null>(null);
 
 export const useCart = () => {
   const context = useContext(CartContext);
-  if (!context) throw new Error("useCart must be used within a CartProvider");
+  if (!context)
+    throw new Error('useCart must be used within a CartProvider');
   return context;
 };
 
-export const CartProvider = ({ children }: { children: React.ReactNode }) => {
+export const CartProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   const refreshCart = useCallback(async () => {
@@ -49,7 +54,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       const data = await getUserCart();
       setCartItems(data);
     } catch (error) {
-      console.error("Lỗi lấy giỏ hàng:", error);
+      console.error('Lỗi lấy giỏ hàng:', error);
     }
   }, []);
 
@@ -58,7 +63,9 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   }, [refreshCart]);
 
   return (
-    <CartContext.Provider value={{ cartItems, refreshCart, setCartItems }}>
+    <CartContext.Provider
+      value={{ cartItems, refreshCart, setCartItems }}
+    >
       {children}
     </CartContext.Provider>
   );

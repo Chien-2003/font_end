@@ -1,29 +1,32 @@
-"use client";
+'use client';
 
-import { useEffect, useMemo, useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { useEffect, useMemo, useState } from 'react';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-} from "@/components/ui/card";
-import { Trash2, Plus } from "lucide-react";
+} from '@/components/ui/card';
+import { Trash2, Plus } from 'lucide-react';
 
-import { createProduct, CreateProductData } from "@/lib/productsApi";
-import { getAllCategories, Category } from "@/lib/categoryApi";
-import { getAllSubcategories, Subcategory } from "@/lib/subcategoryApi";
-import { showError, showSuccess } from "@/lib/swal";
-import { Typography } from "@/components/ui/typography";
+import { createProduct, CreateProductData } from '@/lib/productsApi';
+import { getAllCategories, Category } from '@/lib/categoryApi';
+import {
+  getAllSubcategories,
+  Subcategory,
+} from '@/lib/subcategoryApi';
+import { showError, showSuccess } from '@/lib/swal';
+import { Typography } from '@/components/ui/typography';
 
 interface ProductForm {
   name: string;
@@ -43,21 +46,23 @@ interface Variant {
 
 export default function CreateProductPage() {
   const [product, setProduct] = useState<ProductForm>({
-    name: "",
-    description: "",
-    price: "",
-    image_url: "",
-    image_hover_url: "",
-    category_id: "",
-    subcategory_id: "",
+    name: '',
+    description: '',
+    price: '',
+    image_url: '',
+    image_hover_url: '',
+    category_id: '',
+    subcategory_id: '',
   });
 
   const [variants, setVariants] = useState<Variant[]>([
-    { color: "", size: "", quantity: 1 },
+    { color: '', size: '', quantity: 1 },
   ]);
 
   const [categories, setCategories] = useState<Category[]>([]);
-  const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
+  const [subcategories, setSubcategories] = useState<Subcategory[]>(
+    [],
+  );
 
   useEffect(() => {
     getAllCategories().then(setCategories).catch(console.error);
@@ -79,7 +84,7 @@ export default function CreateProductPage() {
     setProduct((prev) => ({
       ...prev,
       [name]: value,
-      ...(name === "category_id" ? { subcategory_id: "" } : {}),
+      ...(name === 'category_id' ? { subcategory_id: '' } : {}),
     }));
   };
 
@@ -91,14 +96,20 @@ export default function CreateProductPage() {
     setVariants((prev) =>
       prev.map((v, i) =>
         i === index
-          ? { ...v, [field]: field === "quantity" ? Number(value) : value }
+          ? {
+              ...v,
+              [field]: field === 'quantity' ? Number(value) : value,
+            }
           : v,
       ),
     );
   };
 
   const addVariant = () => {
-    setVariants((prev) => [...prev, { color: "", size: "", quantity: 0 }]);
+    setVariants((prev) => [
+      ...prev,
+      { color: '', size: '', quantity: 0 },
+    ]);
   };
 
   const removeVariant = (index: number) => {
@@ -107,7 +118,7 @@ export default function CreateProductPage() {
 
   const handleSubmit = async () => {
     if (!product.name || !product.price || !product.category_id) {
-      showError("Vui lòng điền đầy đủ tên, giá và danh mục.");
+      showError('Vui lòng điền đầy đủ tên, giá và danh mục.');
       return;
     }
     const payload: CreateProductData = {
@@ -124,19 +135,19 @@ export default function CreateProductPage() {
     };
     try {
       await createProduct(payload);
-      showSuccess("Tạo sản phẩm thành công!");
+      showSuccess('Tạo sản phẩm thành công!');
       setProduct({
-        name: "",
-        description: "",
-        price: "",
-        image_url: "",
-        image_hover_url: "",
-        category_id: "",
-        subcategory_id: "",
+        name: '',
+        description: '',
+        price: '',
+        image_url: '',
+        image_hover_url: '',
+        category_id: '',
+        subcategory_id: '',
       });
-      setVariants([{ color: "", size: "", quantity: 0 }]);
+      setVariants([{ color: '', size: '', quantity: 0 }]);
     } catch {
-      showError("Tạo sản phẩm thất bại!");
+      showError('Tạo sản phẩm thất bại!');
     }
   };
 
@@ -184,7 +195,7 @@ export default function CreateProductPage() {
             value={product.category_id}
             onValueChange={(val) =>
               handleChange({
-                target: { name: "category_id", value: val },
+                target: { name: 'category_id', value: val },
               } as any)
             }
           >
@@ -204,7 +215,7 @@ export default function CreateProductPage() {
             value={product.subcategory_id}
             onValueChange={(val) =>
               handleChange({
-                target: { name: "subcategory_id", value: val },
+                target: { name: 'subcategory_id', value: val },
               } as any)
             }
             disabled={!product.category_id}
@@ -229,19 +240,22 @@ export default function CreateProductPage() {
         </CardHeader>
         <CardContent className="grid gap-4">
           {variants.map((variant, index) => (
-            <div key={index} className="grid grid-cols-4 gap-2 items-end">
+            <div
+              key={index}
+              className="grid grid-cols-4 gap-2 items-end"
+            >
               <Input
                 placeholder="Màu"
                 value={variant.color}
                 onChange={(e) =>
-                  handleVariantChange(index, "color", e.target.value)
+                  handleVariantChange(index, 'color', e.target.value)
                 }
               />
               <Input
                 placeholder="Kích cỡ"
                 value={variant.size}
                 onChange={(e) =>
-                  handleVariantChange(index, "size", e.target.value)
+                  handleVariantChange(index, 'size', e.target.value)
                 }
               />
               <Input
@@ -249,7 +263,11 @@ export default function CreateProductPage() {
                 placeholder="Số lượng"
                 value={variant.quantity.toString()}
                 onChange={(e) =>
-                  handleVariantChange(index, "quantity", e.target.value)
+                  handleVariantChange(
+                    index,
+                    'quantity',
+                    e.target.value,
+                  )
                 }
               />
               <Button
@@ -264,7 +282,11 @@ export default function CreateProductPage() {
           ))}
         </CardContent>
         <CardFooter>
-          <Button type="button" onClick={addVariant} variant="outline">
+          <Button
+            type="button"
+            onClick={addVariant}
+            variant="outline"
+          >
             <Plus className="w-4 h-4 mr-2" /> Thêm biến thể
           </Button>
         </CardFooter>

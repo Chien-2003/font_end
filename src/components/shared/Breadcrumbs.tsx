@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import * as React from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -10,7 +10,7 @@ import {
   BreadcrumbLink,
   BreadcrumbSeparator,
   BreadcrumbPage,
-} from "@/components/ui/breadcrumb";
+} from '@/components/ui/breadcrumb';
 
 interface Category {
   id: number;
@@ -18,11 +18,13 @@ interface Category {
   slug_category: string;
 }
 
-async function fetchCategoryName(slug: string): Promise<string | null> {
+async function fetchCategoryName(
+  slug: string,
+): Promise<string | null> {
   try {
     const res = await fetch(
       `http://localhost:4000/categories?slug_category=${slug}`,
-      { cache: "no-store" },
+      { cache: 'no-store' },
     );
     if (!res.ok) return null;
     const data: Category[] = await res.json();
@@ -35,34 +37,29 @@ async function fetchCategoryName(slug: string): Promise<string | null> {
 
 export default function Breadcrumbs() {
   const pathname = usePathname();
-  const pathParts = pathname.split("/").filter((part) => part !== "");
-
-  // State lưu các label lấy từ API
+  const pathParts = pathname.split('/').filter((part) => part !== '');
   const [labels, setLabels] = React.useState<string[]>([]);
 
   React.useEffect(() => {
     async function loadLabels() {
-      // Mảng giữ label tương ứng path parts
       const newLabels: string[] = [];
 
       for (let i = 0; i < pathParts.length; i++) {
         const part = pathParts[i];
         if (i === 0) {
-          // Ở đây giả sử phần đầu là slug category, gọi API lấy name
           const categoryName = await fetchCategoryName(part);
           if (categoryName) {
             newLabels.push(categoryName);
           } else {
-            // fallback: viết hoa và thay - thành space
             newLabels.push(
-              part.charAt(0).toUpperCase() + part.slice(1).replace(/-/g, " "),
+              part.charAt(0).toUpperCase() +
+                part.slice(1).replace(/-/g, ' '),
             );
           }
         } else {
-          // Các phần sau có thể là product slug, subcategory,... bạn có thể tự xử lý tùy logic
-          // Ở đây tạm dùng cách viết hoa và thay - thành space
           newLabels.push(
-            part.charAt(0).toUpperCase() + part.slice(1).replace(/-/g, " "),
+            part.charAt(0).toUpperCase() +
+              part.slice(1).replace(/-/g, ' '),
           );
         }
       }
@@ -74,7 +71,7 @@ export default function Breadcrumbs() {
   }, [pathname]);
 
   return (
-    <Breadcrumb className="w-full px-3 py-3">
+    <Breadcrumb className="w-full px-1 p-2">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink
@@ -85,16 +82,20 @@ export default function Breadcrumbs() {
           </BreadcrumbLink>
         </BreadcrumbItem>
         {pathParts.map((part, index) => {
-          const href = "/" + pathParts.slice(0, index + 1).join("/");
+          const href = '/' + pathParts.slice(0, index + 1).join('/');
           const isLast = index === pathParts.length - 1;
           const label = labels[index] || part;
 
           return (
             <React.Fragment key={index}>
-              <BreadcrumbSeparator className="px-1">/</BreadcrumbSeparator>
+              <BreadcrumbSeparator className="px-1">
+                /
+              </BreadcrumbSeparator>
               <BreadcrumbItem>
                 {isLast ? (
-                  <BreadcrumbPage aria-current="page">{label}</BreadcrumbPage>
+                  <BreadcrumbPage aria-current="page">
+                    {label}
+                  </BreadcrumbPage>
                 ) : (
                   <BreadcrumbLink
                     asChild

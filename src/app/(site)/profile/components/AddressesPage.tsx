@@ -1,15 +1,18 @@
-"use client";
+'use client';
 
 import React, {
   useEffect,
   useState,
   forwardRef,
   useImperativeHandle,
-} from "react";
-import { useUser } from "@/contexts/UserContext";
-import { updateProfile, UpdateProfileResponse } from "@/lib/profileApi";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+} from 'react';
+import { useUser } from '@/contexts/UserContext';
+import {
+  updateProfile,
+  UpdateProfileResponse,
+} from '@/lib/profileApi';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 
 export interface AddressesPageRef {
   handleUpdate: () => Promise<UpdateProfileResponse>;
@@ -17,7 +20,7 @@ export interface AddressesPageRef {
 
 const AddressesPage = forwardRef<AddressesPageRef>((_, ref) => {
   const { user } = useUser();
-  const [orderAddress, setOrderAddress] = useState("");
+  const [orderAddress, setOrderAddress] = useState('');
 
   useEffect(() => {
     if (user?.order_address) {
@@ -29,7 +32,7 @@ const AddressesPage = forwardRef<AddressesPageRef>((_, ref) => {
     handleUpdate: async () => {
       return await updateProfile({
         order_address: orderAddress,
-        full_name: "",
+        full_name: '',
       });
     },
   }));

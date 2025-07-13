@@ -1,28 +1,38 @@
-"use client";
+'use client';
 
 import React, {
   useEffect,
   useState,
   forwardRef,
   useImperativeHandle,
-} from "react";
-import { AvatarImage, Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+} from 'react';
+import {
+  AvatarImage,
+  Avatar,
+  AvatarFallback,
+} from '@/components/ui/avatar';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from '@/components/ui/radio-group';
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useUser } from "@/contexts/UserContext";
-import { updateProfile, UpdateProfileResponse } from "@/lib/profileApi";
-import dayjs from "dayjs";
+} from '@/components/ui/popover';
+import { format } from 'date-fns';
+import { CalendarIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { useUser } from '@/contexts/UserContext';
+import {
+  updateProfile,
+  UpdateProfileResponse,
+} from '@/lib/profileApi';
+import dayjs from 'dayjs';
 
 export interface PersonalInfoPageRef {
   handleUpdate: () => Promise<UpdateProfileResponse>;
@@ -30,21 +40,25 @@ export interface PersonalInfoPageRef {
 
 const PersonalInfoPage = forwardRef<PersonalInfoPageRef>((_, ref) => {
   const { user } = useUser();
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-  const [birthDate, setBirthDate] = useState<Date | undefined>(undefined);
-  const [gender, setGender] = useState<"0" | "1" | "2">("0");
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [birthDate, setBirthDate] = useState<Date | undefined>(
+    undefined,
+  );
+  const [gender, setGender] = useState<'0' | '1' | '2'>('0');
 
   useEffect(() => {
     if (user) {
-      setFullName(user.full_name || "");
-      setEmail(user.email || "");
-      setPhone(user.phone || "");
-      setAddress(user.address || "");
-      setBirthDate(user.birth_date ? new Date(user.birth_date) : undefined);
-      setGender(String(user.gender ?? 0) as "0" | "1" | "2");
+      setFullName(user.full_name || '');
+      setEmail(user.email || '');
+      setPhone(user.phone || '');
+      setAddress(user.address || '');
+      setBirthDate(
+        user.birth_date ? new Date(user.birth_date) : undefined,
+      );
+      setGender(String(user.gender ?? 0) as '0' | '1' | '2');
     }
   }, [user]);
 
@@ -54,7 +68,9 @@ const PersonalInfoPage = forwardRef<PersonalInfoPageRef>((_, ref) => {
         full_name: fullName,
         phone,
         address,
-        birth_date: birthDate ? dayjs(birthDate).format("YYYY-MM-DD") : null,
+        birth_date: birthDate
+          ? dayjs(birthDate).format('YYYY-MM-DD')
+          : null,
         gender: Number(gender) as 0 | 1 | 2,
       });
     },
@@ -64,11 +80,11 @@ const PersonalInfoPage = forwardRef<PersonalInfoPageRef>((_, ref) => {
     <div className="space-y-6">
       <div className="text-center">
         <Avatar className="mx-auto w-24 h-24">
-          <AvatarImage src={user?.avatar || "/image.webp"} />
+          <AvatarImage src={user?.avatar || '/image.webp'} />
           <AvatarFallback>U</AvatarFallback>
         </Avatar>
         <h2 className="text-xl font-semibold mt-2">
-          {fullName || "Chưa có tên"}
+          {fullName || 'Chưa có tên'}
         </h2>
       </div>
 
@@ -118,12 +134,14 @@ const PersonalInfoPage = forwardRef<PersonalInfoPageRef>((_, ref) => {
               <Button
                 variant="outline"
                 className={cn(
-                  "w-full justify-start text-left font-normal",
-                  !birthDate && "text-muted-foreground",
+                  'w-full justify-start text-left font-normal',
+                  !birthDate && 'text-muted-foreground',
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {birthDate ? format(birthDate, "dd/MM/yyyy") : "Chọn ngày"}
+                {birthDate
+                  ? format(birthDate, 'dd/MM/yyyy')
+                  : 'Chọn ngày'}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
@@ -140,7 +158,7 @@ const PersonalInfoPage = forwardRef<PersonalInfoPageRef>((_, ref) => {
           <Label className="mb-2">Giới tính</Label>
           <RadioGroup
             defaultValue={gender}
-            onValueChange={(val) => setGender(val as "0" | "1" | "2")}
+            onValueChange={(val) => setGender(val as '0' | '1' | '2')}
             className="flex gap-4 mt-1"
           >
             <div className="flex items-center space-x-2">

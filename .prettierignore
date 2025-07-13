@@ -1,0 +1,23 @@
+# Node
+node_modules
+
+# Build outputs
+.next
+dist
+build
+out
+
+# Testing
+coverage
+
+# Environment files
+.env
+.env.*
+
+# Public static files
+public
+
+# Optional lockfiles (nếu bạn không dùng)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml

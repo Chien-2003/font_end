@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
-import { APP_DESCRIPTION, APP_TITLE } from "@/constants/metadata";
+import type { Metadata } from 'next';
+import { APP_DESCRIPTION, APP_TITLE } from '@/constants/metadata';
 
 export const metadata: Metadata = {
   title: APP_TITLE,

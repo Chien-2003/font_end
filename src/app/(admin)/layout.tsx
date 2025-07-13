@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   AppBar,
@@ -12,10 +12,10 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import { useState } from "react";
-import SidebarMenu from "./components/SidebarMenu";
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import { useState } from 'react';
+import SidebarMenu from './components/SidebarMenu';
 
 const drawerWidth = 260;
 
@@ -27,7 +27,7 @@ export default function AdminLayout({
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -44,7 +44,7 @@ export default function AdminLayout({
   );
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -68,18 +68,18 @@ export default function AdminLayout({
       </AppBar>
 
       <Drawer
-        variant={isMobile ? "temporary" : "permanent"}
+        variant={isMobile ? 'temporary' : 'permanent'}
         open={isMobile ? mobileOpen : true}
         onClose={handleDrawerToggle}
         ModalProps={{ keepMounted: true }}
         sx={{
           width: drawerWidth,
           flexShrink: 0,
-          "& .MuiDrawer-paper": {
+          '& .MuiDrawer-paper': {
             width: drawerWidth,
-            boxSizing: "border-box",
+            boxSizing: 'border-box',
           },
-          display: { xs: "block", md: "block" },
+          display: { xs: 'block', md: 'block' },
         }}
       >
         {drawerContent}

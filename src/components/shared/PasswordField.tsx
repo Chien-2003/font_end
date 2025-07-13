@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   TextField,
   InputAdornment,
   IconButton,
   TextFieldProps,
-} from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+} from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 type PasswordFieldProps = TextFieldProps & {
   label?: string;
 };
 export default function PasswordField({
-  label = "Mật khẩu",
+  label = 'Mật khẩu',
   ...props
 }: PasswordFieldProps) {
   const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +22,7 @@ export default function PasswordField({
   return (
     <TextField
       {...props}
-      type={showPassword ? "text" : "password"}
+      type={showPassword ? 'text' : 'password'}
       label={label}
       fullWidth
       margin="normal"

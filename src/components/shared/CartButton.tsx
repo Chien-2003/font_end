@@ -1,14 +1,17 @@
-"use client";
+'use client';
 
-import { Badge, IconButton } from "@mui/material";
-import { ShoppingCartOutlined } from "@mui/icons-material";
-import { useCart } from "@/contexts/CartContext";
-import { motion, useAnimation } from "framer-motion";
-import { useEffect } from "react";
+import { Badge, IconButton } from '@mui/material';
+import { ShoppingCartOutlined } from '@mui/icons-material';
+import { useCart } from '@/contexts/CartContext';
+import { motion, useAnimation } from 'framer-motion';
+import { useEffect } from 'react';
 
 export default function CartButton() {
   const { cartItems } = useCart();
-  const totalCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const totalCount = cartItems.reduce(
+    (sum, item) => sum + item.quantity,
+    0,
+  );
 
   const controls = useAnimation();
 

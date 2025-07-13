@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Heading from "@tiptap/extension-heading";
-import Underline from "@tiptap/extension-underline";
-import TextAlign from "@tiptap/extension-text-align";
-import Link from "@tiptap/extension-link";
-import Image from "@tiptap/extension-image";
-import Subscript from "@tiptap/extension-subscript";
-import Superscript from "@tiptap/extension-superscript";
-import Placeholder from "@tiptap/extension-placeholder";
-import Highlight from "@tiptap/extension-highlight";
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import Heading from '@tiptap/extension-heading';
+import Underline from '@tiptap/extension-underline';
+import TextAlign from '@tiptap/extension-text-align';
+import Link from '@tiptap/extension-link';
+import Image from '@tiptap/extension-image';
+import Subscript from '@tiptap/extension-subscript';
+import Superscript from '@tiptap/extension-superscript';
+import Placeholder from '@tiptap/extension-placeholder';
+import Highlight from '@tiptap/extension-highlight';
 
-import { Toolbar, ToolbarGroup, ToolbarSeparator } from "./toolbar";
+import { Toolbar, ToolbarGroup, ToolbarSeparator } from './toolbar';
 import {
   UndoRedoButtons,
   HeadingSelect,
@@ -26,8 +26,8 @@ import {
   LinkButton,
   SubSuperscriptButtons,
   ImageButton,
-} from "./buttons";
-import { TextAlignButtons } from "./TextAlignButtons";
+} from './buttons';
+import { TextAlignButtons } from './TextAlignButtons';
 
 interface Props {
   onChange?: (html: string) => void;
@@ -40,16 +40,16 @@ export default function SimpleEditor({ onChange }: Props) {
       Heading.configure({ levels: [1, 2, 3] }),
       Underline,
       Highlight,
-      TextAlign.configure({ types: ["heading", "paragraph"] }),
+      TextAlign.configure({ types: ['heading', 'paragraph'] }),
       Link.configure({ openOnClick: false }),
       Image,
       Subscript,
       Superscript,
       Placeholder.configure({
-        placeholder: "Viết nội dung bài viết...",
+        placeholder: 'Viết nội dung bài viết...',
       }),
     ],
-    content: "",
+    content: '',
     onUpdate: ({ editor }) => {
       onChange?.(editor.getHTML());
     },

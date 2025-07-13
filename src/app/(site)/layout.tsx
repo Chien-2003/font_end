@@ -1,52 +1,52 @@
-import Navbar from "@/components/shared/Header";
-import Footer from "@/components/shared/Footer";
-import { Metadata } from "next";
+import Navbar from '@/components/shared/Header';
+import Footer from '@/components/shared/Footer';
+import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: {
-    default: "Elysia Wear | Thời trang hiện đại",
-    template: "Elysia Wear | %s",
+    default: 'Elysia Wear | Thời trang hiện đại',
+    template: 'Elysia Wear | %s',
   },
   description:
-    "Elysia Wear - cửa hàng thời trang hiện đại, cập nhật xu hướng mỗi ngày.",
+    'Elysia Wear - cửa hàng thời trang hiện đại, cập nhật xu hướng mỗi ngày.',
   keywords: [
-    "elysia",
-    "thời trang nam nữ",
-    "áo quần hiện đại",
-    "elysia wear",
-    "quần áo đẹp",
+    'elysia',
+    'thời trang nam nữ',
+    'áo quần hiện đại',
+    'elysia wear',
+    'quần áo đẹp',
   ],
-  authors: [{ name: "Elysia Team", url: "https://elysiawear.vn" }],
+  authors: [{ name: 'Elysia Team', url: 'https://elysiawear.vn' }],
   openGraph: {
-    title: "Elysia Wear | Thời trang hiện đại",
+    title: 'Elysia Wear | Thời trang hiện đại',
     description:
-      "Elysia Wear - cửa hàng thời trang hiện đại, cập nhật xu hướng mỗi ngày.",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-    siteName: "Elysia Wear",
+      'Elysia Wear - cửa hàng thời trang hiện đại, cập nhật xu hướng mỗi ngày.',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+    siteName: 'Elysia Wear',
     images: [
       {
         url:
-          process.env.NEXT_PUBLIC_SITE_URL + "/og-default.jpg" ||
-          "https://n7media.coolmate.me/uploads/July2025/EXCOOL_-_Desktop-1.jpg",
+          process.env.NEXT_PUBLIC_SITE_URL + '/og-default.jpg' ||
+          'https://n7media.coolmate.me/uploads/July2025/EXCOOL_-_Desktop-1.jpg',
         width: 1200,
         height: 630,
-        alt: "Elysia Wear",
+        alt: 'Elysia Wear',
       },
     ],
-    locale: "vi_VN",
-    type: "website",
+    locale: 'vi_VN',
+    type: 'website',
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Elysia Wear",
+    card: 'summary_large_image',
+    title: 'Elysia Wear',
     description:
-      "Elysia Wear - cửa hàng thời trang hiện đại, cập nhật xu hướng mỗi ngày.",
+      'Elysia Wear - cửa hàng thời trang hiện đại, cập nhật xu hướng mỗi ngày.',
     images: [
-      process.env.NEXT_PUBLIC_SITE_URL + "/og-default.jpg" ||
-        "https://n7media.coolmate.me/uploads/July2025/EXCOOL_-_Desktop-1.jpg",
+      process.env.NEXT_PUBLIC_SITE_URL + '/og-default.jpg' ||
+        'https://n7media.coolmate.me/uploads/July2025/EXCOOL_-_Desktop-1.jpg',
     ],
   },
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+    process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
   ),
 };
 export default function SiteLayout({

@@ -1,5 +1,5 @@
-import LoadingProductCard from "@/components/skeleton/CardSkeleton";
-import { Skeleton } from "@/components/ui/skeleton";
+import LoadingProductCard from '@/components/skeleton/CardSkeleton';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Loading() {
   return (

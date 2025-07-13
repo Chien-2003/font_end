@@ -1,10 +1,13 @@
-import ProductCard from "@/components/shared/ItemCard";
-import HomeBanner from "@/components/shared/HomeBanner";
-import HomeCategorySection from "@/components/shared/HomeCategorySection";
-import { getAllProducts } from "@/lib/productsApi";
+import ProductCard from '@/components/shared/ItemCard';
+import HomeBanner from '@/components/shared/HomeBanner';
+import HomeCategorySection from '@/components/shared/HomeCategorySection';
+import { getAllProducts } from '@/lib/productsApi';
 
 export default async function HomePage() {
-  const productsResponse = await getAllProducts({ page: 1, limit: 100 });
+  const productsResponse = await getAllProducts({
+    page: 1,
+    limit: 100,
+  });
   const validProducts = productsResponse.data.filter(
     (product) => product.variants && product.variants.length > 0,
   );
@@ -14,9 +17,11 @@ export default async function HomePage() {
       <HomeBanner />
       <HomeCategorySection />
       <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 w-full h-full">
-        <div className="flex flex-wrap">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {validProducts.length === 0 ? (
-            <p className="text-center w-full">Không có sản phẩm nào.</p>
+            <p className="text-center w-full">
+              Không có sản phẩm nào.
+            </p>
           ) : (
             validProducts.map((product) => {
               const firstVariant = product.variants![0];

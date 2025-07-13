@@ -1,9 +1,10 @@
-import { Metadata } from "next";
-import Link from "next/link";
+import { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: "404 - Không tìm thấy trang",
-  description: "Trang bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.",
+  title: '404 - Không tìm thấy trang',
+  description:
+    'Trang bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.',
 };
 
 export default function NotFound() {
@@ -11,7 +12,9 @@ export default function NotFound() {
     <>
       <section className="grid min-h-screen place-items-center px-6 py-24 sm:py-32 lg:px-8">
         <div className="text-center">
-          <p className="text-base font-semibold text-indigo-600">404</p>
+          <p className="text-base font-semibold text-indigo-600">
+            404
+          </p>
           <h1 className="mt-4 text-5xl font-semibold tracking-tight text-balance sm:text-7xl">
             Page not found
           </h1>

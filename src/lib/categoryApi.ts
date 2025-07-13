@@ -45,10 +45,10 @@ export interface PaginatedProducts {
   pagination: Pagination;
 }
 export async function getAllCategories(): Promise<Category[]> {
-  const res = await fetch("http://localhost:4000/categories", {
-    cache: "no-store",
+  const res = await fetch('http://localhost:4000/categories', {
+    cache: 'no-store',
   });
-  if (!res.ok) throw new Error("Không thể lấy danh sách danh mục");
+  if (!res.ok) throw new Error('Không thể lấy danh sách danh mục');
   return res.json();
 }
 export async function getCategoryBySlug(
@@ -56,7 +56,7 @@ export async function getCategoryBySlug(
 ): Promise<Category | null> {
   const res = await fetch(
     `http://localhost:4000/categories?slug_category=${slug}`,
-    { cache: "no-store" },
+    { cache: 'no-store' },
   );
   if (!res.ok) return null;
   const data: Category[] = await res.json();
@@ -69,9 +69,10 @@ export async function getProductsByCategoryId(
 ): Promise<PaginatedProducts> {
   const res = await fetch(
     `http://localhost:4000/products?category_id=${categoryId}&page=${page}&limit=${limit}`,
-    { cache: "no-store" },
+    { cache: 'no-store' },
   );
-  if (!res.ok) throw new Error("Không thể lấy sản phẩm theo danh mục");
+  if (!res.ok)
+    throw new Error('Không thể lấy sản phẩm theo danh mục');
   const json: PaginatedProducts = await res.json();
   return json;
 }

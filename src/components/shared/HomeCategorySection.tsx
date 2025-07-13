@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
 
 interface CategoryItem {
   href: string;
@@ -14,44 +14,44 @@ interface CategoryItem {
 
 const categories: CategoryItem[] = [
   {
-    href: "#",
-    src: "https://file.hstatic.net/1000402464/file/icon1.jpg",
-    alt: "New Collection 2024",
+    href: '#',
+    src: 'https://file.hstatic.net/1000402464/file/icon1.jpg',
+    alt: 'New Collection 2024',
   },
   {
-    href: "#",
-    src: "https://file.hstatic.net/1000402464/file/icon2_d8c87caf494c45279fdf88fe4a539bb3.jpg",
-    alt: "Áo John Henry",
+    href: '#',
+    src: 'https://file.hstatic.net/1000402464/file/icon2_d8c87caf494c45279fdf88fe4a539bb3.jpg',
+    alt: 'Áo John Henry',
   },
   {
-    href: "#",
-    src: "https://file.hstatic.net/1000402464/file/icon6.jpg",
-    alt: "Quần John Henry",
+    href: '#',
+    src: 'https://file.hstatic.net/1000402464/file/icon6.jpg',
+    alt: 'Quần John Henry',
   },
   {
-    href: "#",
-    src: "https://file.hstatic.net/1000402464/file/icon5.jpg",
-    alt: "Áo thun John Henry",
+    href: '#',
+    src: 'https://file.hstatic.net/1000402464/file/icon5.jpg',
+    alt: 'Áo thun John Henry',
   },
   {
-    href: "#",
-    src: "https://file.hstatic.net/1000402464/file/icon8.jpg",
-    alt: "Áo khoác John Henry",
+    href: '#',
+    src: 'https://file.hstatic.net/1000402464/file/icon8.jpg',
+    alt: 'Áo khoác John Henry',
   },
   {
-    href: "#",
-    src: "https://file.hstatic.net/1000402464/file/icon7.jpg",
-    alt: "Phụ kiện John Henry",
+    href: '#',
+    src: 'https://file.hstatic.net/1000402464/file/icon7.jpg',
+    alt: 'Phụ kiện John Henry',
   },
   {
-    href: "#",
-    src: "https://file.hstatic.net/1000402464/file/icon3.jpg",
-    alt: "Áo polo John Henry",
+    href: '#',
+    src: 'https://file.hstatic.net/1000402464/file/icon3.jpg',
+    alt: 'Áo polo John Henry',
   },
   {
-    href: "#",
-    src: "https://file.hstatic.net/1000402464/file/icon4.jpg",
-    alt: "Áo sơ mi John Henry",
+    href: '#',
+    src: 'https://file.hstatic.net/1000402464/file/icon4.jpg',
+    alt: 'Áo sơ mi John Henry',
   },
 ];
 

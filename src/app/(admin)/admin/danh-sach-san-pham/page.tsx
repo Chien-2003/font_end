@@ -1,8 +1,11 @@
-import ProductCard from "@/components/shared/ItemCard";
-import { getAllProducts } from "@/lib/productsApi";
+import ProductCard from '@/components/shared/ItemCard';
+import { getAllProducts } from '@/lib/productsApi';
 
 export default async function page() {
-  const productsResponse = await getAllProducts({ page: 1, limit: 100 });
+  const productsResponse = await getAllProducts({
+    page: 1,
+    limit: 100,
+  });
   const validProducts = productsResponse.data.filter(
     (product) => product.variants && product.variants.length > 0,
   );

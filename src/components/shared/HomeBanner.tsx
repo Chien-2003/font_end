@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Carousel,
@@ -6,26 +6,26 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
+} from '@/components/ui/carousel';
 
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
 const banners = [
   {
-    href: "#",
-    src: "https://file.hstatic.net/1000402464/file/hero_1-100_8edbb021f9e14c8883e99e728ca20759.jpg",
-    alt: "Banner 1",
+    href: '#',
+    src: 'https://file.hstatic.net/1000402464/file/hero_1-100_8edbb021f9e14c8883e99e728ca20759.jpg',
+    alt: 'Banner 1',
   },
   {
-    href: "#",
-    src: "https://file.hstatic.net/1000402464/file/jh_slide_chinh.jpg",
-    alt: "Banner 2",
+    href: '#',
+    src: 'https://file.hstatic.net/1000402464/file/jh_slide_chinh.jpg',
+    alt: 'Banner 2',
   },
   {
-    href: "#",
-    src: "https://file.hstatic.net/1000402464/file/fl_slide_chinh.jpg",
-    alt: "Banner 3",
+    href: '#',
+    src: 'https://file.hstatic.net/1000402464/file/fl_slide_chinh.jpg',
+    alt: 'Banner 3',
   },
 ];
 
@@ -40,7 +40,10 @@ export default function HomeBanner() {
       >
         <CarouselContent>
           {banners.map((item, index) => (
-            <CarouselItem key={index} className="aspect-[3/1] md:aspect-[16/5]">
+            <CarouselItem
+              key={index}
+              className="aspect-[3/1] md:aspect-[16/5]"
+            >
               <Link href={item.href} aria-label={item.alt}>
                 <div className="relative w-full h-[690px]">
                   <Image

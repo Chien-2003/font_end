@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, {
   createContext,
@@ -7,8 +7,8 @@ import React, {
   useEffect,
   useCallback,
   ReactNode,
-} from "react";
-import { useSession } from "next-auth/react";
+} from 'react';
+import { useSession } from 'next-auth/react';
 
 export interface User {
   full_name: string;
@@ -34,7 +34,7 @@ const UserContext = createContext<UserContextType | null>(null);
 export const useUser = (): UserContextType => {
   const context = useContext(UserContext);
   if (!context) {
-    throw new Error("useUser must be used within UserProvider");
+    throw new Error('useUser must be used within UserProvider');
   }
   return context;
 };
@@ -53,17 +53,22 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("http://localhost:4000/profile/get-user", {
-        credentials: "include",
-      });
+      const res = await fetch(
+        'http://localhost:4000/profile/get-user',
+        {
+          credentials: 'include',
+        },
+      );
       if (!res.ok) {
         const errorData = await res.json();
-        throw new Error(errorData.message || "Không lấy được thông tin user");
+        throw new Error(
+          errorData.message || 'Không lấy được thông tin user',
+        );
       }
       const json = await res.json();
       setUser(json.data);
     } catch (err: any) {
-      setError(err.message || "Lỗi khi lấy thông tin user");
+      setError(err.message || 'Lỗi khi lấy thông tin user');
       setUser(null);
     } finally {
       setLoading(false);
@@ -76,7 +81,9 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   }, [session, fetchUser]);
 
   return (
-    <UserContext.Provider value={{ user, fetchUser, setUser, loading, error }}>
+    <UserContext.Provider
+      value={{ user, fetchUser, setUser, loading, error }}
+    >
       {children}
     </UserContext.Provider>
   );

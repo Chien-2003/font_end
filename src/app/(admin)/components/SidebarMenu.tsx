@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Box,
@@ -9,7 +9,7 @@ import {
   ListItemText,
   Divider,
   Collapse,
-} from "@mui/material";
+} from '@mui/material';
 import {
   Dashboard as DashboardIcon,
   ShoppingCart as ShoppingCartIcon,
@@ -20,38 +20,38 @@ import {
   ExpandLess,
   ExpandMore,
   Category as CategoryIcon,
-} from "@mui/icons-material";
-import Link from "next/link";
-import { useState } from "react";
+} from '@mui/icons-material';
+import Link from 'next/link';
+import { useState } from 'react';
 
 const menuItems = [
   {
-    label: "Bảng điều khiển",
+    label: 'Bảng điều khiển',
     icon: <DashboardIcon />,
-    href: "/admin",
+    href: '/admin',
   },
   {
-    label: "Đơn hàng",
+    label: 'Đơn hàng',
     icon: <ShoppingCartIcon />,
-    href: "/admin/orders",
+    href: '/admin/orders',
   },
   {
-    label: "Tạo bài viết",
+    label: 'Tạo bài viết',
     icon: <ArticleIcon />,
-    href: "/admin/blog",
+    href: '/admin/blog',
   },
 ];
 
 const productItems = [
   {
-    label: "Tạo sản phẩm",
+    label: 'Tạo sản phẩm',
     icon: <PostAddIcon />,
-    href: "/admin/tao-san-pham",
+    href: '/admin/tao-san-pham',
   },
   {
-    label: "Danh sách sản phẩm",
+    label: 'Danh sách sản phẩm',
     icon: <InventoryIcon />,
-    href: "/admin/danh-sach-san-pham",
+    href: '/admin/danh-sach-san-pham',
   },
 ];
 
@@ -59,7 +59,13 @@ export default function SidebarMenu() {
   const [openProduct, setOpenProduct] = useState(false);
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+      }}
+    >
       <List>
         {menuItems.map((item) => (
           <ListItem key={item.href} disablePadding>
@@ -96,7 +102,7 @@ export default function SidebarMenu() {
           </List>
         </Collapse>
       </List>
-      <Box sx={{ mt: "auto", p: 1 }}>
+      <Box sx={{ mt: 'auto', p: 1 }}>
         <ListItem disablePadding>
           <ListItemButton component={Link} href="/">
             <ListItemIcon>

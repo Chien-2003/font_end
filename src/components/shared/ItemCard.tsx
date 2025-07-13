@@ -1,17 +1,24 @@
-"use client";
+'use client';
 
-import { useRef, useEffect } from "react";
-import Image from "next/image";
-import gsap from "gsap";
-import { addToCart } from "@/lib/cartApi";
-import { showError, showSuccess } from "@/lib/swal";
-import { useCart } from "@/contexts/CartContext";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useRef, useEffect } from 'react';
+import Image from 'next/image';
+import gsap from 'gsap';
+import { addToCart } from '@/lib/cartApi';
+import { showError, showSuccess } from '@/lib/swal';
+import { useCart } from '@/contexts/CartContext';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 interface Variant {
   id: number;
   size: string;
   quantity: number;
+  color?: string;
 }
 
 interface ProductCardProps {
@@ -46,24 +53,24 @@ export default function ProductCard({
     tl.to(hoverImageRef.current, {
       opacity: 1,
       duration: 0.6,
-      ease: "power3.out",
+      ease: 'power3.out',
     });
 
     const onEnter = () => tl.play();
     const onLeave = () => tl.reverse();
 
     const card = cardRef.current;
-    card.addEventListener("mouseenter", onEnter);
-    card.addEventListener("mouseleave", onLeave);
+    card.addEventListener('mouseenter', onEnter);
+    card.addEventListener('mouseleave', onLeave);
 
     return () => {
-      card.removeEventListener("mouseenter", onEnter);
-      card.removeEventListener("mouseleave", onLeave);
+      card.removeEventListener('mouseenter', onEnter);
+      card.removeEventListener('mouseleave', onLeave);
     };
   }, []);
 
   return (
-    <div className="w-full sm:w-1/2 lg:w-1/4 px-3 py-3 mb-6">
+    <div className="px-1 py-3 md:mb-6 mb-2">
       <Card
         ref={cardRef}
         className="flex flex-col h-full border shadow-none py-0 rounded-none"
@@ -91,29 +98,47 @@ export default function ProductCard({
               {discountPercent}%
             </div>
           )}
-          <div className="absolute bottom-1 left-1/2 -translate-x-1/2 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out z-30 border-none">
-            <div className="bg-gray-400/20 backdrop-blur-[15px] border-none p-5 rounded-lg shadow-none min-w-[calc(290px-16px)] text-center">
+
+          <div className="absolute bottom-1 left-1/2 -translate-x-1/2 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out z-30">
+            <div className="bg-gray-400/20 backdrop-blur-[15px] border-none p-5 rounded-lg shadow-none md:w-[calc(290px-16px)] lg:w-[calc(290px-16px)] text-center">
               <p className="text-base text-start text-black mb-2">
-                Thêm nhanh vào giỏ hàng <span className="text-lg">+</span>
+                Thêm nhanh vào giỏ hàng{' '}
+                <span className="text-lg">+</span>
               </p>
-              <div className="flex flex-wrap items-center gap-3">
-                {variants.map((variant) => (
-                  <button
-                    key={variant.id}
-                    className="text-sm bg-white text-black hover:bg-black text-center hover:text-white px-4 py-2 rounded-md transition-colors cursor-pointer"
-                    onClick={() => {
-                      addToCart(variant.id, 1)
-                        .then(() => {
-                          refreshCart();
-                          showSuccess("Đã thêm vào giỏ hàng!");
-                        })
-                        .catch(() => showError("Thêm vào giỏ hàng thất bại!"));
-                    }}
-                  >
-                    {variant.size}
-                  </button>
-                ))}
-              </div>
+
+              <TooltipProvider>
+                <div className="flex flex-wrap items-center gap-3">
+                  {variants.map((variant) => (
+                    <Tooltip key={variant.id}>
+                      <TooltipTrigger asChild>
+                        <button
+                          className="text-sm bg-white text-black hover:bg-black hover:text-white px-4 py-2 rounded-md transition-colors cursor-pointer"
+                          onClick={() => {
+                            addToCart(variant.id, 1)
+                              .then(() => {
+                                refreshCart();
+                                showSuccess('Đã thêm vào giỏ hàng!');
+                              })
+                              .catch(() =>
+                                showError(
+                                  'Thêm vào giỏ hàng thất bại!',
+                                ),
+                              );
+                          }}
+                        >
+                          {variant.size}
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        Màu sắc:{' '}
+                        <span className="font-medium uppercase">
+                          {variant.color || 'Null'}
+                        </span>
+                      </TooltipContent>
+                    </Tooltip>
+                  ))}
+                </div>
+              </TooltipProvider>
             </div>
           </div>
         </CardHeader>

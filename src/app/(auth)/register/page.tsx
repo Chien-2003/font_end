@@ -1,31 +1,36 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { register } from "@/app/actions/register";
-import { showError, showSuccess } from "@/lib/swal";
-import { useUser } from "@/contexts/UserContext";
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { register } from '@/app/actions/register';
+import { showError, showSuccess } from '@/lib/swal';
+import { useUser } from '@/contexts/UserContext';
 
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import Link from "next/link";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Loader2 } from 'lucide-react';
+import Link from 'next/link';
 
 export default function RegisterPage() {
   const router = useRouter();
   const { user } = useUser();
 
   const [checkingUser, setCheckingUser] = useState(true);
-  const [userName, setUserName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
-      router.replace("/");
+      router.replace('/');
     } else {
       setCheckingUser(false);
     }
@@ -44,10 +49,10 @@ export default function RegisterPage() {
     setIsLoading(true);
     try {
       const res = await register(userName, email, password);
-      await showSuccess(res.message || "Đăng ký thành công");
-      router.push("/login");
+      await showSuccess(res.message || 'Đăng ký thành công');
+      router.push('/login');
     } catch (err: any) {
-      showError(err.message || "Lỗi đăng ký");
+      showError(err.message || 'Lỗi đăng ký');
     } finally {
       setIsLoading(false);
     }
@@ -99,16 +104,20 @@ export default function RegisterPage() {
               />
             </div>
 
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={isLoading}
+            >
               {isLoading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : (
-                "Đăng ký"
+                'Đăng ký'
               )}
             </Button>
 
             <p className="text-center text-sm mt-3">
-              Bạn đã có tài khoản?{" "}
+              Bạn đã có tài khoản?{' '}
               <Link
                 href="/login"
                 className="text-blue-600 hover:underline font-medium"

@@ -1,31 +1,31 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import { useUser } from "@/contexts/UserContext";
+import Image from 'next/image';
+import Link from 'next/link';
+import { useUser } from '@/contexts/UserContext';
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
-import { signOut } from "next-auth/react";
+} from '@/components/ui/dropdown-menu';
+import { signOut } from 'next-auth/react';
 
 export default function UserMenu() {
   const { user, setUser } = useUser();
 
   const handleLogout = async () => {
     try {
-      await fetch("http://localhost:4000/auth/logout", {
-        method: "POST",
-        credentials: "include",
+      await fetch('http://localhost:4000/auth/logout', {
+        method: 'POST',
+        credentials: 'include',
       });
       await signOut({ redirect: false });
       setUser(null);
-      window.location.href = "/login";
+      window.location.href = '/login';
     } catch (error) {
-      console.error("Lỗi khi đăng xuất:", error);
+      console.error('Lỗi khi đăng xuất:', error);
     }
   };
 
@@ -56,7 +56,7 @@ export default function UserMenu() {
             focus:outline-none border-none shadow-none cursor-pointer"
         >
           <Image
-            src={user.avatar || "/image.webp"}
+            src={user.avatar || '/image.webp'}
             alt="User Avatar"
             width={32}
             height={32}
@@ -71,14 +71,16 @@ export default function UserMenu() {
           <Link href="/profile">Thông tin cá nhân</Link>
         </DropdownMenuItem>
 
-        {user.email === "nguyendinhchien19042003@gmail.com" && (
+        {user.email === 'nguyendinhchien19042003@gmail.com' && (
           <DropdownMenuItem asChild>
             <Link href="/admin">Trang quản lý</Link>
           </DropdownMenuItem>
         )}
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleLogout}>Đăng xuất</DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>
+          Đăng xuất
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

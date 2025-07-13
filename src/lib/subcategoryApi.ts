@@ -8,12 +8,12 @@ export interface Subcategory {
 }
 
 export async function getAllSubcategories(): Promise<Subcategory[]> {
-  const res = await fetch("http://localhost:4000/subcategories", {
-    cache: "no-store",
+  const res = await fetch('http://localhost:4000/subcategories', {
+    cache: 'no-store',
   });
 
   if (!res.ok) {
-    throw new Error("Không thể lấy danh sách danh mục con");
+    throw new Error('Không thể lấy danh sách danh mục con');
   }
 
   return res.json();

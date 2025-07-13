@@ -1,33 +1,40 @@
-"use client";
+'use client';
 
-import React, { useRef } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import gsap from "gsap";
+import React, { useRef } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import gsap from 'gsap';
 
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { useUser } from "@/contexts/UserContext";
-import { showError, showSuccess } from "@/lib/swal";
-import { UpdateProfileResponse } from "@/lib/profileApi";
+import {
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+} from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { useUser } from '@/contexts/UserContext';
+import { showError, showSuccess } from '@/lib/swal';
+import { UpdateProfileResponse } from '@/lib/profileApi';
 
 import PersonalInfoPage, {
   PersonalInfoPageRef,
-} from "./components/PersonalInfoPage";
-import OrdersPage from "./components/OrdersPage";
-import FavoritesPage from "./components/FavoritesPage";
-import AddressesPage, { AddressesPageRef } from "./components/AddressesPage";
-import { Typography } from "@/components/ui/typography";
+} from './components/PersonalInfoPage';
+import OrdersPage from './components/OrdersPage';
+import FavoritesPage from './components/FavoritesPage';
+import AddressesPage, {
+  AddressesPageRef,
+} from './components/AddressesPage';
+import { Typography } from '@/components/ui/typography';
 
-const tabLabels = ["personal", "orders", "favorites", "addresses"];
+const tabLabels = ['personal', 'orders', 'favorites', 'addresses'];
 
 export default function ProfilePage() {
   const { user, fetchUser } = useUser();
   const personalInfoRef = useRef<PersonalInfoPageRef>(null);
   const addressRef = useRef<AddressesPageRef>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
-  const [tab, setTab] = React.useState("personal");
+  const [tab, setTab] = React.useState('personal');
 
   const handleUpdate = async () => {
     gsap.to(btnRef.current, {
@@ -35,21 +42,21 @@ export default function ProfilePage() {
       duration: 0.2,
       yoyo: true,
       repeat: 1,
-      ease: "power1.inOut",
+      ease: 'power1.inOut',
     });
 
     try {
       let response: UpdateProfileResponse | undefined;
-      if (tab === "personal" && personalInfoRef.current) {
+      if (tab === 'personal' && personalInfoRef.current) {
         response = await personalInfoRef.current.handleUpdate();
       }
-      if (tab === "addresses" && addressRef.current) {
+      if (tab === 'addresses' && addressRef.current) {
         response = await addressRef.current.handleUpdate();
       }
       await fetchUser();
       if (response?.message) showSuccess(response.message);
     } catch (err: any) {
-      console.error("Lỗi cập nhật:", err);
+      console.error('Lỗi cập nhật:', err);
       if (err?.message) showError(err.message);
     }
   };
@@ -60,17 +67,32 @@ export default function ProfilePage() {
         <div className="grid md:grid-cols-4 gap-6">
           <Card className="p-6 flex flex-col">
             <Link href="/" className="flex items-center gap-2">
-              <Image src="/logo.svg" alt="Elysia Wear" width={32} height={32} />
-              <span className="font-semibold text-lg">Elysia Wear</span>
+              <Image
+                src="/logo.svg"
+                alt="Elysia Wear"
+                width={32}
+                height={32}
+              />
+              <span className="font-semibold text-lg">
+                Elysia Wear
+              </span>
             </Link>
             <Typography variant="h2">
-              {user?.full_name || "Chưa có tên"}
+              {user?.full_name || 'Chưa có tên'}
             </Typography>
             <TabsList className="flex flex-col w-full items-start space-y-4">
-              <TabsTrigger value="personal">Thông tin cá nhân</TabsTrigger>
-              <TabsTrigger value="orders">Đơn hàng của bạn</TabsTrigger>
-              <TabsTrigger value="favorites">Sản phẩm yêu thích</TabsTrigger>
-              <TabsTrigger value="addresses">Địa chỉ nhận hàng</TabsTrigger>
+              <TabsTrigger value="personal">
+                Thông tin cá nhân
+              </TabsTrigger>
+              <TabsTrigger value="orders">
+                Đơn hàng của bạn
+              </TabsTrigger>
+              <TabsTrigger value="favorites">
+                Sản phẩm yêu thích
+              </TabsTrigger>
+              <TabsTrigger value="addresses">
+                Địa chỉ nhận hàng
+              </TabsTrigger>
             </TabsList>
           </Card>
 
@@ -89,7 +111,7 @@ export default function ProfilePage() {
                 <AddressesPage ref={addressRef} />
               </TabsContent>
 
-              {(tab === "personal" || tab === "addresses") && (
+              {(tab === 'personal' || tab === 'addresses') && (
                 <div className="text-center mt-4">
                   <Button ref={btnRef} onClick={handleUpdate}>
                     Cập nhật thông tin
