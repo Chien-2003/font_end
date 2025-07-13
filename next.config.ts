@@ -9,6 +9,7 @@ const nextConfig = {
       "product.hstatic.net",
       "cdn.hstatic.net",
       "lh3.googleusercontent.com",
+      "n7media.coolmate.me",
     ],
   },
 };

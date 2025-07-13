@@ -16,6 +16,7 @@ import {
 } from "@/lib/categoryApi";
 import type { Metadata } from "next";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
+import Image from "next/image";
 
 const PAGE_SIZE = 7;
 
@@ -94,64 +95,75 @@ export default async function CategoryPage({
   );
 
   return (
-    <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 w-full h-full">
-      <Breadcrumbs />
+    <>
+      {category.image && (
+        <div className="relative w-full h-[556px]">
+          <Image
+            src={category.image}
+            alt={category.name}
+            fill
+            className="object-fill h-full"
+          />
+        </div>
+      )}
+      <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 w-full h-full">
+        <Breadcrumbs />
+        <div className="flex flex-wrap">
+          {validProducts.length === 0 ? (
+            <p className="text-center w-full">Không có sản phẩm nào.</p>
+          ) : (
+            validProducts.map((product) => {
+              const firstVariant = product.variants![0];
+              return (
+                <ProductCard
+                  key={product.id}
+                  variants={product.variants!}
+                  name={product.name}
+                  description={product.description}
+                  price={product.price}
+                  image_url={product.image_url}
+                  image_hover_url={product.image_hover_url}
+                />
+              );
+            })
+          )}
+        </div>
 
-      <div className="flex flex-wrap">
-        {validProducts.length === 0 ? (
-          <p className="text-center w-full">Không có sản phẩm nào.</p>
-        ) : (
-          validProducts.map((product) => {
-            const firstVariant = product.variants![0];
-            return (
-              <ProductCard
-                key={product.id}
-                variants={product.variants!}
-                name={product.name}
-                description={product.description}
-                price={product.price}
-                image_url={product.image_url}
-                image_hover_url={product.image_hover_url}
-              />
-            );
-          })
+        {totalPages > 1 && (
+          <Pagination className="mt-8">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  href={`?page=${page - 1}`}
+                  isActive={false}
+                  aria-disabled={page <= 1}
+                  className={page <= 1 ? "pointer-events-none opacity-50" : ""}
+                />
+              </PaginationItem>
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <PaginationItem key={i}>
+                  <PaginationLink
+                    href={`?page=${i + 1}`}
+                    isActive={page === i + 1}
+                  >
+                    {i + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+              <PaginationItem>
+                <PaginationNext
+                  href={`?page=${page + 1}`}
+                  isActive={false}
+                  aria-disabled={page >= totalPages}
+                  className={
+                    page >= totalPages ? "pointer-events-none opacity-50" : ""
+                  }
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         )}
       </div>
-
-      {totalPages > 1 && (
-        <Pagination className="mt-8">
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                href={`?page=${page - 1}`}
-                isActive={false}
-                aria-disabled={page <= 1}
-                className={page <= 1 ? "pointer-events-none opacity-50" : ""}
-              />
-            </PaginationItem>
-            {Array.from({ length: totalPages }).map((_, i) => (
-              <PaginationItem key={i}>
-                <PaginationLink
-                  href={`?page=${i + 1}`}
-                  isActive={page === i + 1}
-                >
-                  {i + 1}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
-            <PaginationItem>
-              <PaginationNext
-                href={`?page=${page + 1}`}
-                isActive={false}
-                aria-disabled={page >= totalPages}
-                className={
-                  page >= totalPages ? "pointer-events-none opacity-50" : ""
-                }
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      )}
-    </div>
+    </>
   );
 }

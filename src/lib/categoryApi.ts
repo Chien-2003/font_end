@@ -7,6 +7,7 @@ export interface Subcategory {
 export interface Category {
   id: number;
   name: string;
+  image: string;
   slug_category: string;
   description?: string;
   subcategories?: Subcategory[];
