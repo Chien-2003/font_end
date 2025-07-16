@@ -1,4 +1,3 @@
-/** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
     domains: [
@@ -10,6 +9,7 @@ const nextConfig = {
       'cdn.hstatic.net',
       'lh3.googleusercontent.com',
       'n7media.coolmate.me',
+      'platform-lookaside.fbsbx.com',
     ],
   },
 };

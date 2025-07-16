@@ -17,6 +17,7 @@ import {
 
 import { Trash2, ShoppingCart, X } from 'lucide-react';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
+import { CartPageSkeleton } from '@/components/skeleton/CartPageSkeleton';
 
 function formatVND(value: number) {
   return value.toLocaleString('vi-VN', {
@@ -26,12 +27,26 @@ function formatVND(value: number) {
 }
 
 export default function CartPage() {
-  const { cartItems, refreshCart } = useCart();
+  const { cartItems, refreshCart, isLoading } = useCart();
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [openImage, setOpenImage] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(
     null,
   );
+  if (isLoading) {
+    return <CartPageSkeleton />;
+  }
+  if (cartItems.length === 0) {
+    return (
+      <div className="max-w-3xl w-full mx-auto px-4 py-6">
+        <h1 className="text-2xl font-bold mb-6">Giỏ hàng của bạn</h1>
+        <div className="flex flex-col items-center justify-center mt-16 text-gray-500">
+          <ShoppingCart className="w-12 h-12" />
+          <p className="mt-2 text-sm">Giỏ hàng của bạn đang trống</p>
+        </div>
+      </div>
+    );
+  }
 
   const isAllSelected = selectedItems.length === cartItems.length;
 
@@ -74,122 +89,113 @@ export default function CartPage() {
     <div className="max-w-3xl w-full mx-auto px-4 py-6">
       <h1 className="text-2xl font-bold mb-6">Giỏ hàng của bạn</h1>
 
-      {cartItems.length === 0 ? (
-        <div className="flex flex-col items-center justify-center mt-16 text-gray-500">
-          <ShoppingCart className="w-12 h-12" />
-          <p className="mt-2 text-sm">Giỏ hàng đang trống</p>
-        </div>
-      ) : (
-        <Card className="p-4">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                checked={isAllSelected}
-                onCheckedChange={toggleSelectAll}
-              />
-              <span className="text-sm">Chọn tất cả</span>
-            </div>
-
-            {selectedItems.length > 0 && (
-              <button
-                className="text-sm text-muted-foreground hover:underline"
-                onClick={() => setSelectedItems([])}
-              >
-                Bỏ chọn tất cả
-              </button>
-            )}
+      <Card className="p-4">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              checked={isAllSelected}
+              onCheckedChange={toggleSelectAll}
+            />
+            <span className="text-sm">Chọn tất cả</span>
           </div>
 
-          <div className="space-y-4">
-            {cartItems.map((item) => {
-              const product = item.variant?.product;
-              if (!product) return null;
+          {selectedItems.length > 0 && (
+            <button
+              className="text-sm text-muted-foreground hover:underline"
+              onClick={() => setSelectedItems([])}
+            >
+              Bỏ chọn tất cả
+            </button>
+          )}
+        </div>
 
-              return (
+        <div className="space-y-4">
+          {cartItems.map((item) => {
+            const product = item.variant?.product;
+            if (!product) return null;
+
+            return (
+              <div
+                key={item.id}
+                className="flex gap-3 items-start border-b pb-4 last:border-b-0"
+              >
+                <Checkbox
+                  checked={selectedItems.includes(item.id)}
+                  onCheckedChange={() => toggleSelectItem(item.id)}
+                  className="mt-2"
+                />
+
                 <div
-                  key={item.id}
-                  className="flex gap-3 items-start border-b pb-4"
+                  className="w-[190px] h-[150px] rounded overflow-hidden shrink-0 cursor-pointer"
+                  onClick={() => {
+                    setPreviewImage(product.image_url);
+                    setOpenImage(true);
+                  }}
                 >
-                  <Checkbox
-                    checked={selectedItems.includes(item.id)}
-                    onCheckedChange={() => toggleSelectItem(item.id)}
-                    className="mt-2"
+                  <Image
+                    src={product.image_url}
+                    alt={product.name}
+                    width={190}
+                    height={150}
+                    className="object-cover w-full h-full"
                   />
+                </div>
 
-                  <div
-                    className="w-[190px] h-[150px] rounded overflow-hidden shrink-0 cursor-pointer"
-                    onClick={() => {
-                      setPreviewImage(product.image_url);
-                      setOpenImage(true);
-                    }}
-                  >
-                    <Image
-                      src={product.image_url}
-                      alt={product.name}
-                      width={190}
-                      height={150}
-                      className="object-cover w-full h-full"
+                <div className="flex-1">
+                  <p className="font-medium">{product.name}</p>
+                  <p className="text-sm text-muted-foreground">
+                    Số lượng: {item.quantity}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    Size: {item.variant?.size}
+                  </p>
+
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-sm text-muted-foreground">
+                      Màu:
+                    </span>
+                    <div
+                      className="w-4 h-4 border border-gray-300"
+                      style={{
+                        backgroundColor: item.variant?.color,
+                      }}
                     />
                   </div>
 
-                  <div className="flex-1">
-                    <p className="font-medium">{product.name}</p>
-                    <p className="text-sm text-muted-foreground">
-                      Số lượng: {item.quantity}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      Size: {item.variant?.size}
-                    </p>
-
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="text-sm text-muted-foreground">
-                        Màu:
-                      </span>
-                      <div
-                        className="w-4 h-4 border border-gray-300"
-                        style={{
-                          backgroundColor: item.variant?.color,
-                        }}
-                      />
-                    </div>
-
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="text-sm text-muted-foreground">
-                        Giá:
-                      </span>
-                      <span className="text-sm font-semibold text-primary">
-                        {formatVND(Number(product.price))}
-                      </span>
-                    </div>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-sm text-muted-foreground">
+                      Giá:
+                    </span>
+                    <span className="text-sm font-semibold text-primary">
+                      {formatVND(Number(product.price))}
+                    </span>
                   </div>
-
-                  <button
-                    onClick={() => removeItem(item.id)}
-                    className="text-red-600 hover:text-red-800 mt-1"
-                  >
-                    <Trash2 className="w-5 h-5" />
-                  </button>
                 </div>
-              );
-            })}
-          </div>
 
-          <div className="flex justify-between items-center mt-6">
-            <h2 className="text-lg font-semibold">Tổng cộng:</h2>
-            <p className="text-lg text-primary font-semibold">
-              {formatVND(totalPrice)}
-            </p>
-          </div>
+                <button
+                  onClick={() => removeItem(item.id)}
+                  className="text-red-600 hover:text-red-800 mt-1"
+                >
+                  <Trash2 className="w-5 h-5" />
+                </button>
+              </div>
+            );
+          })}
+        </div>
 
-          <div className="text-right mt-4">
-            <Button disabled={selectedItems.length === 0}>
-              Thanh toán ({selectedItems.length} sản phẩm)
-            </Button>
-          </div>
-        </Card>
-      )}
+        <div className="flex justify-between items-center mt-6">
+          <h2 className="text-lg font-semibold">Tổng cộng:</h2>
+          <p className="text-lg text-primary font-semibold">
+            {formatVND(totalPrice)}
+          </p>
+        </div>
 
-      {/* Modal xem ảnh */}
+        <div className="text-right mt-4">
+          <Button disabled={selectedItems.length === 0}>
+            Thanh toán ({selectedItems.length} sản phẩm)
+          </Button>
+        </div>
+      </Card>
       <Dialog open={openImage} onOpenChange={setOpenImage}>
         <DialogContent className="p-0 max-w-4xl bg-transparent shadow-none border-none">
           <VisuallyHidden>

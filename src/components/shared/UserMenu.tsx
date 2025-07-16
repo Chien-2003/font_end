@@ -14,7 +14,6 @@ import { signOut } from 'next-auth/react';
 
 export default function UserMenu() {
   const { user, setUser } = useUser();
-
   const handleLogout = async () => {
     try {
       await fetch('http://localhost:4000/auth/logout', {

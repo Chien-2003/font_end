@@ -1,23 +1,15 @@
 'use client';
 
-import {
-  AppBar,
-  Box,
-  Container,
-  CssBaseline,
-  Divider,
-  Drawer,
-  IconButton,
-  Toolbar,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from 'react';
+import { Menu, X } from 'lucide-react';
 import SidebarMenu from './components/SidebarMenu';
-
-const drawerWidth = 260;
+import { ScrollArea } from '@/components/ui/scroll-area';
+import {
+  Dialog,
+  DialogContent,
+  DialogOverlay,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 
 export default function AdminLayout({
   children,
@@ -26,76 +18,56 @@ export default function AdminLayout({
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
-  const drawerContent = (
-    <>
-      <Toolbar>
-        <Typography variant="h6">Trang quản trị</Typography>
-      </Toolbar>
-      <Divider />
-      <SidebarMenu />
-    </>
-  );
-
   return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      >
-        <Toolbar>
-          {isMobile && (
-            <IconButton
-              color="inherit"
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{ mr: 2 }}
+    <div className="flex min-h-screen">
+      <div className="hidden md:flex flex-col w-[260px] border-r border-gray-200 dark:border-gray-700">
+        <div className="h-16 flex items-center justify-center font-semibold border-b border-gray-200 dark:border-gray-700">
+          Trang quản trị
+        </div>
+        <ScrollArea className="flex-grow p-4">
+          <SidebarMenu />
+        </ScrollArea>
+      </div>
+
+      <Dialog open={mobileOpen} onOpenChange={setMobileOpen}>
+        <DialogOverlay className="fixed inset-0 bg-black/40" />
+        <DialogContent className="fixed top-0 left-0 w-64 h-full bg-white dark:bg-gray-900 p-4 shadow-lg">
+          <div className="flex justify-between items-center mb-4">
+            <div className="text-lg font-semibold">
+              Trang quản trị
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setMobileOpen(false)}
+              aria-label="Close menu"
             >
-              <MenuIcon />
-            </IconButton>
-          )}
-          <Typography variant="h6" noWrap>
+              <X className="w-5 h-5" />
+            </Button>
+          </div>
+          <SidebarMenu />
+        </DialogContent>
+      </Dialog>
+
+      <div className="flex flex-col flex-grow">
+        <header className="flex items-center h-16 px-4 border-b border-gray-200 dark:border-gray-700 md:hidden">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setMobileOpen(true)}
+            aria-label="Open menu"
+          >
+            <Menu className="w-5 h-5" />
+          </Button>
+          <h1 className="ml-4 text-lg font-semibold">
             Quản lý Elysia Wear
-          </Typography>
-        </Toolbar>
-      </AppBar>
+          </h1>
+        </header>
 
-      <Drawer
-        variant={isMobile ? 'temporary' : 'permanent'}
-        open={isMobile ? mobileOpen : true}
-        onClose={handleDrawerToggle}
-        ModalProps={{ keepMounted: true }}
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-          display: { xs: 'block', md: 'block' },
-        }}
-      >
-        {drawerContent}
-      </Drawer>
-
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          pt: { xs: 7, sm: 8 },
-          px: 2,
-          mt: 3,
-        }}
-      >
-        <Container maxWidth="lg">{children}</Container>
-      </Box>
-    </Box>
+        <main className="flex-grow p-6 overflow-auto">
+          {children}
+        </main>
+      </div>
+    </div>
   );
 }

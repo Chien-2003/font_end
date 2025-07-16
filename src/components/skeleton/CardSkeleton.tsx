@@ -6,7 +6,7 @@ export default function LoadingProductCard() {
   return (
     <div className="w-full sm:w-1/2 lg:w-1/4 px-3 py-3 mb-6">
       <Card className="flex flex-col h-full border shadow-none py-0 rounded-none">
-        <CardHeader className="p-0 relative h-[431px] overflow-hidden">
+        <CardHeader className="p-0 relative h-[200px] overflow-hidden">
           <Skeleton className="absolute top-0 left-0 w-full h-full object-cover z-10" />
         </CardHeader>
 

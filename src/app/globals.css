@@ -203,3 +203,6 @@ body {
 .dark ::-webkit-scrollbar-thumb:hover {
   background: #111827;
 }
+.motion-custum {
+  width: 318px !important;
+}

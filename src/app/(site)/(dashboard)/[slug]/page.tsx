@@ -17,10 +17,7 @@ import {
 import type { Metadata } from 'next';
 import Breadcrumbs from '@/components/shared/Breadcrumbs';
 import Image from 'next/image';
-import {
-  SidebarProvider,
-  SidebarTrigger,
-} from '@/components/ui/sidebar';
+import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/shared/CategorySidebar';
 
 const PAGE_SIZE = 7;
@@ -94,9 +91,13 @@ export default async function CategoryPage({
   const products: Product[] = productsResponse.data;
   const total = productsResponse.pagination?.total || products.length;
   const totalPages = Math.ceil(total / PAGE_SIZE);
+  const subSlug = awaitedSearchParams?.sub;
 
   const validProducts = products.filter(
-    (product) => product.variants && product.variants.length > 0,
+    (product) =>
+      product.variants &&
+      product.variants.length > 0 &&
+      (!subSlug || product.subcategory?.slug === subSlug),
   );
 
   return (
@@ -113,20 +114,21 @@ export default async function CategoryPage({
       )}
       <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-2 sm:px-2 lg:px-8 w-full h-full">
         <SidebarProvider className="mt-3">
-          <AppSidebar />
+          <AppSidebar category={category} />
           <main className="ml-2 lg:ml-3">
             <Breadcrumbs />
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {validProducts.length === 0 ? (
-                <p className="text-center w-full">
-                  Không có sản phẩm nào.
-                </p>
-              ) : (
-                validProducts.map((product) => {
+            {validProducts.length === 0 ? (
+              <p className="text-center w-full">
+                Không có sản phẩm nào.
+              </p>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {validProducts.map((product, index) => {
                   const firstVariant = product.variants![0];
                   return (
                     <ProductCard
                       key={product.id}
+                      index={index}
                       variants={product.variants!}
                       name={product.name}
                       description={product.description}
@@ -135,9 +137,9 @@ export default async function CategoryPage({
                       image_hover_url={product.image_hover_url}
                     />
                   );
-                })
-              )}
-            </div>
+                })}
+              </div>
+            )}
           </main>
         </SidebarProvider>
         {totalPages > 1 && (

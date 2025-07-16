@@ -31,6 +31,7 @@ interface CartContextType {
   cartItems: CartItem[];
   refreshCart: () => Promise<void>;
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+  isLoading: boolean;
 }
 
 const CartContext = createContext<CartContextType | null>(null);
@@ -48,13 +49,17 @@ export const CartProvider = ({
   children: React.ReactNode;
 }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const refreshCart = useCallback(async () => {
+    setIsLoading(true);
     try {
       const data = await getUserCart();
       setCartItems(data);
     } catch (error) {
       console.error('Lỗi lấy giỏ hàng:', error);
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
@@ -64,7 +69,7 @@ export const CartProvider = ({
 
   return (
     <CartContext.Provider
-      value={{ cartItems, refreshCart, setCartItems }}
+      value={{ cartItems, refreshCart, setCartItems, isLoading }}
     >
       {children}
     </CartContext.Provider>

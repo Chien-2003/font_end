@@ -13,10 +13,7 @@ export default function CreatePostPage() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
-  const handleSubmit = () => {
-    console.log('Tiêu đề:', title);
-    console.log('Nội dung:', content);
-  };
+  const handleSubmit = () => {};
 
   return (
     <Container maxWidth="md" className="py-10" sx={{ p: 0 }}>

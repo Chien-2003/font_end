@@ -5,16 +5,19 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { showError, showSuccess } from '@/lib/swal';
 import { FaFacebookF } from 'react-icons/fa';
+import { useUser } from '@/contexts/UserContext';
 
 export default function LoginWithFacebookButton() {
   const { data: session, status } = useSession();
+  const { fetchUser } = useUser();
   const router = useRouter();
 
   useEffect(() => {
     if (
+      session?.provider === 'facebook' &&
       status === 'authenticated' &&
-      session?.user?.email &&
-      session?.user?.name
+      session.user?.email &&
+      session.user?.name
     ) {
       fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/login-facebook`,
@@ -34,6 +37,7 @@ export default function LoginWithFacebookButton() {
           return res.json();
         })
         .then(async (data) => {
+          await fetchUser();
           await showSuccess(data.message);
           router.replace('/');
         })

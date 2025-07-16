@@ -13,6 +13,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { motion } from 'framer-motion';
 
 interface Variant {
   id: number;
@@ -30,6 +31,7 @@ interface ProductCardProps {
   image_url: string;
   image_hover_url?: string;
   variants: Variant[];
+  index?: number;
 }
 
 export default function ProductCard({
@@ -41,6 +43,7 @@ export default function ProductCard({
   image_url,
   image_hover_url,
   variants,
+  index,
 }: ProductCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const hoverImageRef = useRef<HTMLImageElement>(null);
@@ -70,10 +73,19 @@ export default function ProductCard({
   }, []);
 
   return (
-    <div className="px-1 py-3 md:mb-6 mb-2">
+    <motion.div
+      className="motion-custum"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        duration: 0.4,
+        ease: 'easeOut',
+        delay: index ? index * 0.25 : 0,
+      }}
+    >
       <Card
         ref={cardRef}
-        className="flex flex-col h-full border shadow-none py-0 rounded-none"
+        className="flex flex-col motion-custum h-full border shadow-none py-0 rounded-none"
       >
         <CardHeader className="p-0 relative h-[431px] overflow-hidden group">
           <Image
@@ -164,6 +176,6 @@ export default function ProductCard({
           </div>
         </CardContent>
       </Card>
-    </div>
+    </motion.div>
   );
 }

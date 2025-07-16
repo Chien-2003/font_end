@@ -1,3 +1,4 @@
+// app/profile/page.tsx
 'use client';
 
 import React, { useRef } from 'react';
@@ -26,15 +27,44 @@ import AddressesPage, {
   AddressesPageRef,
 } from './components/AddressesPage';
 import { Typography } from '@/components/ui/typography';
-
-const tabLabels = ['personal', 'orders', 'favorites', 'addresses'];
+import { ProfilePageSkeleton } from '@/components/skeleton/ProfileSkeleton';
 
 export default function ProfilePage() {
-  const { user, fetchUser } = useUser();
+  const { user, fetchUser, loading, error } = useUser();
   const personalInfoRef = useRef<PersonalInfoPageRef>(null);
   const addressRef = useRef<AddressesPageRef>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
   const [tab, setTab] = React.useState('personal');
+
+  if (loading) {
+    return <ProfilePageSkeleton />;
+  }
+
+  if (error) {
+    return (
+      <div className="mx-auto max-w-3xl w-full px-4 py-6 text-center text-red-600">
+        <h1 className="text-2xl font-bold mb-4">Lỗi tải dữ liệu</h1>
+        <p>{error}</p>
+        <Button onClick={fetchUser} className="mt-4">
+          Thử lại
+        </Button>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="mx-auto max-w-3xl w-full px-4 py-6 text-center text-gray-500">
+        <h1 className="text-2xl font-bold mb-4">
+          Không tìm thấy thông tin người dùng
+        </h1>
+        <p>Vui lòng đăng nhập để xem hồ sơ của bạn.</p>
+        <Link href="/auth/login" passHref>
+          <Button className="mt-4">Đăng nhập</Button>
+        </Link>
+      </div>
+    );
+  }
 
   const handleUpdate = async () => {
     gsap.to(btnRef.current, {
@@ -78,7 +108,7 @@ export default function ProfilePage() {
               </span>
             </Link>
             <Typography variant="h2">
-              {user?.full_name || 'Chưa có tên'}
+              {user.full_name || 'Chưa có tên'}
             </Typography>
             <TabsList className="flex flex-col w-full items-start space-y-4">
               <TabsTrigger value="personal">

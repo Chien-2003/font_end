@@ -17,18 +17,16 @@ export default async function HomePage() {
       <HomeBanner />
       <HomeCategorySection />
       <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 w-full h-full">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {validProducts.length === 0 ? (
-            <p className="text-center w-full">
-              Không có sản phẩm nào.
-            </p>
-          ) : (
-            validProducts.map((product) => {
+        {validProducts.length === 0 ? (
+          <p className="text-center w-full">Không có sản phẩm nào.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4 gap-6">
+            {validProducts.map((product, index) => {
               const firstVariant = product.variants![0];
-
               return (
                 <ProductCard
                   key={product.id}
+                  index={index}
                   variants={product.variants!}
                   name={product.name}
                   description={product.description}
@@ -37,9 +35,9 @@ export default async function HomePage() {
                   image_hover_url={product.image_hover_url}
                 />
               );
-            })
-          )}
-        </div>
+            })}
+          </div>
+        )}
       </div>
     </>
   );

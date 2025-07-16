@@ -7,8 +7,8 @@ import React, {
   useEffect,
   useCallback,
   ReactNode,
+  useRef,
 } from 'react';
-import { useSession } from 'next-auth/react';
 
 export interface User {
   full_name: string;
@@ -45,11 +45,12 @@ interface UserProviderProps {
 
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const { data: session } = useSession();
+  const hasFetchedUserRef = useRef<boolean>(false);
 
   const fetchUser = useCallback(async () => {
+    if (hasFetchedUserRef.current) return;
     setLoading(true);
     setError(null);
     try {
@@ -59,26 +60,27 @@ export const UserProvider = ({ children }: UserProviderProps) => {
           credentials: 'include',
         },
       );
+
       if (!res.ok) {
         const errorData = await res.json();
         throw new Error(
-          errorData.message || 'Không lấy được thông tin user',
+          errorData.message || 'Không lấy được thông tin người dùng',
         );
       }
       const json = await res.json();
       setUser(json.data);
+      hasFetchedUserRef.current = true;
     } catch (err: any) {
-      setError(err.message || 'Lỗi khi lấy thông tin user');
+      setError(err.message || 'Lỗi khi lấy thông tin người dùng');
       setUser(null);
+      hasFetchedUserRef.current = false;
     } finally {
       setLoading(false);
     }
   }, []);
   useEffect(() => {
-    if (session) {
-      fetchUser();
-    }
-  }, [session, fetchUser]);
+    fetchUser();
+  }, [fetchUser]);
 
   return (
     <UserContext.Provider

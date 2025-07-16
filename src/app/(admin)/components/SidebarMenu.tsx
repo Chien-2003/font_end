@@ -1,43 +1,38 @@
 'use client';
 
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Divider,
-  Collapse,
-} from '@mui/material';
-import {
-  Dashboard as DashboardIcon,
-  ShoppingCart as ShoppingCartIcon,
-  Article as ArticleIcon,
-  PostAdd as PostAddIcon,
-  ArrowBack as ArrowBackIcon,
-  Inventory2 as InventoryIcon,
-  ExpandLess,
-  ExpandMore,
-  Category as CategoryIcon,
-} from '@mui/icons-material';
 import Link from 'next/link';
 import { useState } from 'react';
+// bạn tùy chỉnh import theo folder
+
+import {
+  LayoutDashboard,
+  ShoppingCart,
+  FileText,
+  PlusCircle,
+  ChevronDown,
+  ChevronUp,
+  ArrowLeft,
+  Box as BoxIcon,
+  Tag,
+} from 'lucide-react';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Button } from '@/components/ui/button';
+import { Collapsible } from '@/components/ui/collapsible';
 
 const menuItems = [
   {
     label: 'Bảng điều khiển',
-    icon: <DashboardIcon />,
+    icon: <LayoutDashboard className="w-5 h-5" />,
     href: '/admin',
   },
   {
     label: 'Đơn hàng',
-    icon: <ShoppingCartIcon />,
+    icon: <ShoppingCart className="w-5 h-5" />,
     href: '/admin/orders',
   },
   {
     label: 'Tạo bài viết',
-    icon: <ArticleIcon />,
+    icon: <FileText className="w-5 h-5" />,
     href: '/admin/blog',
   },
 ];
@@ -45,13 +40,8 @@ const menuItems = [
 const productItems = [
   {
     label: 'Tạo sản phẩm',
-    icon: <PostAddIcon />,
+    icon: <PlusCircle className="w-5 h-5" />,
     href: '/admin/tao-san-pham',
-  },
-  {
-    label: 'Danh sách sản phẩm',
-    icon: <InventoryIcon />,
-    href: '/admin/danh-sach-san-pham',
   },
 ];
 
@@ -59,59 +49,65 @@ export default function SidebarMenu() {
   const [openProduct, setOpenProduct] = useState(false);
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-      }}
-    >
-      <List>
+    <ScrollArea className="h-full w-60 border-r border-gray-200 dark:border-gray-700 p-4 flex flex-col">
+      <nav className="flex flex-col space-y-2 flex-grow">
         {menuItems.map((item) => (
-          <ListItem key={item.href} disablePadding>
-            <ListItemButton component={Link} href={item.href}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.label} />
-            </ListItemButton>
-          </ListItem>
+          <Link
+            key={item.href}
+            href={item.href}
+            className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+          >
+            {item.icon}
+            <span className="text-sm font-medium">{item.label}</span>
+          </Link>
         ))}
 
-        <Divider sx={{ my: 1 }} />
+        <div className="border-t border-gray-200 dark:border-gray-700 my-3" />
 
-        <ListItemButton onClick={() => setOpenProduct(!openProduct)}>
-          <ListItemIcon>
-            <CategoryIcon />
-          </ListItemIcon>
-          <ListItemText primary="Sản phẩm" />
-          {openProduct ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setOpenProduct(!openProduct)}
+          className="w-full flex justify-between items-center px-3"
+        >
+          <div className="flex items-center gap-3">
+            <Tag className="w-5 h-5" />
+            <span>Sản phẩm</span>
+          </div>
+          {openProduct ? (
+            <ChevronUp className="w-5 h-5" />
+          ) : (
+            <ChevronDown className="w-5 h-5" />
+          )}
+        </Button>
 
-        <Collapse in={openProduct} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
+        <Collapsible open={openProduct}>
+          <nav className="flex flex-col mt-2 ml-6 space-y-1">
             {productItems.map((item) => (
-              <ListItemButton
+              <Link
                 key={item.href}
-                component={Link}
                 href={item.href}
-                sx={{ pl: 4 }}
+                className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
               >
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.label} />
-              </ListItemButton>
+                {item.icon}
+                <span className="text-sm font-medium">
+                  {item.label}
+                </span>
+              </Link>
             ))}
-          </List>
-        </Collapse>
-      </List>
-      <Box sx={{ mt: 'auto', p: 1 }}>
-        <ListItem disablePadding>
-          <ListItemButton component={Link} href="/">
-            <ListItemIcon>
-              <ArrowBackIcon />
-            </ListItemIcon>
-            <ListItemText primary="Quay lại Web" />
-          </ListItemButton>
-        </ListItem>
-      </Box>
-    </Box>
+          </nav>
+        </Collapsible>
+      </nav>
+
+      <div className="mt-auto">
+        <Link
+          href="/"
+          className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          <span className="text-sm font-medium">Quay lại Web</span>
+        </Link>
+      </div>
+    </ScrollArea>
   );
 }

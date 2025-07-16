@@ -14,31 +14,18 @@ const authOptions: NextAuthOptions = {
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID!,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
-      authorization: {
-        params: {
-          scope: 'email',
-        },
-      },
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async jwt({
-      token,
-      account,
-    }: {
-      token: JWT;
-      account?: any;
-    }): Promise<JWT> {
+    async jwt({ token, account }) {
+      if (account) {
+        token.provider = account.provider; // ✅ Gán provider vào token
+      }
       return token;
     },
-    async session({
-      session,
-      token,
-    }: {
-      session: Session;
-      token: JWT;
-    }): Promise<Session> {
+    async session({ session, token }) {
+      session.provider = token.provider as string; // ✅ Gán provider vào session
       return session;
     },
   },

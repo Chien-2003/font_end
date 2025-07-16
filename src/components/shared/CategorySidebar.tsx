@@ -1,149 +1,77 @@
-import {
-  Calendar,
-  Home,
-  Inbox,
-  Search,
-  Settings,
-} from 'lucide-react';
+'use client';
 
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import Link from 'next/link';
-import { Logout } from '@mui/icons-material';
-const items = [
-  {
-    title: 'Home',
-    url: '',
-    icon: Home,
-  },
-  {
-    title: 'Inbox',
-    url: '',
-    icon: Inbox,
-  },
-  {
-    title: 'Calendar',
-    url: '',
-    icon: Calendar,
-  },
-  {
-    title: 'Search',
-    url: '',
-    icon: Search,
-  },
-  {
-    title: 'Settings',
-    url: '',
-    icon: Settings,
-  },
-  {
-    title: 'Logout',
-    url: '',
-    icon: Logout,
-  },
-  {
-    title: 'Profile',
-    url: '',
-    icon: Settings,
-  },
-  {
-    title: 'Help',
-    url: '',
-    icon: Settings,
-  },
-  {
-    title: 'Contact',
-    url: '',
-    icon: Settings,
-  },
-  {
-    title: 'About',
-    url: '',
-    icon: Settings,
-  },
+import {
+  useSearchParams,
+  usePathname,
+  useRouter,
+} from 'next/navigation';
+import type { Category } from '@/lib/categoryApi';
 
-  {
-    title: 'Terms',
-    url: '',
-    icon: Settings,
-  },
-  {
-    title: 'Privacy',
-    url: '',
-    icon: Settings,
-  },
-  {
-    title: 'Feedback',
-    url: '',
-    icon: Settings,
-  },
-  {
-    title: 'Support',
-    url: '',
-    icon: Settings,
-  },
-  {
-    title: 'Documentation',
-    url: '',
-    icon: Settings,
-  },
-  {
-    title: 'API',
-    url: '',
-    icon: Settings,
-  },
-  {
-    title: 'Changelog',
-    url: '',
-    icon: Settings,
-  },
-  {
-    title: 'Roadmap',
-    url: '',
-    icon: Settings,
-  },
-  {
-    title: 'Community',
-    url: '',
-    icon: Settings,
-  },
-];
+interface AppSidebarProps {
+  category: Category;
+}
 
-export function AppSidebar() {
+export function AppSidebar({ category }: AppSidebarProps) {
+  const subcategories = category.subcategories || [];
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+  const currentSubSlug = searchParams.get('sub');
+
+  const handleChange = (value: string) => {
+    const newSearchParams = new URLSearchParams(
+      searchParams.toString(),
+    );
+    if (value) newSearchParams.set('sub', value);
+    else newSearchParams.delete('sub');
+    router.push(`${pathname}?${newSearchParams.toString()}`, {
+      scroll: false,
+    });
+  };
+
   return (
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <div className="flex items-center justify-between">
-            <h2 className="font-criteria text-base font-medium leading-6">
-              Bộ lọc
-            </h2>
-            <div className="font-sans text-base leading-4.5 text-neutral-500">
-              200 kết quả
-            </div>
-          </div>
-          <div className="relative h-[1px] w-full bg-neutral-900/20 my-3 mb-0"></div>
+          <SidebarGroupLabel className="mb-2">
+            Bộ lọc
+          </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+            <RadioGroup
+              value={currentSubSlug ?? ''}
+              onValueChange={handleChange}
+              className="flex flex-col space-y-2"
+            >
+              <div className="flex items-center flex-wrap space-x-2">
+                <RadioGroupItem value="" id="all" />
+                <Label htmlFor="all" className="ml-2">
+                  Tất cả
+                </Label>
+              </div>
+              {subcategories.map((sub) => (
+                <div
+                  key={sub.id}
+                  className="flex items-center flex-wrap space-x-2"
+                >
+                  <RadioGroupItem value={sub.slug} id={sub.slug} />
+                  <Label htmlFor={sub.slug} className="ml-2">
+                    {sub.name}
+                  </Label>
+                </div>
               ))}
-            </SidebarMenu>
+            </RadioGroup>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
