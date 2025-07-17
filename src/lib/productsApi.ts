@@ -1,4 +1,3 @@
-// lib/productsApi.ts
 import { Category } from './categoryApi';
 import { Subcategory } from './subcategoryApi';
 
@@ -14,6 +13,8 @@ export interface Product {
   name: string;
   description: string;
   price: number;
+  discounted_price?: number;
+  discount_percentage?: number;
   image_url: string;
   image_hover_url?: string;
   created_at: string;
@@ -68,6 +69,8 @@ export interface CreateProductData {
   name: string;
   description: string;
   price: number;
+  discount_price?: number;
+  discount_percent?: number;
   image_url: string;
   image_hover_url?: string;
   category_id: number;

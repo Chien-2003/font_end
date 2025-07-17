@@ -32,6 +32,7 @@ interface ProductForm {
   name: string;
   description: string;
   price: string;
+  discount_percent: string;
   image_url: string;
   image_hover_url: string;
   category_id: string;
@@ -49,6 +50,7 @@ export default function CreateProductPage() {
     name: '',
     description: '',
     price: '',
+    discount_percent: '',
     image_url: '',
     image_hover_url: '',
     category_id: '',
@@ -88,6 +90,17 @@ export default function CreateProductPage() {
     }));
   };
 
+  const handleSelectChange = (
+    name: keyof ProductForm,
+    value: string,
+  ) => {
+    setProduct((prev) => ({
+      ...prev,
+      [name]: value,
+      ...(name === 'category_id' ? { subcategory_id: '' } : {}),
+    }));
+  };
+
   const handleVariantChange = (
     index: number,
     field: keyof Variant,
@@ -98,7 +111,12 @@ export default function CreateProductPage() {
         i === index
           ? {
               ...v,
-              [field]: field === 'quantity' ? Number(value) : value,
+              [field]:
+                field === 'quantity'
+                  ? value === ''
+                    ? 0
+                    : Number(value)
+                  : value,
             }
           : v,
       ),
@@ -108,11 +126,12 @@ export default function CreateProductPage() {
   const addVariant = () => {
     setVariants((prev) => [
       ...prev,
-      { color: '', size: '', quantity: 0 },
+      { color: '', size: '', quantity: 1 },
     ]);
   };
 
   const removeVariant = (index: number) => {
+    if (variants.length <= 1) return;
     setVariants((prev) => prev.filter((_, i) => i !== index));
   };
 
@@ -121,10 +140,23 @@ export default function CreateProductPage() {
       showError('Vui lòng điền đầy đủ tên, giá và danh mục.');
       return;
     }
+
+    for (const v of variants) {
+      if (!v.color || !v.size) {
+        showError(
+          'Vui lòng điền đầy đủ thông tin biến thể (màu, kích cỡ).',
+        );
+        return;
+      }
+    }
+
     const payload: CreateProductData = {
       name: product.name,
       description: product.description,
       price: parseFloat(product.price),
+      discount_percent: product.discount_percent
+        ? parseFloat(product.discount_percent)
+        : undefined,
       image_url: product.image_url,
       image_hover_url: product.image_hover_url,
       category_id: Number(product.category_id),
@@ -133,6 +165,7 @@ export default function CreateProductPage() {
         : undefined,
       variants,
     };
+
     try {
       await createProduct(payload);
       showSuccess('Tạo sản phẩm thành công!');
@@ -140,12 +173,13 @@ export default function CreateProductPage() {
         name: '',
         description: '',
         price: '',
+        discount_percent: '',
         image_url: '',
         image_hover_url: '',
         category_id: '',
         subcategory_id: '',
       });
-      setVariants([{ color: '', size: '', quantity: 0 }]);
+      setVariants([{ color: '', size: '', quantity: 1 }]);
     } catch {
       showError('Tạo sản phẩm thất bại!');
     }
@@ -176,9 +210,22 @@ export default function CreateProductPage() {
             name="price"
             value={product.price}
             onChange={handleChange}
-            placeholder="Giá"
+            placeholder="Giá gốc"
             type="number"
+            min={0}
+            step="0.01"
           />
+          <Input
+            name="discount_percent"
+            value={product.discount_percent}
+            onChange={handleChange}
+            placeholder="Phần trăm giảm giá (nếu có)"
+            type="number"
+            min={0}
+            max={100}
+            step="0.01"
+          />
+          {/* Bỏ input discount_price */}
           <Input
             name="image_url"
             value={product.image_url}
@@ -194,9 +241,7 @@ export default function CreateProductPage() {
           <Select
             value={product.category_id}
             onValueChange={(val) =>
-              handleChange({
-                target: { name: 'category_id', value: val },
-              } as any)
+              handleSelectChange('category_id', val)
             }
           >
             <SelectTrigger>
@@ -214,9 +259,7 @@ export default function CreateProductPage() {
           <Select
             value={product.subcategory_id}
             onValueChange={(val) =>
-              handleChange({
-                target: { name: 'subcategory_id', value: val },
-              } as any)
+              handleSelectChange('subcategory_id', val)
             }
             disabled={!product.category_id}
           >
@@ -269,6 +312,7 @@ export default function CreateProductPage() {
                     e.target.value,
                   )
                 }
+                min={0}
               />
               <Button
                 type="button"

@@ -20,7 +20,7 @@ import Image from 'next/image';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/shared/CategorySidebar';
 
-const PAGE_SIZE = 7;
+const PAGE_SIZE = 10;
 
 export async function generateMetadata({
   params,
@@ -77,28 +77,45 @@ export default async function CategoryPage({
 }) {
   const awaitedParams = await params;
   const awaitedSearchParams = await searchParams;
+
   const { slug } = awaitedParams;
   const page = Number(awaitedSearchParams?.page) || 1;
+  const subSlug = awaitedSearchParams?.sub || '';
 
   const category: Category | null = await getCategoryBySlug(slug);
   if (!category) return notFound();
 
   const productsResponse = await getProductsByCategoryId(
     category.id,
-    page,
-    PAGE_SIZE,
+    1, // Lấy đủ trang 1 lớn hoặc có thể lấy toàn bộ (nếu api không hỗ trợ lấy all)
+    1000, // giả sử lấy max 1000 sản phẩm cho demo lọc client
   );
-  const products: Product[] = productsResponse.data;
-  const total = productsResponse.pagination?.total || products.length;
-  const totalPages = Math.ceil(total / PAGE_SIZE);
-  const subSlug = awaitedSearchParams?.sub;
+  const products: Product[] = productsResponse.data || [];
 
-  const validProducts = products.filter(
+  // Lọc sản phẩm theo subSlug và có variants
+  const filteredProducts = products.filter(
     (product) =>
-      product.variants &&
-      product.variants.length > 0 &&
-      (!subSlug || product.subcategory?.slug === subSlug),
+      product.variants?.length &&
+      (subSlug === '' || product.subcategory?.slug === subSlug),
   );
+
+  const total = filteredProducts.length;
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+
+  // Lấy sản phẩm cho page hiện tại
+  const paginatedProducts = filteredProducts.slice(
+    (page - 1) * PAGE_SIZE,
+    page * PAGE_SIZE,
+  );
+
+  // Hàm hỗ trợ tạo query string giữ sub và page
+  const createHref = (pageNum: number) => {
+    const params = new URLSearchParams();
+    if (pageNum > 1) params.set('page', String(pageNum));
+    if (subSlug) params.set('sub', subSlug);
+    const queryString = params.toString();
+    return `?${queryString}`;
+  };
 
   return (
     <>
@@ -117,27 +134,30 @@ export default async function CategoryPage({
           <AppSidebar category={category} />
           <main className="ml-2 lg:ml-3">
             <Breadcrumbs />
-            {validProducts.length === 0 ? (
+            {paginatedProducts.length === 0 ? (
               <p className="text-center w-full">
                 Không có sản phẩm nào.
               </p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {validProducts.map((product, index) => {
-                  const firstVariant = product.variants![0];
-                  return (
-                    <ProductCard
-                      key={product.id}
-                      index={index}
-                      variants={product.variants!}
-                      name={product.name}
-                      description={product.description}
-                      price={product.price}
-                      image_url={product.image_url}
-                      image_hover_url={product.image_hover_url}
-                    />
-                  );
-                })}
+                {paginatedProducts.map((product, index) => (
+                  <ProductCard
+                    key={product.id}
+                    index={index}
+                    variants={product.variants!}
+                    name={product.name}
+                    description={product.description}
+                    price={product.discounted_price ?? product.price}
+                    oldPrice={
+                      product.discounted_price
+                        ? product.price
+                        : undefined
+                    }
+                    discountPercent={product.discount_percentage ?? 0}
+                    image_url={product.image_url}
+                    image_hover_url={product.image_hover_url}
+                  />
+                ))}
               </div>
             )}
           </main>
@@ -147,7 +167,7 @@ export default async function CategoryPage({
             <PaginationContent>
               <PaginationItem>
                 <PaginationPrevious
-                  href={`?page=${page - 1}`}
+                  href={createHref(page - 1)}
                   isActive={false}
                   aria-disabled={page <= 1}
                   className={
@@ -158,7 +178,7 @@ export default async function CategoryPage({
               {Array.from({ length: totalPages }).map((_, i) => (
                 <PaginationItem key={i}>
                   <PaginationLink
-                    href={`?page=${i + 1}`}
+                    href={createHref(i + 1)}
                     isActive={page === i + 1}
                   >
                     {i + 1}
@@ -167,7 +187,7 @@ export default async function CategoryPage({
               ))}
               <PaginationItem>
                 <PaginationNext
-                  href={`?page=${page + 1}`}
+                  href={createHref(page + 1)}
                   isActive={false}
                   aria-disabled={page >= totalPages}
                   className={

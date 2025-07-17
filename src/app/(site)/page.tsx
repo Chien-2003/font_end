@@ -21,21 +21,22 @@ export default async function HomePage() {
           <p className="text-center w-full">Không có sản phẩm nào.</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4 gap-6">
-            {validProducts.map((product, index) => {
-              const firstVariant = product.variants![0];
-              return (
-                <ProductCard
-                  key={product.id}
-                  index={index}
-                  variants={product.variants!}
-                  name={product.name}
-                  description={product.description}
-                  price={product.price}
-                  image_url={product.image_url}
-                  image_hover_url={product.image_hover_url}
-                />
-              );
-            })}
+            {validProducts.map((product, index) => (
+              <ProductCard
+                key={product.id}
+                index={index}
+                variants={product.variants!}
+                name={product.name}
+                description={product.description}
+                price={product.discounted_price ?? product.price}
+                oldPrice={
+                  product.discounted_price ? product.price : undefined
+                }
+                discountPercent={product.discount_percentage ?? 0}
+                image_url={product.image_url}
+                image_hover_url={product.image_hover_url}
+              />
+            ))}
           </div>
         )}
       </div>

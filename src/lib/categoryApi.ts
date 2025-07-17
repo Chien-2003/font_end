@@ -26,10 +26,12 @@ export interface Product {
   name: string;
   description: string;
   price: number;
+  discounted_price?: number;
+  discount_percentage?: number;
   image_url: string;
   image_hover_url?: string;
-  created_at?: string;
-  updated_at?: string;
+  created_at: string;
+  updated_at: string;
   variants?: ProductVariant[];
   category: Category;
   subcategory?: Subcategory;

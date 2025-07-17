@@ -34,7 +34,7 @@ interface ProductCardProps {
   index?: number;
 }
 
-export default function ProductCard({
+function ProductCard({
   name,
   description,
   price,
@@ -105,19 +105,12 @@ export default function ProductCard({
               alt={`${name} hover`}
             />
           )}
-          {discountPercent && (
-            <div className="absolute top-2 right-2 bg-blue-50 text-xs font-semibold px-2 py-1 rounded-full z-30">
-              {discountPercent}%
-            </div>
-          )}
-
           <div className="absolute bottom-1 left-1/2 -translate-x-1/2 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out z-30">
             <div className="bg-gray-400/20 backdrop-blur-[15px] border-none p-5 rounded-lg shadow-none md:w-[calc(290px-16px)] lg:w-[calc(290px-16px)] text-center">
               <p className="text-base text-start text-black mb-2">
                 Thêm nhanh vào giỏ hàng{' '}
                 <span className="text-lg">+</span>
               </p>
-
               <TooltipProvider>
                 <div className="flex flex-wrap items-center gap-3">
                   {variants.map((variant) => (
@@ -165,13 +158,19 @@ export default function ProductCard({
               : description}
           </p>
           <div className="flex justify-between items-end mt-auto">
-            <div className="flex items-baseline">
-              <span className="text-lg font-bold">{price}</span>
-              {oldPrice && (
-                <span className="text-sm line-through ml-2 text-muted-foreground">
+            <div className="flex items-baseline gap-2 space-x-3">
+              {oldPrice !== undefined && oldPrice > price && (
+                <span className="text-sm line-through text-muted-foreground">
                   {oldPrice}
                 </span>
               )}
+              {typeof discountPercent === 'number' &&
+                discountPercent > 0 && (
+                  <div className="text-xs bg-blue-500 text-white font-semibold px-2 py-1 rounded-full z-30">
+                    -{discountPercent}%
+                  </div>
+                )}
+              <span className="text-base font-bold">{price}</span>
             </div>
           </div>
         </CardContent>
@@ -179,3 +178,4 @@ export default function ProductCard({
     </motion.div>
   );
 }
+export default ProductCard;

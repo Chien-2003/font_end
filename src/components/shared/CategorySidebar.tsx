@@ -32,10 +32,14 @@ export function AppSidebar({ category }: AppSidebarProps) {
 
   const handleChange = (value: string) => {
     const newSearchParams = new URLSearchParams(
-      searchParams.toString(),
+      searchParams?.toString() ?? '',
     );
+
     if (value) newSearchParams.set('sub', value);
     else newSearchParams.delete('sub');
+
+    newSearchParams.set('page', '1');
+
     router.push(`${pathname}?${newSearchParams.toString()}`, {
       scroll: false,
     });

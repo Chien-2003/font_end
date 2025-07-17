@@ -11,6 +11,7 @@ import { Badge, IconButton } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import CartButton from './CartButton';
 import { ModeToggle } from '@/components/shared/ModeToggle';
+import SearchModalTrigger from './SearchDropdown';
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -42,36 +43,12 @@ export default function Navbar() {
                 Elysia Wear
               </span>
             </Link>
-            <div className="relative flex-grow max-w-md w-full">
-              <input
-                type="text"
-                placeholder="Tìm kiếm sản phẩm..."
-                className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 shadow-sm focus:outline-none transition-all dark:bg-gray-800 dark:text-white dark:border-gray-700"
-              />
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  className="w-5 h-5"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 21l-4.35-4.35M17 10.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z"
-                  />
-                </svg>
-              </div>
-            </div>
+            <SearchModalTrigger />
             <div className="flex items-center gap-3 shrink-0">
               <UserMenu />
               <IconButton
                 aria-label="notifications"
-                sx={{
-                  p: 1,
-                }}
+                sx={{ p: 1 }}
                 onClick={handleClick}
               >
                 <Badge badgeContent={3} color="error">
