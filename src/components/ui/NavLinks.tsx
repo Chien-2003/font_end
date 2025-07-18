@@ -22,11 +22,7 @@ function chunkArray<T>(arr: T[], size: number): T[][] {
   return result;
 }
 
-export default function NavLinks({
-  className = '',
-}: {
-  className?: string;
-}) {
+export default function NavLinks({ className = '' }: { className?: string }) {
   const pathname = usePathname();
   const router = useRouter();
   const [categories, setCategories] = React.useState<Category[]>([]);
@@ -50,68 +46,67 @@ export default function NavLinks({
   ];
 
   return (
-    <NavigationMenu className={className}>
-      <NavigationMenuList>
+    <NavigationMenu className={`${className} bg-white dark:bg-gray-900`}>
+      <NavigationMenuList className="flex gap-4">
         {categories.map((category) => {
           const href = `/${category.slug_category}`;
-          const isActive =
-            pathname === href || pathname.startsWith(`${href}/`);
+          const isActive = pathname === href || pathname.startsWith(`${href}/`);
 
           return (
-            <NavigationMenuItem key={category.id}>
+            <NavigationMenuItem key={category.id} className="relative">
               <NavigationMenuTrigger
                 onClick={() => router.push(href)}
-                className={`uppercase text-sm font-medium dark:bg-gray-900 px-4 py-2 ${
-                  isActive ? 'text-[#b4282b]' : ''
+                className={`uppercase text-sm font-semibold px-4 py-2 rounded-md transition-colors duration-200 ${
+                  isActive
+                    ? 'text-[#b4282b] bg-[#fee6e6] dark:bg-[#5f121f]'
+                    : 'text-gray-700 hover:text-[#b4282b] hover:bg-gray-100 dark:text-gray-300 dark:hover:text-[#b4282b] dark:hover:bg-gray-800'
                 }`}
               >
                 {category.name}
               </NavigationMenuTrigger>
-              {category.subcategories &&
-                category.subcategories.length > 0 && (
-                  <NavigationMenuContent>
-                    <div className="flex gap-x-6 p-4 md:w-[400px] lg:w-[500px]">
-                      {chunkArray(category.subcategories, 4).map(
-                        (group, index) => (
-                          <ul
-                            key={index}
-                            className="flex flex-col space-y-2"
+
+              {category.subcategories && category.subcategories.length > 0 && (
+                <NavigationMenuContent className="z-50 bg-white dark:bg-gray-900 rounded-md shadow-lg p-6 min-w-[400px] md:min-w-[480px] lg:min-w-[520px]">
+                  <div className="flex gap-x-8">
+                    {chunkArray(category.subcategories, 4).map((group, idx) => (
+                      <ul key={idx} className="flex flex-col space-y-3">
+                        {group.map((sub) => (
+                          <ListItem
+                            key={sub.id}
+                            title={sub.name}
+                            href={`${href}/${sub.slug}`}
+                            active={pathname === `${href}/${sub.slug}`}
                           >
-                            {group.map((sub) => (
-                              <ListItem
-                                key={sub.id}
-                                title={sub.name}
-                                href={`${href}/${sub.slug}`}
-                                active={
-                                  pathname === `${href}/${sub.slug}`
-                                }
-                              >
-                                {sub.name}
-                              </ListItem>
-                            ))}
-                          </ul>
-                        ),
-                      )}
-                    </div>
-                  </NavigationMenuContent>
-                )}
+                            {sub.name}
+                          </ListItem>
+                        ))}
+                      </ul>
+                    ))}
+                  </div>
+                </NavigationMenuContent>
+              )}
             </NavigationMenuItem>
           );
         })}
-        {staticLinks.map((link) => (
-          <NavigationMenuItem key={link.name}>
-            <NavigationMenuLink asChild>
-              <Link
-                href={link.href}
-                className={`${navigationMenuTriggerStyle()} uppercase text-base font-medium dark:bg-gray-900 ${
-                  pathname === link.href ? 'text-[#b4282b]' : ''
-                }`}
-              >
-                {link.name}
-              </Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-        ))}
+        {staticLinks.map((link) => {
+          const isActive = pathname === link.href;
+          return (
+            <NavigationMenuItem key={link.name}>
+              <NavigationMenuLink asChild>
+                <Link
+                  href={link.href}
+                  className={`${navigationMenuTriggerStyle()} uppercase text-sm font-semibold px-4 py-2 rounded-md transition-colors duration-200 ${
+                    isActive
+                      ? 'text-[#b4282b] bg-[#fee6e6] dark:bg-[#5f121f]'
+                      : 'text-gray-700 hover:text-[#b4282b] hover:bg-gray-100 dark:text-gray-300 dark:hover:text-[#b4282b] dark:hover:bg-gray-800'
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          );
+        })}
       </NavigationMenuList>
     </NavigationMenu>
   );
@@ -132,18 +127,12 @@ function ListItem({
       <NavigationMenuLink asChild>
         <Link
           href={href}
-          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+          className={`block rounded-md p-3 leading-none no-underline outline-none transition-colors duration-200 hover:bg-[#fee6e6] hover:text-[#b4282b] focus:bg-[#fee6e6] focus:text-[#b4282b] ${
+            active ? 'text-[#b4282b] font-semibold' : 'text-gray-700 dark:text-gray-300'
+          }`}
         >
-          <div
-            className={`text-sm font-medium leading-none ${
-              active ? 'text-[#b4282b]' : ''
-            }`}
-          >
-            {title}
-          </div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
+          <div className="text-sm font-semibold">{title}</div>
+          <p className="line-clamp-2 text-xs text-muted-foreground">{children}</p>
         </Link>
       </NavigationMenuLink>
     </li>

@@ -20,9 +20,9 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Loader2 } from 'lucide-react';
 import Swal from 'sweetalert2';
 import Link from 'next/link';
-import { signIn } from 'next-auth/react';
 import LoginWithGoogleButton from '@/components/shared/LoginWithGoogleButton';
 import LoginWithFacebookButton from '@/components/shared/LoginWithFacebookButton';
+import PasswordInput from '@/components/shared/PasswordInput';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -125,9 +125,8 @@ export default function LoginPage() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Mật khẩu</Label>
-              <Input
+              <PasswordInput
                 id="password"
-                type="password"
                 placeholder="••••••••"
                 required
                 value={password}

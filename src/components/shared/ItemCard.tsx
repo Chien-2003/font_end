@@ -85,7 +85,7 @@ function ProductCard({
     >
       <Card
         ref={cardRef}
-        className="flex flex-col motion-custum h-full border shadow-none py-0 rounded-none"
+        className="h-full border shadow-none py-0 rounded-none"
       >
         <CardHeader className="p-0 relative h-[431px] overflow-hidden group">
           <Image

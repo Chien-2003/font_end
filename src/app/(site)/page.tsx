@@ -16,7 +16,7 @@ export default async function HomePage() {
     <>
       <HomeBanner />
       <HomeCategorySection />
-      <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 w-full h-full">
+      <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 mt-10 w-full h-full">
         {validProducts.length === 0 ? (
           <p className="text-center w-full">Không có sản phẩm nào.</p>
         ) : (

@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/UserContext';
 import {
   DropdownMenu,
@@ -10,10 +10,13 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
 import { signOut } from 'next-auth/react';
 
 export default function UserMenu() {
   const { user, setUser } = useUser();
+  const router = useRouter();
+
   const handleLogout = async () => {
     try {
       await fetch('http://localhost:4000/auth/logout', {
@@ -22,7 +25,7 @@ export default function UserMenu() {
       });
       await signOut({ redirect: false });
       setUser(null);
-      window.location.href = '/login';
+      router.push('/login');
     } catch (error) {
       console.error('Lỗi khi đăng xuất:', error);
     }
@@ -31,18 +34,20 @@ export default function UserMenu() {
   if (!user) {
     return (
       <div className="ml-3 flex space-x-2">
-        <Link
-          href="/login"
-          className="text-white text-sm px-3 py-2 rounded-md bg-gray-800 hover:bg-gray-700"
+        <Button
+          variant="outline"
+          className="text-sm cursor-pointer"
+          onClick={() => router.push('/login')}
         >
           Đăng nhập
-        </Link>
-        <Link
-          href="/register"
-          className="text-white text-sm px-3 py-2 rounded-md bg-gray-800 hover:bg-gray-700"
+        </Button>
+        <Button
+          variant="outline"
+          className="text-sm cursor-pointer"
+          onClick={() => router.push('/register')}
         >
           Đăng ký
-        </Link>
+        </Button>
       </div>
     );
   }
@@ -66,13 +71,13 @@ export default function UserMenu() {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="w-48">
-        <DropdownMenuItem asChild>
-          <Link href="/profile">Thông tin cá nhân</Link>
+        <DropdownMenuItem onClick={() => router.push('/profile')}>
+          Thông tin cá nhân
         </DropdownMenuItem>
 
         {user.email === 'nguyendinhchien19042003@gmail.com' && (
-          <DropdownMenuItem asChild>
-            <Link href="/admin">Trang quản lý</Link>
+          <DropdownMenuItem onClick={() => router.push('/admin')}>
+            Trang quản lý
           </DropdownMenuItem>
         )}
 

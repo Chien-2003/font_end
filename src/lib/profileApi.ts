@@ -5,6 +5,7 @@ export interface UpdateProfilePayload {
   order_address?: string;
   birth_date?: string | null;
   gender?: 0 | 1 | 2;
+  avatar?: string | null;
 }
 
 export interface UpdateProfileResponse {

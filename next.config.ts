@@ -10,6 +10,7 @@ const nextConfig = {
       'lh3.googleusercontent.com',
       'n7media.coolmate.me',
       'platform-lookaside.fbsbx.com',
+      'res.cloudinary.com',
     ],
   },
 };

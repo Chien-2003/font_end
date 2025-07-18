@@ -1,4 +1,3 @@
-// app/profile/page.tsx
 'use client';
 
 import React, { useRef } from 'react';
@@ -43,7 +42,6 @@ export default function ProfilePage() {
   if (error) {
     return (
       <div className="mx-auto max-w-3xl w-full px-4 py-6 text-center text-red-600">
-        <h1 className="text-2xl font-bold mb-4">Lỗi tải dữ liệu</h1>
         <p>{error}</p>
         <Button onClick={fetchUser} className="mt-4">
           Thử lại

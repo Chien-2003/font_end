@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { showError, showSuccess } from '@/lib/swal';
 import { FaFacebookF } from 'react-icons/fa';
 import { useUser } from '@/contexts/UserContext';
+import { Button } from '../ui/button';
 
 export default function LoginWithFacebookButton() {
   const { data: session, status } = useSession();
@@ -48,12 +49,13 @@ export default function LoginWithFacebookButton() {
   }, [status, session, router]);
 
   return (
-    <button
+    <Button
+      variant="outline"
       onClick={() => signIn('facebook')}
-      className="w-full bg-blue-600 text-white py-2 rounded mt-4 flex items-center justify-center"
+      className="w-full py-2 rounded mt-4 flex items-center justify-center"
     >
       <FaFacebookF className="mr-3" />
       Facebook
-    </button>
+    </Button>
   );
 }

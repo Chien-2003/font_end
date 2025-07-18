@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useCart } from '@/contexts/CartContext';
 import { deleteCartItem } from '@/lib/cartApi';
-import { showError, showSuccess } from '@/lib/swal';
 
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -19,6 +18,8 @@ import { Trash2, ShoppingCart, X } from 'lucide-react';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { CartPageSkeleton } from '@/components/skeleton/CartPageSkeleton';
 
+import Alert from '@/components/shared/Alert';
+
 function formatVND(value: number) {
   return value.toLocaleString('vi-VN', {
     style: 'currency',
@@ -30,9 +31,12 @@ export default function CartPage() {
   const { cartItems, refreshCart, isLoading } = useCart();
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [openImage, setOpenImage] = useState(false);
-  const [previewImage, setPreviewImage] = useState<string | null>(
-    null,
-  );
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+
+  // Alert state
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertType, setAlertType] = useState<'info' | 'error' | 'success'>('info');
+
   if (isLoading) {
     return <CartPageSkeleton />;
   }
@@ -71,10 +75,12 @@ export default function CartPage() {
       setSelectedItems((prev) =>
         prev.filter((itemId) => itemId !== id),
       );
-      showSuccess(res.message);
+      setAlertType('success');
+      setAlertMessage(res.message || 'Xóa sản phẩm thành công!');
     } catch (err: any) {
       console.error('Lỗi khi xoá sản phẩm:', err);
-      showError(err?.response?.data?.message || err.message);
+      setAlertType('error');
+      setAlertMessage(err?.response?.data?.message || err.message || 'Có lỗi xảy ra!');
     }
   };
 
@@ -86,7 +92,7 @@ export default function CartPage() {
     }, 0);
 
   return (
-    <div className="max-w-3xl w-full mx-auto px-4 py-6">
+    <div className="max-w-3xl w-full mx-auto px-4 py-6 relative">
       <h1 className="text-2xl font-bold mb-6">Giỏ hàng của bạn</h1>
 
       <Card className="p-4">
@@ -196,6 +202,7 @@ export default function CartPage() {
           </Button>
         </div>
       </Card>
+
       <Dialog open={openImage} onOpenChange={setOpenImage}>
         <DialogContent className="p-0 max-w-4xl bg-transparent shadow-none border-none">
           <VisuallyHidden>
@@ -222,6 +229,12 @@ export default function CartPage() {
           </div>
         </DialogContent>
       </Dialog>
+
+      <Alert
+        type={alertType}
+        message={alertMessage}
+        onClose={() => setAlertMessage('')}
+      />
     </div>
   );
 }

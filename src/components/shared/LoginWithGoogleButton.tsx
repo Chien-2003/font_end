@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { showSuccess, showError } from '@/lib/swal';
 import { FaGoogle } from 'react-icons/fa';
 import { useUser } from '@/contexts/UserContext';
+import { Button } from '../ui/button';
 
 export default function LoginWithGoogleButton() {
   const { data: session, status } = useSession();
@@ -45,12 +46,13 @@ export default function LoginWithGoogleButton() {
   }, [status, session, router]);
 
   return (
-    <button
+    <Button
+      variant="outline"
       onClick={() => signIn('google')}
-      className="w-full bg-blue-600 text-white py-2 rounded mt-4 flex items-center justify-center"
+      className="w-full py-2 rounded mt-4 flex items-center justify-center"
     >
       <FaGoogle className="mr-3" />
       Google
-    </button>
+    </Button>
   );
 }
