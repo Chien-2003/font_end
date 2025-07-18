@@ -11,7 +11,10 @@ import { format } from 'date-fns';
 import dayjs from 'dayjs';
 
 import { useUser } from '@/contexts/UserContext';
-import { updateProfile, UpdateProfileResponse } from '@/lib/profileApi';
+import {
+  updateProfile,
+  UpdateProfileResponse,
+} from '@/lib/profileApi';
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -50,15 +53,20 @@ const PersonalInfoPage = forwardRef<PersonalInfoPageRef>((_, ref) => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
-  const [birthDate, setBirthDate] = useState<Date | undefined>(undefined);
+  const [birthDate, setBirthDate] = useState<Date | undefined>(
+    undefined,
+  );
   const [gender, setGender] = useState<'0' | '1' | '2'>('0');
   const [avatar, setAvatar] = useState<string | null>(null);
 
-  const [{ files }, { removeFile, openFileDialog, getInputProps }] = useFileUpload({
-    accept: 'image/*',
-  });
+  const [{ files }, { removeFile, openFileDialog, getInputProps }] =
+    useFileUpload({
+      accept: 'image/*',
+    });
 
-  const uploadAvatarToServer = async (file: File): Promise<string | null> => {
+  const uploadAvatarToServer = async (
+    file: File,
+  ): Promise<string | null> => {
     try {
       const formData = new FormData();
       formData.append('image', file);
@@ -94,7 +102,9 @@ const PersonalInfoPage = forwardRef<PersonalInfoPageRef>((_, ref) => {
       setEmail(user.email || '');
       setPhone(user.phone || '');
       setAddress(user.address || '');
-      setBirthDate(user.birth_date ? new Date(user.birth_date) : undefined);
+      setBirthDate(
+        user.birth_date ? new Date(user.birth_date) : undefined,
+      );
       setGender(String(user.gender ?? 0) as '0' | '1' | '2');
       setAvatar(user.avatar || null);
     }
@@ -106,18 +116,21 @@ const PersonalInfoPage = forwardRef<PersonalInfoPageRef>((_, ref) => {
         full_name: fullName,
         phone,
         address,
-        birth_date: birthDate ? dayjs(birthDate).format('YYYY-MM-DD') : null,
+        birth_date: birthDate
+          ? dayjs(birthDate).format('YYYY-MM-DD')
+          : null,
         gender: Number(gender) as 0 | 1 | 2,
         avatar,
       });
     },
   }));
-  const previewUrl = files[0]?.preview || avatar || user?.avatar || null;
+  const previewUrl =
+    files[0]?.preview || avatar || user?.avatar || null;
   const fileName = files[0]?.file.name || null;
 
   const handleCalendarChange = (
     _value: string | number,
-    _e: React.ChangeEventHandler<HTMLSelectElement>
+    _e: React.ChangeEventHandler<HTMLSelectElement>,
   ) => {
     const _event = {
       target: {
@@ -169,44 +182,72 @@ const PersonalInfoPage = forwardRef<PersonalInfoPageRef>((_, ref) => {
           />
         </div>
 
-        {fullName && <h2 className="text-xl font-semibold">{fullName}</h2>}
-        {fileName && <p className="text-muted-foreground text-xs">{fileName}</p>}
+        {fullName && (
+          <h2 className="text-xl font-semibold">{fullName}</h2>
+        )}
+        {fileName && (
+          <p className="text-muted-foreground text-xs">{fileName}</p>
+        )}
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
         <div>
-          <Label htmlFor="fullName" className='mb-2'>Họ và tên</Label>
-          <Input id="fullName" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+          <Label htmlFor="fullName" className="mb-2">
+            Họ và tên
+          </Label>
+          <Input
+            id="fullName"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+          />
         </div>
 
         <div>
-          <Label htmlFor="address" className='mb-2'>Địa chỉ thường trú</Label>
-          <Input id="address" value={address} onChange={(e) => setAddress(e.target.value)} />
+          <Label htmlFor="address" className="mb-2">
+            Địa chỉ thường trú
+          </Label>
+          <Input
+            id="address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
         </div>
 
         <div>
-          <Label htmlFor="email" className='mb-2'>Email</Label>
+          <Label htmlFor="email" className="mb-2">
+            Email
+          </Label>
           <Input id="email" value={email} disabled />
         </div>
 
         <div>
-          <Label htmlFor="phone" className='mb-2'>Số điện thoại</Label>
-          <Input id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
+          <Label htmlFor="phone" className="mb-2">
+            Số điện thoại
+          </Label>
+          <Input
+            id="phone"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
         </div>
 
         <div>
-          <Label htmlFor="birthDate" className='mb-2'>Ngày sinh</Label>
+          <Label htmlFor="birthDate" className="mb-2">
+            Ngày sinh
+          </Label>
           <Popover>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
                 className={cn(
                   'w-full justify-start text-left font-normal',
-                  !birthDate && 'text-muted-foreground'
+                  !birthDate && 'text-muted-foreground',
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {birthDate ? format(birthDate, 'dd/MM/yyyy') : 'Chọn ngày'}
+                {birthDate
+                  ? format(birthDate, 'dd/MM/yyyy')
+                  : 'Chọn ngày'}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">

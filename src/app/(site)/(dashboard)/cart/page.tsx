@@ -31,11 +31,15 @@ export default function CartPage() {
   const { cartItems, refreshCart, isLoading } = useCart();
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [openImage, setOpenImage] = useState(false);
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(
+    null,
+  );
 
   // Alert state
   const [alertMessage, setAlertMessage] = useState('');
-  const [alertType, setAlertType] = useState<'info' | 'error' | 'success'>('info');
+  const [alertType, setAlertType] = useState<
+    'info' | 'error' | 'success'
+  >('info');
 
   if (isLoading) {
     return <CartPageSkeleton />;
@@ -80,7 +84,11 @@ export default function CartPage() {
     } catch (err: any) {
       console.error('Lỗi khi xoá sản phẩm:', err);
       setAlertType('error');
-      setAlertMessage(err?.response?.data?.message || err.message || 'Có lỗi xảy ra!');
+      setAlertMessage(
+        err?.response?.data?.message ||
+          err.message ||
+          'Có lỗi xảy ra!',
+      );
     }
   };
 

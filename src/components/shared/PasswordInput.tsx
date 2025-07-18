@@ -4,9 +4,12 @@ import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Eye, EyeOff } from 'lucide-react';
 
-interface PasswordInputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+interface PasswordInputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {}
 
-export default function PasswordInput({ ...props }: PasswordInputProps) {
+export default function PasswordInput({
+  ...props
+}: PasswordInputProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -22,7 +25,11 @@ export default function PasswordInput({ ...props }: PasswordInputProps) {
         className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
         tabIndex={-1}
       >
-        {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+        {showPassword ? (
+          <EyeOff className="w-5 h-5" />
+        ) : (
+          <Eye className="w-5 h-5" />
+        )}
       </button>
     </div>
   );

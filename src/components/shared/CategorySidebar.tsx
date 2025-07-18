@@ -59,7 +59,11 @@ export function AppSidebar({ category }: AppSidebarProps) {
               className="flex flex-col space-y-2"
             >
               <div className="flex items-center flex-wrap space-x-2">
-                <RadioGroupItem value="" id="all" className='cursor-pointer'/>
+                <RadioGroupItem
+                  value=""
+                  id="all"
+                  className="cursor-pointer"
+                />
                 <Label htmlFor="all" className="ml-2 cursor-pointer">
                   Tất cả
                 </Label>
@@ -69,8 +73,15 @@ export function AppSidebar({ category }: AppSidebarProps) {
                   key={sub.id}
                   className="flex items-center flex-wrap space-x-2"
                 >
-                  <RadioGroupItem value={sub.slug} id={sub.slug} className='cursor-pointer'/>
-                  <Label htmlFor={sub.slug} className="ml-2 cursor-pointer">
+                  <RadioGroupItem
+                    value={sub.slug}
+                    id={sub.slug}
+                    className="cursor-pointer"
+                  />
+                  <Label
+                    htmlFor={sub.slug}
+                    className="ml-2 cursor-pointer"
+                  >
                     {sub.name}
                   </Label>
                 </div>

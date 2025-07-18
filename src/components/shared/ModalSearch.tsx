@@ -54,7 +54,10 @@ export default function ProductModal({
             onChange={(e) => setQuery(e.target.value)}
             className="w-full max-w-xl px-4 py-2 border rounded-md dark:bg-gray-800 dark:text-white dark:border-gray-600"
           />
-          <button onClick={onClose} className="ml-4 text-red-500 cursor-pointer w-5 h-5">
+          <button
+            onClick={onClose}
+            className="ml-4 text-red-500 cursor-pointer w-5 h-5"
+          >
             <MdOutlineClose />
           </button>
         </div>
