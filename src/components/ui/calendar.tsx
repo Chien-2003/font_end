@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
+// import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { DayPicker } from 'react-day-picker';
 
 import { cn } from '@/lib/utils';
@@ -61,26 +61,26 @@ function Calendar({
     {} as typeof defaultClassNames,
   );
 
-  const defaultComponents = {
-    Chevron: (props: {
-      className?: string;
-      size?: number;
-      disabled?: boolean;
-      orientation?: 'left' | 'right' | 'up' | 'down';
-    }) => {
-      if (props.orientation === 'left') {
-        return (
-          <ChevronLeftIcon size={16} {...props} aria-hidden="true" />
-        );
-      }
-      return (
-        <ChevronRightIcon size={16} {...props} aria-hidden="true" />
-      );
-    },
-  };
+  // const defaultComponents = {
+  //   Chevron: (props: {
+  //     className?: string;
+  //     size?: number;
+  //     disabled?: boolean;
+  //     orientation?: 'left' | 'right' | 'up' | 'down';
+  //   }) => {
+  //     if (props.orientation === 'left') {
+  //       return (
+  //         <ChevronLeftIcon size={16} {...props} aria-hidden="true" />
+  //       );
+  //     }
+  //     return (
+  //       <ChevronRightIcon size={16} {...props} aria-hidden="true" />
+  //     );
+  //   },
+  // };
 
   const mergedComponents = {
-    ...defaultComponents,
+    // ...defaultComponents,
     ...userComponents,
   };
 

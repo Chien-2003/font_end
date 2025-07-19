@@ -184,7 +184,7 @@ export default function LoginPage() {
             <p className="text-center text-sm mt-3">
               Bạn chưa có tài khoản?{' '}
               <Link
-                href="/register"
+                href="/auth/register"
                 className="text-blue-600 hover:underline font-medium"
               >
                 Tạo tài khoản

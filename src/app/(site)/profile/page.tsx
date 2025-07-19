@@ -34,10 +34,10 @@ export default function ProfilePage() {
   const addressRef = useRef<AddressesPageRef>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
   const [tab, setTab] = React.useState('personal');
+  const commonTriggerClass =
+    'data-[state=active]:after:bg-primary relative w-full p-2 justify-start rounded-none after:absolute after:inset-y-0 after:start-0 after:w-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none border-none cursor-pointer';
 
-  if (loading) {
-    return <ProfilePageSkeleton />;
-  }
+  if (loading) return <ProfilePageSkeleton />;
 
   if (error) {
     return (
@@ -57,7 +57,7 @@ export default function ProfilePage() {
           Không tìm thấy thông tin người dùng
         </h1>
         <p>Vui lòng đăng nhập để xem hồ sơ của bạn.</p>
-        <Link href="/auth/login" passHref>
+        <Link href="/auth/login">
           <Button className="mt-4">Đăng nhập</Button>
         </Link>
       </div>
@@ -84,17 +84,21 @@ export default function ProfilePage() {
       await fetchUser();
       if (response?.message) showSuccess(response.message);
     } catch (err: any) {
-      console.error('Lỗi cập nhật:', err);
       if (err?.message) showError(err.message);
     }
   };
 
   return (
     <div className="mx-auto max-w-full md:px-4 lg:py-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 w-full h-full">
-      <Tabs value={tab} onValueChange={setTab} className="w-full">
-        <div className="grid md:grid-cols-4 gap-6">
+      <Tabs
+        value={tab}
+        onValueChange={setTab}
+        orientation="vertical"
+        className="w-full flex-row"
+      >
+        <div className="grid md:grid-cols-4 gap-6 w-full max-w-[1400px] mx-auto">
           <Card className="p-6 flex flex-col">
-            <Link href="/" className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-2 mb-4">
               <Image
                 src="/logo.svg"
                 alt="Elysia Wear"
@@ -105,27 +109,40 @@ export default function ProfilePage() {
                 Elysia Wear
               </span>
             </Link>
-            <Typography variant="h2">
+
+            <Typography variant="h2" className="mb-6">
               {user.full_name || 'Chưa có tên'}
             </Typography>
-            <TabsList className="flex flex-col w-full items-start space-y-4">
-              <TabsTrigger value="personal">
+
+            <TabsList className="flex-col rounded-none border-l bg-transparent p-0 space-y-4">
+              <TabsTrigger
+                value="personal"
+                className={commonTriggerClass}
+              >
                 Thông tin cá nhân
               </TabsTrigger>
-              <TabsTrigger value="orders">
+              <TabsTrigger
+                value="orders"
+                className={commonTriggerClass}
+              >
                 Đơn hàng của bạn
               </TabsTrigger>
-              <TabsTrigger value="favorites">
+              <TabsTrigger
+                value="favorites"
+                className={commonTriggerClass}
+              >
                 Sản phẩm yêu thích
               </TabsTrigger>
-              <TabsTrigger value="addresses">
+              <TabsTrigger
+                value="addresses"
+                className={commonTriggerClass}
+              >
                 Địa chỉ nhận hàng
               </TabsTrigger>
             </TabsList>
           </Card>
-
           <div className="md:col-span-3 space-y-4">
-            <Card className="p-4">
+            <div className="rounded-md border text-start p-5">
               <TabsContent value="personal">
                 <PersonalInfoPage ref={personalInfoRef} />
               </TabsContent>
@@ -146,7 +163,7 @@ export default function ProfilePage() {
                   </Button>
                 </div>
               )}
-            </Card>
+            </div>
           </div>
         </div>
       </Tabs>

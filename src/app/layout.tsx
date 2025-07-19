@@ -5,7 +5,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import '@/app/globals.css';
 import { CartProvider } from '@/contexts/CartContext';
-import { ThemeProvider } from '@/components/theme-provider';
+import { ThemeProvider } from '@/components/theme/theme-provider';
 import { SessionProvider } from 'next-auth/react';
 import SessionProviderWrapper from '@/components/providers/SessionProviderWrapper';
 const inter = Inter({

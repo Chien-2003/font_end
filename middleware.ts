@@ -8,7 +8,8 @@ export function middleware(request: NextRequest) {
   const url = request.nextUrl;
   if (
     token &&
-    (url.pathname === '/login' || url.pathname === '/register')
+    (url.pathname === '/auth/login' ||
+      url.pathname === '/auth/register')
   ) {
     try {
       jwt.verify(token, JWT_SECRET);
@@ -20,7 +21,7 @@ export function middleware(request: NextRequest) {
     (url.pathname.startsWith('/dashboard') ||
       url.pathname.startsWith('/profile'))
   ) {
-    return NextResponse.redirect(new URL('/login', request.url));
+    return NextResponse.redirect(new URL('/auth/login', request.url));
   }
   return NextResponse.next();
 }
@@ -29,7 +30,7 @@ export const config = {
   matcher: [
     '/dashboard/:path*',
     '/profile/:path*',
-    '/login',
-    '/register',
+    '/auth/login',
+    '/auth/register',
   ],
 };

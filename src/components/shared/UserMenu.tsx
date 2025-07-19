@@ -25,7 +25,7 @@ export default function UserMenu() {
       });
       await signOut({ redirect: false });
       setUser(null);
-      router.push('/login');
+      router.push('/auth/login');
     } catch (error) {
       console.error('Lỗi khi đăng xuất:', error);
     }
@@ -37,14 +37,14 @@ export default function UserMenu() {
         <Button
           variant="outline"
           className="text-sm cursor-pointer"
-          onClick={() => router.push('/login')}
+          onClick={() => router.push('/auth/login')}
         >
           Đăng nhập
         </Button>
         <Button
           variant="outline"
           className="text-sm cursor-pointer"
-          onClick={() => router.push('/register')}
+          onClick={() => router.push('/auth/register')}
         >
           Đăng ký
         </Button>

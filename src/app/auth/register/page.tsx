@@ -72,7 +72,7 @@ export default function RegisterPage() {
         values.password,
       );
       await showSuccess(res.message || 'Đăng ký thành công');
-      router.push('/login');
+      router.push('/auth/login');
     } catch (err: any) {
       showError(err.message || 'Lỗi đăng ký');
     } finally {
@@ -165,7 +165,7 @@ export default function RegisterPage() {
           <p className="text-center text-sm mt-3">
             Bạn đã có tài khoản?{' '}
             <a
-              href="/login"
+              href="/auth/login"
               className="text-blue-600 hover:underline font-medium"
             >
               Đăng nhập
