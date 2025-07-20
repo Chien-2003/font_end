@@ -28,10 +28,10 @@ export function TextAlignButtons({ editor }: { editor: Editor }) {
               .setTextAlign(btn.value as any)
               .run()
           }
-          className={`p-1 rounded ${
+          className={`p-1 rounded cursor-pointer ${
             editor.isActive({ textAlign: btn.value })
               ? 'bg-blue-100 text-blue-600'
-              : 'hover:bg-gray-200'
+              : ''
           }`}
         >
           {btn.icon}

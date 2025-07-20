@@ -12,7 +12,7 @@ export function Toolbar({
   const baseClass = 'flex flex-wrap gap-1 border-b p-2 rounded-t-md';
   const variantClass =
     variant === 'default'
-      ? 'bg-gray-50 border-gray-300'
+      ? 'bg-gray-800'
       : 'bg-white border-gray-200';
 
   return (

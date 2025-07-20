@@ -23,10 +23,8 @@ export function BoldButton({ editor }: { editor: Editor }) {
   return (
     <button
       onClick={() => editor.chain().focus().toggleBold().run()}
-      className={`p-1 rounded ${
-        editor.isActive('bold')
-          ? 'bg-blue-100 text-blue-600'
-          : 'hover:bg-gray-200'
+      className={`p-1 rounded cursor-pointer ${
+        editor.isActive('bold') ? 'bg-blue-100 text-blue-600' : ''
       }`}
     >
       <MdFormatBold />
@@ -39,10 +37,8 @@ export function ItalicButton({ editor }: { editor: Editor }) {
   return (
     <button
       onClick={() => editor.chain().focus().toggleItalic().run()}
-      className={`p-1 rounded ${
-        editor.isActive('italic')
-          ? 'bg-blue-100 text-blue-600'
-          : 'hover:bg-gray-200'
+      className={`p-1 rounded cursor-pointer ${
+        editor.isActive('italic') ? 'bg-blue-100 text-blue-600' : ''
       }`}
     >
       <MdFormatItalic />
@@ -55,10 +51,8 @@ export function CodeButton({ editor }: { editor: Editor }) {
   return (
     <button
       onClick={() => editor.chain().focus().toggleCode().run()}
-      className={`p-1 rounded ${
-        editor.isActive('code')
-          ? 'bg-blue-100 text-blue-600'
-          : 'hover:bg-gray-200'
+      className={`p-1 rounded cursor-pointer ${
+        editor.isActive('code') ? 'bg-blue-100 text-blue-600' : ''
       }`}
     >
       <MdCode />
@@ -71,10 +65,8 @@ export function StrikeButton({ editor }: { editor: Editor }) {
   return (
     <button
       onClick={() => editor.chain().focus().toggleStrike().run()}
-      className={`p-1 rounded ${
-        editor.isActive('strike')
-          ? 'bg-blue-100 text-blue-600'
-          : 'hover:bg-gray-200'
+      className={`p-1 rounded cursor-pointer ${
+        editor.isActive('strike') ? 'bg-blue-100 text-blue-600' : ''
       }`}
     >
       <MdStrikethroughS />
@@ -87,10 +79,10 @@ export function UnderlineButton({ editor }: { editor: Editor }) {
   return (
     <button
       onClick={() => editor.chain().focus().toggleUnderline().run()}
-      className={`p-1 rounded ${
+      className={`p-1 rounded cursor-pointer ${
         editor.isActive('underline')
           ? 'bg-blue-100 text-blue-600'
-          : 'hover:bg-gray-200'
+          : ''
       }`}
     >
       <MdFormatUnderlined />
@@ -103,10 +95,10 @@ export function HighlightButton({ editor }: { editor: Editor }) {
   return (
     <button
       onClick={() => editor.chain().focus().toggleHighlight().run()}
-      className={`p-1 rounded ${
+      className={`p-1 rounded cursor-pointer ${
         editor.isActive('highlight')
           ? 'bg-yellow-100 text-yellow-800'
-          : 'hover:bg-gray-200'
+          : ''
       }`}
     >
       <MdHighlight />
@@ -127,10 +119,8 @@ export function LinkButton({ editor }: { editor: Editor }) {
   return (
     <button
       onClick={handleLink}
-      className={`p-1 rounded ${
-        editor.isActive('link')
-          ? 'bg-blue-100 text-blue-600'
-          : 'hover:bg-gray-200'
+      className={`p-1 rounded cursor-pointer ${
+        editor.isActive('link') ? 'bg-blue-100 text-blue-600' : ''
       }`}
     >
       <MdLink />
@@ -149,10 +139,10 @@ export function SubSuperscriptButtons({
     <div className="flex gap-1">
       <button
         onClick={() => editor.chain().focus().toggleSubscript().run()}
-        className={`p-1 rounded ${
+        className={`p-1 rounded cursor-pointer ${
           editor.isActive('subscript')
             ? 'bg-blue-100 text-blue-600'
-            : 'hover:bg-gray-200'
+            : ''
         }`}
       >
         <MdSubscript />
@@ -161,10 +151,10 @@ export function SubSuperscriptButtons({
         onClick={() =>
           editor.chain().focus().toggleSuperscript().run()
         }
-        className={`p-1 rounded ${
+        className={`p-1 rounded cursor-pointer ${
           editor.isActive('superscript')
             ? 'bg-blue-100 text-blue-600'
-            : 'hover:bg-gray-200'
+            : ''
         }`}
       >
         <MdSuperscript />
@@ -211,7 +201,7 @@ export function ImageButton({ editor }: { editor: Editor }) {
     <>
       <button
         onClick={handleClick}
-        className="p-1 rounded hover:bg-gray-200"
+        className="p-1 rounded cursor-pointer"
         title="Chèn ảnh"
       >
         <MdImage />
@@ -234,13 +224,13 @@ export function UndoRedoButtons({ editor }: { editor: Editor }) {
     <div className="flex gap-1">
       <button
         onClick={() => editor.chain().focus().undo().run()}
-        className="p-1 rounded hover:bg-gray-200"
+        className="p-1 rounded cursor-pointer"
       >
         <MdUndo />
       </button>
       <button
         onClick={() => editor.chain().focus().redo().run()}
-        className="p-1 rounded hover:bg-gray-200"
+        className="p-1 rounded cursor-pointer"
       >
         <MdRedo />
       </button>
@@ -270,7 +260,7 @@ export function HeadingSelect({ editor }: { editor: Editor }) {
     <select
       onChange={handleChange}
       value={activeLevel}
-      className="p-1 rounded border text-sm"
+      className="p-1 rounded border text-sm text-white bg-gray-800 cursor-pointer"
     >
       <option value={0}>Normal</option>
       {levels.map((lvl) => (
@@ -291,10 +281,10 @@ export function ListButtons({ editor }: { editor: Editor }) {
         onClick={() =>
           editor.chain().focus().toggleBulletList().run()
         }
-        className={`p-1 rounded ${
+        className={`p-1 rounded cursor-pointer ${
           editor.isActive('bulletList')
             ? 'bg-blue-100 text-blue-600'
-            : 'hover:bg-gray-200'
+            : ''
         }`}
       >
         <MdFormatListBulleted />
@@ -303,10 +293,10 @@ export function ListButtons({ editor }: { editor: Editor }) {
         onClick={() =>
           editor.chain().focus().toggleOrderedList().run()
         }
-        className={`p-1 rounded ${
+        className={`p-1 rounded cursor-pointer ${
           editor.isActive('orderedList')
             ? 'bg-blue-100 text-blue-600'
-            : 'hover:bg-gray-200'
+            : ''
         }`}
       >
         <MdFormatListNumbered />
@@ -315,10 +305,10 @@ export function ListButtons({ editor }: { editor: Editor }) {
         onClick={() =>
           editor.chain().focus().toggleBlockquote().run()
         }
-        className={`p-1 rounded ${
+        className={`p-1 rounded cursor-pointer ${
           editor.isActive('blockquote')
             ? 'bg-blue-100 text-blue-600'
-            : 'hover:bg-gray-200'
+            : ''
         }`}
       >
         <MdFormatQuote />
