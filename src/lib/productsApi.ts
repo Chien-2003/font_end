@@ -120,3 +120,18 @@ export async function deleteProduct(id: number): Promise<void> {
     throw new Error('Xoá sản phẩm thất bại');
   }
 }
+export async function getProductDetail(
+  slug: string,
+): Promise<Product> {
+  const id = slug.replace('ew-', '');
+  const res = await fetch(`http://localhost:4000/products/${id}`, {
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    throw new Error('Không tìm thấy sản phẩm');
+  }
+
+  const json: Product = await res.json();
+  return json;
+}

@@ -158,7 +158,11 @@ export default function ProfilePage() {
 
               {(tab === 'personal' || tab === 'addresses') && (
                 <div className="text-center mt-4">
-                  <Button ref={btnRef} onClick={handleUpdate}>
+                  <Button
+                    ref={btnRef}
+                    onClick={handleUpdate}
+                    className="dark:text-accent-foreground cursor-pointer"
+                  >
                     Cập nhật thông tin
                   </Button>
                 </div>

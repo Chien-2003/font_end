@@ -30,6 +30,7 @@ import { Loader2 } from 'lucide-react';
 import PasswordInput from '@/components/shared/PasswordInput';
 import LoginWithGoogleButton from '@/components/shared/LoginWithGoogleButton';
 import LoginWithFacebookButton from '@/components/shared/LoginWithFacebookButton';
+import Link from 'next/link';
 
 const formSchema = z.object({
   userName: z.string().min(2, 'Tên người dùng quá ngắn'),
@@ -164,12 +165,12 @@ export default function RegisterPage() {
 
           <p className="text-center text-sm mt-3">
             Bạn đã có tài khoản?{' '}
-            <a
+            <Link
               href="/auth/login"
               className="text-blue-600 hover:underline font-medium"
             >
               Đăng nhập
-            </a>
+            </Link>
           </p>
 
           <div className="relative mt-4">

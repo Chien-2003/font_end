@@ -87,12 +87,10 @@ export default async function CategoryPage({
 
   const productsResponse = await getProductsByCategoryId(
     category.id,
-    1, // Lấy đủ trang 1 lớn hoặc có thể lấy toàn bộ (nếu api không hỗ trợ lấy all)
-    1000, // giả sử lấy max 1000 sản phẩm cho demo lọc client
+    1,
+    PAGE_SIZE,
   );
   const products: Product[] = productsResponse.data || [];
-
-  // Lọc sản phẩm theo subSlug và có variants
   const filteredProducts = products.filter(
     (product) =>
       product.variants?.length &&
@@ -101,14 +99,10 @@ export default async function CategoryPage({
 
   const total = filteredProducts.length;
   const totalPages = Math.ceil(total / PAGE_SIZE);
-
-  // Lấy sản phẩm cho page hiện tại
   const paginatedProducts = filteredProducts.slice(
     (page - 1) * PAGE_SIZE,
     page * PAGE_SIZE,
   );
-
-  // Hàm hỗ trợ tạo query string giữ sub và page
   const createHref = (pageNum: number) => {
     const params = new URLSearchParams();
     if (pageNum > 1) params.set('page', String(pageNum));
@@ -143,8 +137,8 @@ export default async function CategoryPage({
                 {paginatedProducts.map((product, index) => (
                   <ProductCard
                     key={product.id}
-                    index={index}
-                    variants={product.variants!}
+                    id={product.id}
+                    categorySlug={product.category.slug_category}
                     name={product.name}
                     description={product.description}
                     price={product.discounted_price ?? product.price}
@@ -153,9 +147,10 @@ export default async function CategoryPage({
                         ? product.price
                         : undefined
                     }
-                    discountPercent={product.discount_percentage ?? 0}
+                    discountPercent={product.discount_percentage}
                     image_url={product.image_url}
                     image_hover_url={product.image_hover_url}
+                    variants={product.variants ?? []}
                   />
                 ))}
               </div>

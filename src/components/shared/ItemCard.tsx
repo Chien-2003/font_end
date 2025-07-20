@@ -14,6 +14,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 interface Variant {
   id: number;
@@ -23,6 +24,8 @@ interface Variant {
 }
 
 interface ProductCardProps {
+  id: number | string;
+  categorySlug: string;
   name: string;
   description: string;
   price: number;
@@ -35,6 +38,8 @@ interface ProductCardProps {
 }
 
 function ProductCard({
+  id,
+  categorySlug,
   name,
   description,
   price,
@@ -149,9 +154,11 @@ function ProductCard({
         </CardHeader>
 
         <CardContent className="p-3 flex flex-col flex-grow">
-          <h3 className="text-sm font-semibold mb-2 hover:text-[#b4282b]">
-            {name.length > 32 ? `${name.slice(0, 32)}...` : name}
-          </h3>
+          <Link href={`/${categorySlug}/${id}`}>
+            <h3 className="text-sm font-semibold mb-2 hover:text-[#b4282b]">
+              {name.length > 32 ? `${name.slice(0, 32)}...` : name}
+            </h3>
+          </Link>
           <p className="text-sm text-muted-foreground mb-4">
             {description.length > 50
               ? `${description.slice(0, 50)}...`
@@ -178,4 +185,5 @@ function ProductCard({
     </motion.div>
   );
 }
+
 export default ProductCard;

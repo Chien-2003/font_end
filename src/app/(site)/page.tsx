@@ -16,7 +16,7 @@ export default async function HomePage() {
     <>
       <HomeBanner />
       <HomeCategorySection />
-      <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 mt-10 w-full h-full">
+      <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 w-full h-full py-8">
         {validProducts.length === 0 ? (
           <p className="text-center w-full">Không có sản phẩm nào.</p>
         ) : (
@@ -24,17 +24,18 @@ export default async function HomePage() {
             {validProducts.map((product, index) => (
               <ProductCard
                 key={product.id}
-                index={index}
-                variants={product.variants!}
+                id={product.id}
+                categorySlug={product.category.slug_category}
                 name={product.name}
                 description={product.description}
                 price={product.discounted_price ?? product.price}
                 oldPrice={
                   product.discounted_price ? product.price : undefined
                 }
-                discountPercent={product.discount_percentage ?? 0}
+                discountPercent={product.discount_percentage}
                 image_url={product.image_url}
                 image_hover_url={product.image_hover_url}
+                variants={product.variants ?? []}
               />
             ))}
           </div>

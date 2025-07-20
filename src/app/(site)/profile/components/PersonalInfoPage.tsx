@@ -257,7 +257,7 @@ const PersonalInfoPage = forwardRef<PersonalInfoPageRef>((_, ref) => {
                 onSelect={setBirthDate}
                 captionLayout="dropdown"
                 defaultMonth={birthDate || new Date(2000, 0)}
-                startMonth={new Date(1950, 0)}
+                startMonth={new Date(1920, 0)}
                 className="rounded-md border p-2"
                 classNames={{ month_caption: 'mx-0' }}
                 components={{
