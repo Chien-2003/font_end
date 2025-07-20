@@ -72,8 +72,9 @@ export default function ProductModal({
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {results.map((product, index) => (
               <ProductCard
-                key={product.id ?? `product-${index}`}
-                index={index}
+                key={product.id}
+                id={product.id}
+                categorySlug={product.category.slug_category}
                 name={product.name}
                 description={product.description}
                 price={product.discounted_price ?? product.price}
