@@ -9,7 +9,7 @@ export function Toolbar({
   children,
   variant = 'default',
 }: ToolbarProps) {
-  const baseClass = 'flex flex-wrap gap-1 border-b p-2 rounded-t-md';
+  const baseClass = 'flex flex-wrap gap-1 border-b p-2';
   const variantClass =
     variant === 'default'
       ? 'bg-gray-800'
