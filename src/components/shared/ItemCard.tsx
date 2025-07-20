@@ -17,14 +17,14 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 interface Variant {
-  id: number;
+  id: string;
   size: string;
   quantity: number;
   color?: string;
 }
 
 interface ProductCardProps {
-  id: number | string;
+  id: string;
   categorySlug: string;
   name: string;
   description: string;

@@ -4,7 +4,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 
 export interface ProductVariant {
-  id: number;
+  id: string;
   color: string;
   size: string;
   quantity: number;

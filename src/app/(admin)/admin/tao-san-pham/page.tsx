@@ -71,10 +71,11 @@ export default function CreateProductPage() {
     getAllSubcategories().then(setSubcategories).catch(console.error);
   }, []);
 
+  // Lọc subcategories dựa trên category_id kiểu string
   const filteredSubcategories = useMemo(
     () =>
       subcategories.filter(
-        (sc) => sc.categoryId === Number(product.category_id),
+        (sc) => sc.categoryId === product.category_id,
       ),
     [subcategories, product.category_id],
   );
@@ -159,10 +160,8 @@ export default function CreateProductPage() {
         : undefined,
       image_url: product.image_url,
       image_hover_url: product.image_hover_url,
-      category_id: Number(product.category_id),
-      subcategory_id: product.subcategory_id
-        ? Number(product.subcategory_id)
-        : undefined,
+      category_id: product.category_id, // giữ string
+      subcategory_id: product.subcategory_id || undefined, // giữ string hoặc undefined
       variants,
     };
 
@@ -225,7 +224,6 @@ export default function CreateProductPage() {
             max={100}
             step="0.01"
           />
-          {/* Bỏ input discount_price */}
           <Input
             name="image_url"
             value={product.image_url}
@@ -249,7 +247,7 @@ export default function CreateProductPage() {
             </SelectTrigger>
             <SelectContent>
               {categories.map((cat) => (
-                <SelectItem key={cat.id} value={cat.id.toString()}>
+                <SelectItem key={cat.id} value={cat.id}>
                   {cat.name}
                 </SelectItem>
               ))}
@@ -268,7 +266,7 @@ export default function CreateProductPage() {
             </SelectTrigger>
             <SelectContent>
               {filteredSubcategories.map((sc) => (
-                <SelectItem key={sc.id} value={sc.id.toString()}>
+                <SelectItem key={sc.id} value={sc.id}>
                   {sc.name}
                 </SelectItem>
               ))}

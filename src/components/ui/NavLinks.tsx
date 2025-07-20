@@ -35,7 +35,17 @@ export default function NavLinks({
     const fetchCategories = async () => {
       try {
         const data = await getAllCategories();
-        setCategories(data);
+
+        const desiredOrder = [
+          'Trang phục nam',
+          'Trang phục nữ',
+          'Phụ kiện',
+        ];
+        const sortedData = desiredOrder
+          .map((name) => data.find((cat) => cat.name === name))
+          .filter(Boolean) as Category[];
+
+        setCategories(sortedData);
       } catch (err) {
         console.error('Error fetching categories:', err);
       }

@@ -10,16 +10,16 @@ import React, {
 import { getUserCart } from '@/lib/cartApi';
 
 export interface CartItem {
-  id: number;
-  variant_id: number;
+  id: string;
+  variant_id: string;
   quantity: number;
   variant?: {
-    id: number;
+    id: string;
     color: string;
     size: string;
     quantity: number;
     product: {
-      id: number;
+      id: string;
       name: string;
       price: string;
       image_url: string;

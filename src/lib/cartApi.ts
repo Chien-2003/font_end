@@ -1,14 +1,14 @@
 export interface CartItem {
-  id: number;
-  variant_id: number;
+  id: string; // đổi từ number sang string
+  variant_id: string;
   quantity: number;
   variant?: {
-    id: number;
+    id: string;
     color: string;
     size: string;
     quantity: number;
     product: {
-      id: number;
+      id: string;
       name: string;
       price: string;
       image_url: string;
@@ -20,7 +20,7 @@ const BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 
 export async function addToCart(
-  variant_id: number,
+  variant_id: string, // đổi sang string
   quantity: number = 1,
 ) {
   const res = await fetch(`${BASE_URL}/cart/add`, {
@@ -51,7 +51,9 @@ export async function getUserCart(): Promise<CartItem[]> {
 
   return res.json();
 }
-export async function deleteCartItem(id: number) {
+
+export async function deleteCartItem(id: string) {
+  // đổi sang string
   const res = await fetch(`${BASE_URL}/cart/${id}`, {
     method: 'DELETE',
     credentials: 'include',
@@ -60,5 +62,6 @@ export async function deleteCartItem(id: number) {
   if (!res.ok) {
     throw new Error('Xoá sản phẩm khỏi giỏ hàng thất bại');
   }
+
   return res.json();
 }

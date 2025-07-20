@@ -2,14 +2,14 @@ import { Category } from './categoryApi';
 import { Subcategory } from './subcategoryApi';
 
 export interface ProductVariant {
-  id: number;
+  id: string;
   color: string;
   size: string;
   quantity: number;
 }
 
 export interface Product {
-  id: number;
+  id: string;
   name: string;
   description: string;
   price: number;
@@ -17,6 +17,7 @@ export interface Product {
   discount_percentage?: number;
   image_url: string;
   image_hover_url?: string;
+  images?: string[];
   created_at: string;
   updated_at: string;
   variants?: ProductVariant[];
@@ -37,7 +38,7 @@ export interface PaginatedProducts {
 }
 
 export async function getAllProducts(params?: {
-  category_id?: number;
+  category_id?: string;
   sort?: 'price_asc' | 'price_desc' | 'newest';
   page?: number;
   limit?: number;
@@ -45,7 +46,7 @@ export async function getAllProducts(params?: {
   const query = new URLSearchParams();
 
   if (params?.category_id)
-    query.append('category_id', params.category_id.toString());
+    query.append('category_id', params.category_id);
   if (params?.sort) query.append('sort', params.sort);
   if (params?.page) query.append('page', params.page.toString());
   if (params?.limit) query.append('limit', params.limit.toString());
@@ -73,8 +74,9 @@ export interface CreateProductData {
   discount_percent?: number;
   image_url: string;
   image_hover_url?: string;
-  category_id: number;
-  subcategory_id?: number;
+  images?: string[];
+  category_id: string;
+  subcategory_id?: string;
   variants: Omit<ProductVariant, 'id'>[];
 }
 
@@ -95,7 +97,7 @@ export async function createProduct(
 }
 
 export async function updateProduct(
-  id: number,
+  id: string,
   data: CreateProductData,
 ): Promise<Product> {
   const res = await fetch(`http://localhost:4000/products/${id}`, {
@@ -111,7 +113,7 @@ export async function updateProduct(
   return res.json();
 }
 
-export async function deleteProduct(id: number): Promise<void> {
+export async function deleteProduct(id: string): Promise<void> {
   const res = await fetch(`http://localhost:4000/products/${id}`, {
     method: 'DELETE',
   });
@@ -120,6 +122,7 @@ export async function deleteProduct(id: number): Promise<void> {
     throw new Error('Xoá sản phẩm thất bại');
   }
 }
+
 export async function getProductDetail(
   slug: string,
 ): Promise<Product> {

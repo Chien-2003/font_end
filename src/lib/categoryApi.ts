@@ -1,11 +1,13 @@
+import { Product } from './productsApi';
+
 export interface Subcategory {
-  id: number;
+  id: string;
   name: string;
   slug: string;
 }
 
 export interface Category {
-  id: number;
+  id: string;
   name: string;
   image: string;
   slug_category: string;
@@ -16,32 +18,19 @@ export interface Category {
 }
 
 export interface ProductVariant {
-  id: number;
+  id: string;
   color: string;
   size: string;
   quantity: number;
 }
-export interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  discounted_price?: number;
-  discount_percentage?: number;
-  image_url: string;
-  image_hover_url?: string;
-  created_at: string;
-  updated_at: string;
-  variants?: ProductVariant[];
-  category: Category;
-  subcategory?: Subcategory;
-}
+
 export interface Pagination {
   total: number;
   page: number;
   limit: number;
   totalPages: number;
 }
+
 export interface PaginatedProducts {
   data: Product[];
   pagination: Pagination;
@@ -53,6 +42,7 @@ export async function getAllCategories(): Promise<Category[]> {
   if (!res.ok) throw new Error('Không thể lấy danh sách danh mục');
   return res.json();
 }
+
 export async function getCategoryBySlug(
   slug: string,
 ): Promise<Category | null> {
@@ -64,8 +54,9 @@ export async function getCategoryBySlug(
   const data: Category[] = await res.json();
   return data.length > 0 ? data[0] : null;
 }
+
 export async function getProductsByCategoryId(
-  categoryId: number,
+  categoryId: string,
   page: number = 1,
   limit: number = 7,
 ): Promise<PaginatedProducts> {

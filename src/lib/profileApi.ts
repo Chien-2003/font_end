@@ -14,6 +14,7 @@ export interface UpdateProfileResponse {
 }
 
 export interface UserResponse {
+  id?: string; // thêm nếu bạn muốn lưu id người dùng dạng string UUID
   full_name: string;
   email: string;
   phone?: string;

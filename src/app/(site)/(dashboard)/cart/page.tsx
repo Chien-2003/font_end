@@ -29,7 +29,7 @@ function formatVND(value: number) {
 
 export default function CartPage() {
   const { cartItems, refreshCart, isLoading } = useCart();
-  const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]); // đổi thành string[]
   const [openImage, setOpenImage] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(
     null,
@@ -58,7 +58,8 @@ export default function CartPage() {
 
   const isAllSelected = selectedItems.length === cartItems.length;
 
-  const toggleSelectItem = (id: number) => {
+  const toggleSelectItem = (id: string) => {
+    // id string
     setSelectedItems((prev) =>
       prev.includes(id)
         ? prev.filter((itemId) => itemId !== id)
@@ -72,7 +73,8 @@ export default function CartPage() {
     );
   };
 
-  const removeItem = async (id: number) => {
+  const removeItem = async (id: string) => {
+    // id string
     try {
       const res = await deleteCartItem(id);
       await refreshCart();
@@ -170,9 +172,7 @@ export default function CartPage() {
                     </span>
                     <div
                       className="w-4 h-4 border border-gray-300"
-                      style={{
-                        backgroundColor: item.variant?.color,
-                      }}
+                      style={{ backgroundColor: item.variant?.color }}
                     />
                   </div>
 

@@ -12,13 +12,13 @@ import {
   getCategoryBySlug,
   getProductsByCategoryId,
   Category,
-  Product,
 } from '@/lib/categoryApi';
 import type { Metadata } from 'next';
 import Breadcrumbs from '@/components/shared/Breadcrumbs';
 import Image from 'next/image';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/shared/CategorySidebar';
+import { Product } from '@/lib/productsApi';
 
 const PAGE_SIZE = 10;
 
@@ -87,28 +87,19 @@ export default async function CategoryPage({
 
   const productsResponse = await getProductsByCategoryId(
     category.id,
-    1,
+    page,
     PAGE_SIZE,
   );
   const products: Product[] = productsResponse.data || [];
-  const filteredProducts = products.filter(
-    (product) =>
-      product.variants?.length &&
-      (subSlug === '' || product.subcategory?.slug === subSlug),
-  );
-
-  const total = filteredProducts.length;
-  const totalPages = Math.ceil(total / PAGE_SIZE);
-  const paginatedProducts = filteredProducts.slice(
-    (page - 1) * PAGE_SIZE,
-    page * PAGE_SIZE,
-  );
+  const totalItems = productsResponse.pagination?.total || 0;
+  const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+  const paginatedProducts = products;
   const createHref = (pageNum: number) => {
     const params = new URLSearchParams();
     if (pageNum > 1) params.set('page', String(pageNum));
     if (subSlug) params.set('sub', subSlug);
     const queryString = params.toString();
-    return `?${queryString}`;
+    return queryString ? `?${queryString}` : '';
   };
 
   return (
@@ -123,7 +114,7 @@ export default async function CategoryPage({
           />
         </div>
       )}
-      <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-2 sm:px-2 lg:px-8 w-full h-full">
+      <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-2 sm:px-2 lg:px-8 w-full h-full py-8">
         <SidebarProvider className="mt-3">
           <AppSidebar category={category} />
           <main className="ml-2 lg:ml-3">

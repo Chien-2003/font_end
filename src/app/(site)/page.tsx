@@ -8,9 +8,12 @@ export default async function HomePage() {
     page: 1,
     limit: 100,
   });
-  const validProducts = productsResponse.data.filter(
-    (product) => product.variants && product.variants.length > 0,
-  );
+
+  const validProducts = Array.isArray(productsResponse?.data)
+    ? productsResponse.data.filter(
+        (product) => product.variants && product.variants.length > 0,
+      )
+    : [];
 
   return (
     <>
@@ -21,11 +24,11 @@ export default async function HomePage() {
           <p className="text-center w-full">Không có sản phẩm nào.</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4 gap-6">
-            {validProducts.map((product, index) => (
+            {validProducts.map((product) => (
               <ProductCard
                 key={product.id}
                 id={product.id}
-                categorySlug={product.category.slug_category}
+                categorySlug={product.category?.slug_category}
                 name={product.name}
                 description={product.description}
                 price={product.discounted_price ?? product.price}

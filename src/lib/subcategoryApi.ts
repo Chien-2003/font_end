@@ -1,8 +1,8 @@
 export interface Subcategory {
-  id: number;
+  id: string;
   name: string;
   slug: string;
-  categoryId: number;
+  categoryId: string;
   created_at?: string;
   updated_at?: string;
 }
