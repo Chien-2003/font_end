@@ -6,8 +6,8 @@ import 'swiper/css/pagination';
 import '@/app/globals.css';
 import { CartProvider } from '@/contexts/CartContext';
 import { ThemeProvider } from '@/components/theme/theme-provider';
-import { SessionProvider } from 'next-auth/react';
 import SessionProviderWrapper from '@/components/providers/SessionProviderWrapper';
+import NProgressProvider from '@/components/shared/nprogress-provider';
 const inter = Inter({
   subsets: ['latin'],
   weight: ['400'],
@@ -30,6 +30,7 @@ export default function RootLayout({
           >
             <UserProvider>
               <CartProvider>
+                <NProgressProvider />
                 <div className="dark:bg-gray-900 elysia-wear">
                   {children}
                 </div>

@@ -18,7 +18,7 @@ export default function AdminLayout({
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <SidebarProvider className='bg-background dark:bg-gray-900'>
+    <SidebarProvider className="bg-background dark:bg-gray-900">
       <AppSidebar />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4 sticky top-0 z-10 bg-background dark:bg-gray-900">

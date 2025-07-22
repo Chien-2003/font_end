@@ -1,17 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import * as React from 'react';
 import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
-import * as React from 'react';
 import { Category, getAllCategories } from '@/lib/categoryApi';
 
 function chunkArray<T>(arr: T[], size: number): T[][] {
@@ -28,11 +26,10 @@ export default function NavLinks({
   className?: string;
 }) {
   const pathname = usePathname();
-  const router = useRouter();
   const [categories, setCategories] = React.useState<Category[]>([]);
 
   React.useEffect(() => {
-    const fetchCategories = async () => {
+    async function fetchCategories() {
       try {
         const data = await getAllCategories();
 
@@ -49,7 +46,8 @@ export default function NavLinks({
       } catch (err) {
         console.error('Error fetching categories:', err);
       }
-    };
+    }
+
     fetchCategories();
   }, []);
 
@@ -61,7 +59,7 @@ export default function NavLinks({
 
   return (
     <NavigationMenu
-      className={`${className} bg-white dark:bg-gray-900`}
+      className={`${className} bg-background dark:bg-gray-900`}
     >
       <NavigationMenuList className="flex gap-4">
         {categories.map((category) => {
@@ -75,14 +73,15 @@ export default function NavLinks({
               className="relative"
             >
               <NavigationMenuTrigger
-                onClick={() => router.push(href)}
                 className={`uppercase text-sm font-semibold px-4 py-2 rounded-md transition-colors duration-200 ${
                   isActive
-                    ? 'text-[#b4282b] bg-[#fee6e6] dark:bg-[#5f121f]'
-                    : 'text-gray-700 hover:text-[#b4282b] hover:bg-gray-100 dark:text-gray-300 dark:hover:text-[#b4282b] dark:hover:bg-gray-800'
+                    ? 'text-primary bg-primary/10 dark:bg-primary/20'
+                    : 'text-white hover:text-primary hover:bg-muted/50 dark:hover:text-primary dark:hover:bg-muted/30'
                 }`}
               >
-                {category.name}
+                <Link href={href} className="w-full h-full block">
+                  {category.name}
+                </Link>
               </NavigationMenuTrigger>
 
               {category.subcategories &&
@@ -95,18 +94,31 @@ export default function NavLinks({
                             key={idx}
                             className="flex flex-col space-y-3"
                           >
-                            {group.map((sub) => (
-                              <ListItem
-                                key={sub.id}
-                                title={sub.name}
-                                href={`${href}/${sub.slug}`}
-                                active={
-                                  pathname === `${href}/${sub.slug}`
-                                }
-                              >
-                                {sub.name}
-                              </ListItem>
-                            ))}
+                            {group.map((sub) => {
+                              const subHref = `${href}/${sub.slug}`;
+                              const isSubActive =
+                                pathname === subHref;
+
+                              return (
+                                <li key={sub.id}>
+                                  <Link
+                                    href={subHref}
+                                    className={`block rounded-md p-3 leading-none no-underline outline-none transition-colors duration-200 hover:text-primary focus:bg-primary/10 focus:text-primary ${
+                                      isSubActive
+                                        ? 'text-primary font-semibold'
+                                        : 'text-white'
+                                    }`}
+                                  >
+                                    <div className="text-sm font-semibold">
+                                      {sub.name}
+                                    </div>
+                                    <p className="line-clamp-2 text-xs text-white">
+                                      {sub.name}
+                                    </p>
+                                  </Link>
+                                </li>
+                              );
+                            })}
                           </ul>
                         ),
                       )}
@@ -116,57 +128,25 @@ export default function NavLinks({
             </NavigationMenuItem>
           );
         })}
+
         {staticLinks.map((link) => {
           const isActive = pathname === link.href;
           return (
             <NavigationMenuItem key={link.name}>
-              <NavigationMenuLink asChild>
-                <Link
-                  href={link.href}
-                  className={`${navigationMenuTriggerStyle()} uppercase text-sm font-semibold px-4 py-2 rounded-md transition-colors duration-200 ${
-                    isActive
-                      ? 'text-[#b4282b] bg-[#fee6e6] dark:bg-[#5f121f]'
-                      : 'text-gray-700 hover:text-[#b4282b] hover:bg-gray-100 dark:text-gray-300 dark:hover:text-[#b4282b] dark:hover:bg-gray-800'
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              </NavigationMenuLink>
+              <Link
+                href={link.href}
+                className={`uppercase text-sm font-semibold px-4 py-2 rounded-md transition-colors duration-200 ${
+                  isActive
+                    ? 'text-primary bg-primary/10 dark:bg-primary/20'
+                    : 'text-white hover:text-primary hover:bg-muted/50 dark:hover:text-primary dark:hover:bg-muted/30'
+                }`}
+              >
+                {link.name}
+              </Link>
             </NavigationMenuItem>
           );
         })}
       </NavigationMenuList>
     </NavigationMenu>
-  );
-}
-
-function ListItem({
-  title,
-  children,
-  href,
-  active = false,
-  ...props
-}: React.ComponentPropsWithoutRef<'li'> & {
-  href: string;
-  active?: boolean;
-}) {
-  return (
-    <li {...props}>
-      <NavigationMenuLink asChild>
-        <Link
-          href={href}
-          className={`block rounded-md p-3 leading-none no-underline outline-none transition-colors duration-200 hover:bg-[#fee6e6] hover:text-[#b4282b] focus:bg-[#fee6e6] focus:text-[#b4282b] ${
-            active
-              ? 'text-[#b4282b] font-semibold'
-              : 'text-gray-700 dark:text-gray-300'
-          }`}
-        >
-          <div className="text-sm font-semibold">{title}</div>
-          <p className="line-clamp-2 text-xs text-muted-foreground">
-            {children}
-          </p>
-        </Link>
-      </NavigationMenuLink>
-    </li>
   );
 }

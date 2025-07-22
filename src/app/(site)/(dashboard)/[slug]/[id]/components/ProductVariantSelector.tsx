@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 
 export interface ProductVariant {
@@ -17,37 +18,84 @@ interface ProductVariantSelectorProps {
 export default function ProductVariantSelector({
   variants,
 }: ProductVariantSelectorProps) {
-  const colors = useMemo(() => {
-    return Array.from(new Set(variants.map((v) => v.color)));
-  }, [variants]);
-  const [selectedColor, setSelectedColor] = useState(colors[0] || '');
-  const variantsOfSelectedColor = useMemo(() => {
-    return variants.filter((v) => v.color === selectedColor);
-  }, [variants, selectedColor]);
-  const [selectedSize, setSelectedSize] = useState(
-    variantsOfSelectedColor[0]?.size || '',
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const isFirstSync = useRef(true);
+
+  const colors = useMemo(
+    () => Array.from(new Set(variants.map((v) => v.color))),
+    [variants],
   );
-  const [quantity, setQuantity] = useState(1);
+  const getColorFromParams = () =>
+    searchParams.get('color') || colors[0] || '';
+  const getVariantsByColor = (color: string) =>
+    variants.filter((v) => v.color === color);
+  const getSizeFromParams = (colorVariants: ProductVariant[]) =>
+    searchParams.get('size') || colorVariants[0]?.size || '';
+  const getQuantityFromParams = () => {
+    const q = parseInt(searchParams.get('quantity') || '', 10);
+    return isNaN(q) || q < 1 ? 1 : q;
+  };
+  const [selectedColor, setSelectedColor] = useState(() =>
+    getColorFromParams(),
+  );
+  const variantsByColor = useMemo(
+    () => getVariantsByColor(selectedColor),
+    [variants, selectedColor],
+  );
 
-  useEffect(() => {
-    setSelectedSize(variantsOfSelectedColor[0]?.size || '');
-    setQuantity(1);
-  }, [selectedColor, variantsOfSelectedColor]);
+  const [selectedSize, setSelectedSize] = useState(() =>
+    getSizeFromParams(variantsByColor),
+  );
+  const [quantity, setQuantity] = useState(() =>
+    getQuantityFromParams(),
+  );
 
-  const currentVariant = variantsOfSelectedColor.find(
+  const currentVariant = variantsByColor.find(
     (v) => v.size === selectedSize,
   );
+  useEffect(() => {
+    const newColor = getColorFromParams();
+    if (newColor !== selectedColor) setSelectedColor(newColor);
 
+    const newVariantsByColor = getVariantsByColor(newColor);
+    const newSize =
+      searchParams.get('size') || newVariantsByColor[0]?.size || '';
+    if (newSize !== selectedSize) setSelectedSize(newSize);
+
+    const newQuantity = getQuantityFromParams();
+    if (newQuantity !== quantity) setQuantity(newQuantity);
+  }, [searchParams]);
+  useEffect(() => {
+    const firstSize = variantsByColor[0]?.size || '';
+    if (firstSize !== selectedSize) setSelectedSize(firstSize);
+    setQuantity(1);
+  }, [selectedColor]);
+  useEffect(() => {
+    if (isFirstSync.current) {
+      isFirstSync.current = false;
+      return;
+    }
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('color', selectedColor);
+    params.set('size', selectedSize);
+    params.set('quantity', String(quantity));
+
+    router.replace(`?${params.toString()}`, { scroll: false });
+  }, [selectedColor, selectedSize, quantity]);
   const onQuantityChange = (val: number) => {
     if (!currentVariant) return;
-    if (val < 1) val = 1;
-    if (val > currentVariant.quantity) val = currentVariant.quantity;
-    setQuantity(val);
+    const clamped = Math.max(
+      1,
+      Math.min(val, currentVariant.quantity),
+    );
+    setQuantity(clamped);
   };
 
   return (
-    <div className="space-y-4">
-      <div className="space-y-2.5 ">
+    <div className="space-y-6">
+      <div className="space-y-2.5">
         <p className="font-medium">Chọn màu:</p>
         <div className="flex gap-2 flex-wrap">
           {colors.map((color) => (
@@ -57,17 +105,17 @@ export default function ProductVariantSelector({
                 color === selectedColor ? 'default' : 'outline'
               }
               onClick={() => setSelectedColor(color)}
+              className="dark:text-white"
             >
               {color}
             </Button>
           ))}
         </div>
       </div>
-
       <div className="space-y-2.5">
         <p className="font-medium">Chọn kích cỡ:</p>
         <div className="flex gap-2 flex-wrap">
-          {variantsOfSelectedColor.map((variant) => (
+          {variantsByColor.map((variant) => (
             <Button
               key={variant.size}
               variant={
@@ -94,8 +142,8 @@ export default function ProductVariantSelector({
               variant="outline"
               onClick={() => onQuantityChange(quantity - 1)}
               disabled={quantity <= 1}
-              aria-label="Giảm số lượng"
               className="h-full w-full md:w-10 lg:w-15 text-2xl"
+              aria-label="Giảm số lượng"
             >
               –
             </Button>
@@ -108,8 +156,8 @@ export default function ProductVariantSelector({
               variant="outline"
               onClick={() => onQuantityChange(quantity + 1)}
               disabled={quantity >= (currentVariant?.quantity ?? 1)}
-              aria-label="Tăng số lượng"
               className="h-full w-full md:w-10 lg:w-15 text-2xl"
+              aria-label="Tăng số lượng"
             >
               +
             </Button>
@@ -133,7 +181,7 @@ export default function ProductVariantSelector({
               !currentVariant || currentVariant.quantity === 0
             }
             onClick={() => {}}
-            className="w-full h-full uppercase bg-orange-500 hover:bg-orange-600 text-white transform transition duration-300 ease-in-out hover:scale-105"
+            className="w-full h-full uppercase bg-orange-500 hover:bg-orange-600 text-white transition-all duration-300 hover:scale-105"
           >
             Mua ngay
           </Button>

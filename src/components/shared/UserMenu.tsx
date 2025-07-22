@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { signOut } from 'next-auth/react';
+import Link from 'next/link';
 
 export default function UserMenu() {
   const { user, setUser } = useUser();
@@ -71,13 +72,13 @@ export default function UserMenu() {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="w-48">
-        <DropdownMenuItem onClick={() => router.push('/profile')}>
-          Thông tin cá nhân
+        <DropdownMenuItem asChild>
+          <Link href="/profile">Thông tin cá nhân</Link>
         </DropdownMenuItem>
 
         {user.email === 'nguyendinhchien19042003@gmail.com' && (
-          <DropdownMenuItem onClick={() => router.push('/admin')}>
-            Trang quản lý
+          <DropdownMenuItem asChild>
+            <Link href="/admin">Trang quản lý</Link>
           </DropdownMenuItem>
         )}
 

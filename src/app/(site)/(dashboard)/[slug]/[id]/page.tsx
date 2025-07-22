@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import { getProductDetail, Product } from '@/lib/productsApi';
+import { getProductDetail } from '@/lib/productsApi';
 import ProductVariantSelector from './components/ProductVariantSelector';
 
 export async function generateMetadata({

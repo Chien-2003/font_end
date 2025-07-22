@@ -31,7 +31,15 @@ export default function ProductModal({
       `http://localhost:4000/search?q=${encodeURIComponent(debouncedQuery)}`,
     )
       .then((res) => res.json())
-      .then((data) => setResults(data.hits || []))
+      .then((data) => {
+        const normalized: Product[] = (data.hits || []).map(
+          (item: any) => ({
+            ...item,
+            id: item.id ?? item.objectID, // 🔧 đảm bảo có `id`
+          }),
+        );
+        setResults(normalized);
+      })
       .catch(() => setResults([]))
       .finally(() => setLoading(false));
   }, [debouncedQuery]);
@@ -72,9 +80,9 @@ export default function ProductModal({
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {results.map((product, index) => (
               <ProductCard
-                key={product.id}
+                key={product.id ?? `product-${index}`}
                 id={product.id}
-                categorySlug={product.category.slug_category}
+                categorySlug={product.category?.slug_category}
                 name={product.name}
                 description={product.description}
                 price={product.discounted_price ?? product.price}
@@ -85,6 +93,7 @@ export default function ProductModal({
                 image_url={product.image_url}
                 image_hover_url={product.image_hover_url}
                 variants={product.variants ?? []}
+                index={index}
               />
             ))}
           </div>
