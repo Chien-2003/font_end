@@ -93,23 +93,25 @@ function ProductCard({
         className="h-full border shadow-none py-0 rounded-none"
       >
         <CardHeader className="p-0 relative h-[431px] overflow-hidden group">
-          <Image
-            width={287}
-            height={431}
-            className="absolute top-0 left-0 w-full h-full object-cover z-10"
-            src={image_url}
-            alt={name}
-          />
-          {image_hover_url && (
+          <Link href={`/${categorySlug}/${id}`}>
             <Image
-              ref={hoverImageRef}
               width={287}
               height={431}
-              className="absolute top-0 left-0 w-full h-full object-cover opacity-0 z-20 pointer-events-none"
-              src={image_hover_url}
-              alt={`${name} hover`}
+              className="absolute top-0 left-0 w-full h-full object-cover z-10"
+              src={image_url}
+              alt={name}
             />
-          )}
+            {image_hover_url && (
+              <Image
+                ref={hoverImageRef}
+                width={287}
+                height={431}
+                className="absolute top-0 left-0 w-full h-full object-cover opacity-0 z-20 pointer-events-none"
+                src={image_hover_url}
+                alt={`${name} hover`}
+              />
+            )}
+          </Link>
           <div className="absolute bottom-1 left-1/2 -translate-x-1/2 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out z-30">
             <div className="bg-gray-400/20 backdrop-blur-[15px] border-none p-5 rounded-lg shadow-none md:w-[calc(290px-16px)] lg:w-[calc(290px-16px)] text-center">
               <p className="text-base text-start text-black mb-2">
