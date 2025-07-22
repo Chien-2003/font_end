@@ -99,7 +99,7 @@ export default function Breadcrumbs() {
                 ) : (
                   <BreadcrumbLink
                     asChild
-                    className="dark:hover:text-foreground .dark:text-muted-foreground text-gray-900"
+                    className="dark:hover:text-foreground dark:text-muted-foreground text-gray-900"
                   >
                     <Link href={href}>{label}</Link>
                   </BreadcrumbLink>

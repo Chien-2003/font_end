@@ -160,8 +160,8 @@ export default function CreateProductPage() {
         : undefined,
       image_url: product.image_url,
       image_hover_url: product.image_hover_url,
-      category_id: product.category_id, // giữ string
-      subcategory_id: product.subcategory_id || undefined, // giữ string hoặc undefined
+      category_id: product.category_id,
+      subcategory_id: product.subcategory_id || undefined,
       variants,
     };
 
@@ -185,7 +185,7 @@ export default function CreateProductPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-4xl mx-auto p-6 dark:bg-gray-900">
       <Typography variant="h1" className="text-2xl font-bold mb-6">
         Tạo sản phẩm mới
       </Typography>
