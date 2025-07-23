@@ -51,7 +51,7 @@ export default function CreateProductPage() {
     description: '',
     price: '',
     discount_percent: '',
-    image_url: [''], // Khởi tạo với 1 ảnh trống
+    image_url: [''],
     image_hover_url: '',
     category_id: '',
     subcategory_id: '',
@@ -134,8 +134,6 @@ export default function CreateProductPage() {
     if (variants.length <= 1) return;
     setVariants((prev) => prev.filter((_, i) => i !== index));
   };
-
-  // --- MỚI: Quản lý nhiều ảnh chính ---
   const handleImageUrlChange = (index: number, value: string) => {
     setProduct((prev) => {
       const newImages = [...prev.image_url];
@@ -173,8 +171,6 @@ export default function CreateProductPage() {
         return;
       }
     }
-
-    // Lọc ảnh chính: loại bỏ các ảnh rỗng trước khi gửi
     const filteredImages = product.image_url.filter(
       (url) => url.trim() !== '',
     );

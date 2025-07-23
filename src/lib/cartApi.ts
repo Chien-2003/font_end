@@ -11,7 +11,7 @@ export interface CartItem {
       id: string;
       name: string;
       price: string;
-      image_url: string;
+      image_url: string[];
     };
   };
 }

@@ -29,13 +29,12 @@ function formatVND(value: number) {
 
 export default function CartPage() {
   const { cartItems, refreshCart, isLoading } = useCart();
-  const [selectedItems, setSelectedItems] = useState<string[]>([]); // đổi thành string[]
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [openImage, setOpenImage] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(
     null,
   );
 
-  // Alert state
   const [alertMessage, setAlertMessage] = useState('');
   const [alertType, setAlertType] = useState<
     'info' | 'error' | 'success'
@@ -144,12 +143,12 @@ export default function CartPage() {
                 <div
                   className="w-[190px] h-[150px] rounded overflow-hidden shrink-0 cursor-pointer"
                   onClick={() => {
-                    setPreviewImage(product.image_url);
+                    setPreviewImage(product.image_url[0]);
                     setOpenImage(true);
                   }}
                 >
                   <Image
-                    src={product.image_url}
+                    src={product.image_url[0]}
                     alt={product.name}
                     width={190}
                     height={150}
@@ -170,10 +169,9 @@ export default function CartPage() {
                     <span className="text-sm text-muted-foreground">
                       Màu:
                     </span>
-                    <div
-                      className="w-4 h-4 border border-gray-300"
-                      style={{ backgroundColor: item.variant?.color }}
-                    />
+                    <span className="uppercase">
+                      {item.variant?.color}
+                    </span>
                   </div>
 
                   <div className="flex items-center gap-2 mt-1">
