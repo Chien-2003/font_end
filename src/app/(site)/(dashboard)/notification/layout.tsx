@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { Fragment } from 'react';
 
 export const metadata: Metadata = {
   title: 'Thông báo | Elysia Wear',
@@ -11,5 +12,5 @@ export default function NotiLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return <Fragment>{children}</Fragment>;
 }

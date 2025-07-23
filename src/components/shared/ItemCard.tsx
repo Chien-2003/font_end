@@ -31,7 +31,7 @@ interface ProductCardProps {
   price: number;
   oldPrice?: number;
   discountPercent?: number;
-  image_url: string;
+  image_url: string[];
   image_hover_url?: string;
   variants: Variant[];
   index?: number;
@@ -77,9 +77,11 @@ function ProductCard({
     };
   }, []);
 
+  const mainImage =
+    image_url.length > 0 ? image_url[0] : '/placeholder.png';
+
   return (
     <motion.div
-      className="motion-custum"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{
@@ -98,7 +100,7 @@ function ProductCard({
               width={287}
               height={431}
               className="absolute top-0 left-0 w-full h-full object-cover z-10"
-              src={image_url}
+              src={mainImage}
               alt={name}
             />
             {image_hover_url && (
@@ -141,9 +143,9 @@ function ProductCard({
                           {variant.size}
                         </button>
                       </TooltipTrigger>
-                      <TooltipContent>
+                      <TooltipContent className="text-white">
                         Màu sắc:{' '}
-                        <span className="font-medium uppercase">
+                        <span className="font-medium uppercase text-white">
                           {variant.color || 'Null'}
                         </span>
                       </TooltipContent>
@@ -154,7 +156,6 @@ function ProductCard({
             </div>
           </div>
         </CardHeader>
-
         <CardContent className="p-3 flex flex-col flex-grow">
           <Link href={`/${categorySlug}/${id}`}>
             <h3 className="text-sm font-semibold mb-2 hover:text-[#b4282b]">

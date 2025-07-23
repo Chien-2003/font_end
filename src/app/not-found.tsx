@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { Fragment } from 'react';
 
 export const metadata: Metadata = {
   title: '404 - Không tìm thấy trang',
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <>
+    <Fragment>
       <section className="grid min-h-screen place-items-center px-6 py-24 sm:py-32 lg:px-8">
         <div className="text-center">
           <p className="text-base font-semibold text-indigo-600">
@@ -34,6 +35,6 @@ export default function NotFound() {
           </div>
         </div>
       </section>
-    </>
+    </Fragment>
   );
 }

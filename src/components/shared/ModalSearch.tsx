@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Product } from '@/lib/productsApi';
 import { useDebounce } from '@/lib/useDebounce';
 import ProductCard from './ItemCard';
@@ -47,7 +47,7 @@ export default function ProductModal({
   if (!isOpen) return null;
 
   return (
-    <>
+    <Fragment>
       <div
         onClick={onClose}
         className="fixed inset-0 bg-gray-900/90 z-50"
@@ -99,6 +99,6 @@ export default function ProductModal({
           </div>
         )}
       </div>
-    </>
+    </Fragment>
   );
 }

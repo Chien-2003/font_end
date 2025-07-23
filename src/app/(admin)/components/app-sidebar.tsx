@@ -48,32 +48,12 @@ const data = {
       ],
     },
     {
-      title: 'API Reference',
+      title: 'Danh mục',
       url: '#',
       items: [
         {
-          title: 'Components',
-          url: '#',
-        },
-        {
-          title: 'File Conventions',
-          url: '#',
-        },
-        {
-          title: 'Functions',
-          url: '#',
-        },
-        {
-          title: 'next.config.js Options',
-          url: '#',
-        },
-        {
-          title: 'CLI',
-          url: '#',
-        },
-        {
-          title: 'Edge Runtime',
-          url: '#',
+          title: 'Cập nhật danh mục',
+          url: '/admin/category',
         },
       ],
     },

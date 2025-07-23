@@ -1,6 +1,7 @@
 import Navbar from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
 import { Metadata } from 'next';
+import { Fragment } from 'react';
 export const metadata: Metadata = {
   title: {
     default: 'Elysia Wear | Thời trang hiện đại',
@@ -55,10 +56,10 @@ export default function SiteLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <Fragment>
       <Navbar />
       <main className="w-full min-h-screen mx-auto">{children}</main>
       <Footer />
-    </>
+    </Fragment>
   );
 }

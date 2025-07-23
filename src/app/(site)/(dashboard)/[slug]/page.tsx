@@ -8,17 +8,14 @@ import {
 } from '@/components/ui/pagination';
 import { notFound } from 'next/navigation';
 import ProductCard from '@/components/shared/ItemCard';
-import {
-  getCategoryBySlug,
-  getProductsByCategoryId,
-  Category,
-} from '@/lib/categoryApi';
+import { getCategoryBySlug, Category } from '@/lib/categoryApi';
 import type { Metadata } from 'next';
 import Breadcrumbs from '@/components/shared/Breadcrumbs';
 import Image from 'next/image';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/shared/CategorySidebar';
-import { Product } from '@/lib/productsApi';
+import { getProducts, Product } from '@/lib/productsApi';
+import { Fragment } from 'react';
 
 const PAGE_SIZE = 10;
 
@@ -85,11 +82,12 @@ export default async function CategoryPage({
   const category: Category | null = await getCategoryBySlug(slug);
   if (!category) return notFound();
 
-  const productsResponse = await getProductsByCategoryId(
-    category.id,
+  const productsResponse = await getProducts({
+    category_id: category.id,
+    subcategory_slug: subSlug,
     page,
-    PAGE_SIZE,
-  );
+    limit: PAGE_SIZE,
+  });
   const products: Product[] = productsResponse.data || [];
   const totalItems = productsResponse.pagination?.total || 0;
   const totalPages = Math.ceil(totalItems / PAGE_SIZE);
@@ -103,7 +101,7 @@ export default async function CategoryPage({
   };
 
   return (
-    <>
+    <Fragment>
       {category.image && (
         <div className="relative w-full h-[556px]">
           <Image
@@ -187,6 +185,6 @@ export default async function CategoryPage({
           </Pagination>
         )}
       </div>
-    </>
+    </Fragment>
   );
 }

@@ -33,7 +33,7 @@ interface ProductForm {
   description: string;
   price: string;
   discount_percent: string;
-  image_url: string;
+  image_url: string[];
   image_hover_url: string;
   category_id: string;
   subcategory_id: string;
@@ -51,7 +51,7 @@ export default function CreateProductPage() {
     description: '',
     price: '',
     discount_percent: '',
-    image_url: '',
+    image_url: [''], // Khởi tạo với 1 ảnh trống
     image_hover_url: '',
     category_id: '',
     subcategory_id: '',
@@ -71,7 +71,6 @@ export default function CreateProductPage() {
     getAllSubcategories().then(setSubcategories).catch(console.error);
   }, []);
 
-  // Lọc subcategories dựa trên category_id kiểu string
   const filteredSubcategories = useMemo(
     () =>
       subcategories.filter(
@@ -136,6 +135,30 @@ export default function CreateProductPage() {
     setVariants((prev) => prev.filter((_, i) => i !== index));
   };
 
+  // --- MỚI: Quản lý nhiều ảnh chính ---
+  const handleImageUrlChange = (index: number, value: string) => {
+    setProduct((prev) => {
+      const newImages = [...prev.image_url];
+      newImages[index] = value;
+      return { ...prev, image_url: newImages };
+    });
+  };
+
+  const addImageUrl = () => {
+    setProduct((prev) => ({
+      ...prev,
+      image_url: [...prev.image_url, ''],
+    }));
+  };
+
+  const removeImageUrl = (index: number) => {
+    if (product.image_url.length <= 1) return;
+    setProduct((prev) => ({
+      ...prev,
+      image_url: prev.image_url.filter((_, i) => i !== index),
+    }));
+  };
+
   const handleSubmit = async () => {
     if (!product.name || !product.price || !product.category_id) {
       showError('Vui lòng điền đầy đủ tên, giá và danh mục.');
@@ -151,6 +174,16 @@ export default function CreateProductPage() {
       }
     }
 
+    // Lọc ảnh chính: loại bỏ các ảnh rỗng trước khi gửi
+    const filteredImages = product.image_url.filter(
+      (url) => url.trim() !== '',
+    );
+
+    if (filteredImages.length === 0) {
+      showError('Vui lòng nhập ít nhất một ảnh chính hợp lệ.');
+      return;
+    }
+
     const payload: CreateProductData = {
       name: product.name,
       description: product.description,
@@ -158,7 +191,7 @@ export default function CreateProductPage() {
       discount_percent: product.discount_percent
         ? parseFloat(product.discount_percent)
         : undefined,
-      image_url: product.image_url,
+      image_url: filteredImages,
       image_hover_url: product.image_hover_url,
       category_id: product.category_id,
       subcategory_id: product.subcategory_id || undefined,
@@ -173,7 +206,7 @@ export default function CreateProductPage() {
         description: '',
         price: '',
         discount_percent: '',
-        image_url: '',
+        image_url: [''],
         image_hover_url: '',
         category_id: '',
         subcategory_id: '',
@@ -224,54 +257,87 @@ export default function CreateProductPage() {
             max={100}
             step="0.01"
           />
-          <Input
-            name="image_url"
-            value={product.image_url}
-            onChange={handleChange}
-            placeholder="Ảnh chính"
-          />
+
+          <div>
+            <label className="block mb-1 font-medium">
+              Ảnh chính
+            </label>
+            {product.image_url.map((url, index) => (
+              <div
+                key={index}
+                className="flex items-center gap-2 mb-2"
+              >
+                <Input
+                  placeholder="URL ảnh"
+                  value={url}
+                  onChange={(e) =>
+                    handleImageUrlChange(index, e.target.value)
+                  }
+                />
+                <Button
+                  type="button"
+                  variant="destructive"
+                  onClick={() => removeImageUrl(index)}
+                  disabled={product.image_url.length === 1}
+                >
+                  <Trash2 />
+                </Button>
+              </div>
+            ))}
+            <Button
+              type="button"
+              variant="outline"
+              onClick={addImageUrl}
+              className="mt-2"
+            >
+              Thêm ảnh
+            </Button>
+          </div>
+
           <Input
             name="image_hover_url"
             value={product.image_hover_url}
             onChange={handleChange}
             placeholder="Ảnh hover"
           />
-          <Select
-            value={product.category_id}
-            onValueChange={(val) =>
-              handleSelectChange('category_id', val)
-            }
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Chọn danh mục" />
-            </SelectTrigger>
-            <SelectContent>
-              {categories.map((cat) => (
-                <SelectItem key={cat.id} value={cat.id}>
-                  {cat.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="flex lg:flex-row flex-col justify-between items-center space-y-3 lg:space-y-0 lg:space-x-3">
+            <Select
+              value={product.category_id}
+              onValueChange={(val) =>
+                handleSelectChange('category_id', val)
+              }
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Chọn danh mục" />
+              </SelectTrigger>
+              <SelectContent>
+                {categories.map((cat) => (
+                  <SelectItem key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
 
-          <Select
-            value={product.subcategory_id}
-            onValueChange={(val) =>
-              handleSelectChange('subcategory_id', val)
-            }
-            disabled={!product.category_id}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Chọn danh mục con" />
-            </SelectTrigger>
-            <SelectContent>
-              {filteredSubcategories.map((sc) => (
-                <SelectItem key={sc.id} value={sc.id}>
-                  {sc.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+            <Select
+              value={product.subcategory_id}
+              onValueChange={(val) =>
+                handleSelectChange('subcategory_id', val)
+              }
+              disabled={!product.category_id}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Chọn danh mục con" />
+              </SelectTrigger>
+              <SelectContent>
+                {filteredSubcategories.map((sc) => (
+                  <SelectItem key={sc.id} value={sc.id}>
+                    {sc.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </CardHeader>
       </Card>
 

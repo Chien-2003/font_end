@@ -1,5 +1,5 @@
 import { Editor } from '@tiptap/react';
-import { useRef } from 'react';
+import { Fragment, useRef } from 'react';
 import {
   MdFormatBold,
   MdFormatItalic,
@@ -198,7 +198,7 @@ export function ImageButton({ editor }: { editor: Editor }) {
   };
 
   return (
-    <>
+    <Fragment>
       <button
         onClick={handleClick}
         className="p-1 rounded cursor-pointer"
@@ -213,7 +213,7 @@ export function ImageButton({ editor }: { editor: Editor }) {
         style={{ display: 'none' }}
         onChange={handleFileChange}
       />
-    </>
+    </Fragment>
   );
 }
 

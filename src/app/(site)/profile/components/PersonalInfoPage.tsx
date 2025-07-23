@@ -38,7 +38,7 @@ import {
 } from '@/components/ui/select';
 import { CalendarIcon } from 'lucide-react';
 import { DropdownNavProps, DropdownProps } from 'react-day-picker';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/utils';
 import { useFileUpload } from '@/hooks/use-file-upload';
 import Image from 'next/image';
 

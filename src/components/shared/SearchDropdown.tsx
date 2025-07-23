@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import ProductModal from './ModalSearch';
 
 export default function SearchModalTrigger() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <>
+    <Fragment>
       <input
         type="text"
         placeholder="Tìm kiếm sản phẩm..."
@@ -18,6 +18,6 @@ export default function SearchModalTrigger() {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
       />
-    </>
+    </Fragment>
   );
 }

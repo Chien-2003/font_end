@@ -1,5 +1,5 @@
 export interface CartItem {
-  id: string; // đổi từ number sang string
+  id: string;
   variant_id: string;
   quantity: number;
   variant?: {
@@ -20,7 +20,7 @@ const BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 
 export async function addToCart(
-  variant_id: string, // đổi sang string
+  variant_id: string,
   quantity: number = 1,
 ) {
   const res = await fetch(`${BASE_URL}/cart/add`, {
@@ -53,7 +53,6 @@ export async function getUserCart(): Promise<CartItem[]> {
 }
 
 export async function deleteCartItem(id: string) {
-  // đổi sang string
   const res = await fetch(`${BASE_URL}/cart/${id}`, {
     method: 'DELETE',
     credentials: 'include',

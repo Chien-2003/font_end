@@ -203,16 +203,11 @@ body {
 .dark ::-webkit-scrollbar-thumb:hover {
   background: #111827;
 }
-.motion-custum {
-  width: 318px !important;
-}
-
 #nprogress {
   pointer-events: none;
 }
 
 #nprogress .bar {
-  /* background: red; */
   position: fixed;
   z-index: 9999;
   top: 0;
@@ -227,7 +222,6 @@ body {
   right: 0px;
   width: 100px;
   height: 100%;
-  /* box-shadow: 0 0 10px red, 0 0 5px red; */
   opacity: 1;
   transform: rotate(3deg) translate(0px, -4px);
 }

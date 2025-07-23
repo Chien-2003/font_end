@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { Fragment } from 'react';
 
 export const metadata: Metadata = {
   title: 'Giỏ hàng | Elysia Wear',
@@ -12,8 +13,8 @@ export default function CartLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <Fragment>
       <div>{children}</div>
-    </>
+    </Fragment>
   );
 }

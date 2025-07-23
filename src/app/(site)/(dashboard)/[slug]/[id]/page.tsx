@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { getProductDetail } from '@/lib/productsApi';
 import ProductVariantSelector from './components/ProductVariantSelector';
+import ProductImageCarousel from './components/ProductImageCarousel';
 
 export async function generateMetadata({
   params,
@@ -13,7 +14,10 @@ export async function generateMetadata({
 
   try {
     const product = await getProductDetail(resolvedParams.id);
-
+    const firstImage =
+      Array.isArray(product.image_url) && product.image_url.length > 0
+        ? product.image_url[0]
+        : '';
     return {
       title: product.name,
       description: product.description,
@@ -22,7 +26,7 @@ export async function generateMetadata({
         description: product.description,
         images: [
           {
-            url: product.image_url,
+            url: firstImage,
             width: 800,
             height: 600,
             alt: product.name,
@@ -34,7 +38,7 @@ export async function generateMetadata({
         card: 'summary_large_image',
         title: product.name,
         description: product.description,
-        images: [product.image_url],
+        images: [firstImage],
       },
     };
   } catch (error) {
@@ -62,12 +66,14 @@ export default async function ProductDetailPage({
     return (
       <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-2 sm:px-2 lg:px-8 w-full h-full py-8">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-          <div className="relative w-full h-[500px] md:col-span-6">
-            <Image
-              src={product.image_url}
+          <div className="md:col-span-6">
+            <ProductImageCarousel
+              images={
+                Array.isArray(product.image_url)
+                  ? product.image_url
+                  : [product.image_url]
+              }
               alt={product.name}
-              fill
-              className="object-contain w-full h-full"
             />
           </div>
           <div className="md:col-span-6">
