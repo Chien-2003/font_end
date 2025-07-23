@@ -12,15 +12,15 @@ export default async function HomePage() {
   const allProducts = allProductsResponse?.data ?? [];
 
   const maleProducts = allProducts.filter(
-    (product) => product.category?.category_type === 'Nam',
+    (product) => product.category?.category_type === 'nam',
   );
 
   const femaleProducts = allProducts.filter(
-    (product) => product.category?.category_type === 'Nữ',
+    (product) => product.category?.category_type === 'nu',
   );
 
   const accessories = allProducts.filter(
-    (product) => product.category?.category_type === 'Phụ kiện',
+    (product) => product.category?.category_type === 'khac',
   );
 
   return (
