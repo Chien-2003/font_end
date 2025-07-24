@@ -4,7 +4,8 @@ import { Metadata } from 'next';
 import { Fragment } from 'react';
 export const metadata: Metadata = {
   title: {
-    default: 'Elysia Wear - Thương Hiệu Thời Trang Chất Lượng Từ Việt Nam',
+    default:
+      'Elysia Wear - Thương Hiệu Thời Trang Chất Lượng Từ Việt Nam',
     template: 'Elysia Wear - %s',
   },
   description:
@@ -18,7 +19,8 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'Elysia Team', url: 'https://elysiawear.vn' }],
   openGraph: {
-    title: 'Elysia Wear - Thương Hiệu Thời Trang Chất Lượng Từ Việt Nam',
+    title:
+      'Elysia Wear - Thương Hiệu Thời Trang Chất Lượng Từ Việt Nam',
     description:
       'Elysia Wear - cửa hàng thời trang hiện đại, cập nhật xu hướng mỗi ngày.',
     url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
