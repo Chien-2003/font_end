@@ -1,11 +1,8 @@
-'use client';
-
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
-import { useState } from 'react';
 import { AppSidebar } from './components/app-sidebar';
 import { Separator } from '@/components/ui/separator';
 import Breadcrumbs from '@/components/shared/Breadcrumbs';
@@ -15,8 +12,6 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [mobileOpen, setMobileOpen] = useState(false);
-
   return (
     <SidebarProvider className="bg-background dark:bg-gray-900">
       <AppSidebar />

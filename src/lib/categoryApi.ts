@@ -37,3 +37,18 @@ export async function getCategoryBySlug(
   const data: Category[] = await res.json();
   return data.length > 0 ? data[0] : null;
 }
+export async function updateCategory(
+  id: string,
+  data: Partial<Category>,
+): Promise<Category> {
+  const res = await fetch(`http://localhost:4000/categories/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) throw new Error('Cập nhật danh mục thất bại');
+  return res.json();
+}
