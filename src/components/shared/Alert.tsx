@@ -66,7 +66,7 @@ export default function Alert({
 
   return (
     <div
-      className={`fixed top-4 left-1/2 z-50 rounded-md border px-4 py-3 ${colorClasses.border} ${colorClasses.text} transform -translate-x-1/2`}
+      className={`fixed bottom-4 right-4 z-50 rounded-md border px-4 py-3 ${colorClasses.border} ${colorClasses.text}`}
       role="alert"
     >
       <p className="text-sm flex items-center">

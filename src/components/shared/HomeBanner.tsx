@@ -1,35 +1,39 @@
 'use client';
 
+import React, { useEffect, useState } from 'react';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from '@/components/ui/carousel';
-
 import Image from 'next/image';
 import Link from 'next/link';
 
-const banners = [
-  {
-    href: '#',
-    src: 'https://file.hstatic.net/1000402464/file/hero_1-100_8edbb021f9e14c8883e99e728ca20759.jpg',
-    alt: 'Banner 1',
-  },
-  {
-    href: '#',
-    src: 'https://file.hstatic.net/1000402464/file/jh_slide_chinh.jpg',
-    alt: 'Banner 2',
-  },
-  {
-    href: '#',
-    src: 'https://file.hstatic.net/1000402464/file/fl_slide_chinh.jpg',
-    alt: 'Banner 3',
-  },
-];
+import { getBanners, BannerFormData } from '@/lib/bannerApi';
 
 export default function HomeBanner() {
+  const [banners, setBanners] = useState<BannerFormData[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchBanners() {
+      try {
+        const data = await getBanners();
+        setBanners(data.filter((b) => b.is_active));
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchBanners();
+  }, []);
+
+  if (loading) return <div>Đang tải banner...</div>;
+  if (banners.length === 0) return <div>Không có banner nào.</div>;
+
+  const banner = banners[0];
+
   return (
     <div className="pb-3 h-full bg-white">
       <Carousel
@@ -39,18 +43,22 @@ export default function HomeBanner() {
         className="w-full"
       >
         <CarouselContent>
-          {banners.map((item, index) => (
+          {banner.image_url.map((src, index) => (
             <CarouselItem
               key={index}
               className="aspect-[3/1] md:aspect-[16/5]"
             >
-              <Link href={item.href} aria-label={item.alt}>
+              <Link
+                href={banner.link || '#'}
+                aria-label={`${banner.title} - ảnh ${index + 1}`}
+              >
                 <div className="relative w-full h-[690px]">
                   <Image
-                    src={item.src}
-                    alt={item.alt}
+                    src={src}
+                    alt={`${banner.title} - ảnh ${index + 1}`}
                     fill
-                    className="object-cover h-full"
+                    className="object-fill h-full"
+                    unoptimized={true}
                   />
                 </div>
               </Link>

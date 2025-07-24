@@ -8,7 +8,7 @@ import {
   CircleIcon,
 } from 'lucide-react';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/lib/utils';
 
 function DropdownMenu({
   ...props

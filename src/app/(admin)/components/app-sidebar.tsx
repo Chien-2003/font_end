@@ -58,28 +58,16 @@ const data = {
       ],
     },
     {
-      title: 'Architecture',
+      title: 'Banner',
       url: '#',
       items: [
         {
-          title: 'Accessibility',
-          url: '#',
+          title: 'Tạo banner',
+          url: '/admin/create-banner',
         },
         {
-          title: 'Fast Refresh',
-          url: '#',
-        },
-        {
-          title: 'Next.js Compiler',
-          url: '#',
-        },
-        {
-          title: 'Supported Browsers',
-          url: '#',
-        },
-        {
-          title: 'Turbopack',
-          url: '#',
+          title: 'Cập nhật banner',
+          url: '/admin/update-banner',
         },
       ],
     },

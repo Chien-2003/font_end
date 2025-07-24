@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { Select as SelectPrimitive } from 'radix-ui';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/lib/utils';
 
 function Select({
   ...props
