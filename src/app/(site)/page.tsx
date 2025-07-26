@@ -3,6 +3,7 @@ import HomeBanner from '@/components/shared/HomeBanner';
 import HomeCategorySection from '@/components/shared/HomeCategorySection';
 import { getProducts } from '@/lib/productsApi';
 import { Fragment } from 'react';
+import Image from 'next/image';
 
 export default async function HomePage() {
   const allProductsResponse = await getProducts({
@@ -50,9 +51,25 @@ function Section({
   title: string;
   products: any[];
 }) {
+  const categoryImage = products[0]?.category?.image;
+
   return (
     <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 w-full h-full py-8">
-      <h2 className="text-xl font-bold mb-4">{title}</h2>
+      <div className="flex flex-col mb-4 space-y-4">
+        {categoryImage && (
+          <div className="relative w-full h-[630px] overflow-hidden">
+            <Image
+              src={categoryImage}
+              alt={title}
+              fill
+              className="object-fill"
+              priority
+            />
+          </div>
+        )}
+        <h2 className="text-3xl font-medium text-start">{title}</h2>
+      </div>
+
       {products.length === 0 ? (
         <p className="text-center w-full">Không có sản phẩm nào.</p>
       ) : (

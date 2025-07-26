@@ -6,7 +6,11 @@ import React, {
   forwardRef,
   useImperativeHandle,
 } from 'react';
-import { XIcon, CircleUserRoundIcon } from 'lucide-react';
+import {
+  XIcon,
+  CircleUserRoundIcon,
+  CalendarIcon,
+} from 'lucide-react';
 import { format } from 'date-fns';
 import dayjs from 'dayjs';
 
@@ -15,6 +19,7 @@ import {
   updateProfile,
   UpdateProfileResponse,
 } from '@/lib/profileApi';
+import { uploadImage } from '@/lib/uploadApi';
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -36,7 +41,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { CalendarIcon } from 'lucide-react';
 import { DropdownNavProps, DropdownProps } from 'react-day-picker';
 import { cn } from '@/lib/utils';
 import { useFileUpload } from '@/hooks/use-file-upload';
@@ -60,38 +64,11 @@ const PersonalInfoPage = forwardRef<PersonalInfoPageRef>((_, ref) => {
   const [avatar, setAvatar] = useState<string | null>(null);
 
   const [{ files }, { removeFile, openFileDialog, getInputProps }] =
-    useFileUpload({
-      accept: 'image/*',
-    });
+    useFileUpload({ accept: 'image/*' });
 
-  const uploadAvatarToServer = async (
-    file: File,
-  ): Promise<string | null> => {
-    try {
-      const formData = new FormData();
-      formData.append('image', file);
-
-      const res = await fetch('http://localhost:4000/upload/image', {
-        method: 'POST',
-        body: formData,
-        credentials: 'include',
-      });
-
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.message || 'Upload ảnh thất bại');
-      }
-
-      const data = await res.json();
-      return data.url as string;
-    } catch (error: any) {
-      console.error('Lỗi upload ảnh:', error);
-      return null;
-    }
-  };
   useEffect(() => {
     if (files.length > 0) {
-      uploadAvatarToServer(files[0].file).then((url) => {
+      uploadImage(files[0].file).then((url) => {
         if (url) setAvatar(url);
       });
     }

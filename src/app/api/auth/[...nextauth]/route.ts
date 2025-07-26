@@ -1,7 +1,5 @@
 import NextAuth from 'next-auth';
 import type { NextAuthOptions } from 'next-auth';
-import type { Session, User } from 'next-auth';
-import type { JWT } from 'next-auth/jwt';
 import GoogleProvider from 'next-auth/providers/google';
 import FacebookProvider from 'next-auth/providers/facebook';
 
@@ -20,12 +18,12 @@ const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, account }) {
       if (account) {
-        token.provider = account.provider; // ✅ Gán provider vào token
+        token.provider = account.provider;
       }
       return token;
     },
     async session({ session, token }) {
-      session.provider = token.provider as string; // ✅ Gán provider vào session
+      session.provider = token.provider as string;
       return session;
     },
   },

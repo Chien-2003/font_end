@@ -72,12 +72,12 @@ const data = {
       ],
     },
     {
-      title: 'Community',
+      title: 'Mã giảm giá',
       url: '#',
       items: [
         {
-          title: 'Contribution Guide',
-          url: '#',
+          title: 'Tạo mã giảm giá',
+          url: '/admin/create-discount',
         },
       ],
     },
