@@ -159,7 +159,7 @@ export default function CreateDiscountForm() {
         subcategory_ids: form.subcategory_ids,
       });
 
-      setAlertMessage('✅ Tạo mã giảm giá thành công!');
+      setAlertMessage('Tạo mã giảm giá thành công!');
       setAlertType('success');
 
       setForm({
@@ -174,7 +174,7 @@ export default function CreateDiscountForm() {
       removeFile(files[0]?.id);
     } catch (err) {
       console.error('Lỗi tạo mã giảm giá:', err);
-      setAlertMessage('❌ Tạo mã giảm giá thất bại!');
+      setAlertMessage('Tạo mã giảm giá thất bại!');
       setAlertType('error');
     } finally {
       setLoading(false);
