@@ -92,7 +92,7 @@ export default function NavLinks({
                         (group, idx) => (
                           <ul
                             key={idx}
-                            className="flex flex-col space-y-3"
+                            className="flex flex-col space-y-2"
                           >
                             {group.map((sub) => {
                               const subHref = `${href}/${sub.slug}`;
