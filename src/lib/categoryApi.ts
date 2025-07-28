@@ -1,3 +1,6 @@
+const BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+
 export interface Subcategory {
   id: string;
   name: string;
@@ -17,7 +20,7 @@ export interface Category {
 }
 
 export async function getAllCategories(): Promise<Category[]> {
-  const res = await fetch('http://localhost:4000/categories', {
+  const res = await fetch(`${BASE_URL}/categories`, {
     cache: 'no-store',
   });
   if (!res.ok) throw new Error('Không thể lấy danh sách danh mục');
@@ -28,7 +31,7 @@ export async function getCategoryBySlug(
   slug: string,
 ): Promise<Category | null> {
   const res = await fetch(
-    `http://localhost:4000/categories?slug_category=${slug}`,
+    `${BASE_URL}/categories?slug_category=${slug}`,
     {
       cache: 'no-store',
     },
@@ -37,11 +40,12 @@ export async function getCategoryBySlug(
   const data: Category[] = await res.json();
   return data.length > 0 ? data[0] : null;
 }
+
 export async function updateCategory(
   id: string,
   data: Partial<Category>,
 ): Promise<Category> {
-  const res = await fetch(`http://localhost:4000/categories/${id}`, {
+  const res = await fetch(`${BASE_URL}/categories/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

@@ -1,3 +1,6 @@
+const BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+
 export interface Subcategory {
   id: string;
   name: string;
@@ -8,7 +11,7 @@ export interface Subcategory {
 }
 
 export async function getAllSubcategories(): Promise<Subcategory[]> {
-  const res = await fetch('http://localhost:4000/subcategories', {
+  const res = await fetch(`${BASE_URL}/subcategories`, {
     cache: 'no-store',
   });
 

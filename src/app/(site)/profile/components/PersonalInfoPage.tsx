@@ -90,7 +90,7 @@ const PersonalInfoPage = forwardRef<PersonalInfoPageRef>((_, ref) => {
   useImperativeHandle(ref, () => ({
     handleUpdate: async () => {
       return await updateProfile({
-        full_name: fullName,
+        full_name: user?.full_name ?? '',
         phone,
         address,
         birth_date: birthDate
@@ -227,14 +227,17 @@ const PersonalInfoPage = forwardRef<PersonalInfoPageRef>((_, ref) => {
                   : 'Chọn ngày'}
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
+            <PopoverContent
+              className="w-auto p-0 dark:bg-gray-900"
+              align="start"
+            >
               <Calendar
                 mode="single"
                 selected={birthDate}
                 onSelect={setBirthDate}
                 captionLayout="dropdown"
                 defaultMonth={birthDate || new Date(2000, 0)}
-                startMonth={new Date(1920, 0)}
+                startMonth={new Date(1900, 0)}
                 className="rounded-md border p-2"
                 classNames={{ month_caption: 'mx-0' }}
                 components={{

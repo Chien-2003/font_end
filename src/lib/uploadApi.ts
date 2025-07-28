@@ -1,3 +1,6 @@
+const BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+
 export async function uploadImage(
   file: File,
 ): Promise<string | null> {
@@ -5,7 +8,7 @@ export async function uploadImage(
     const formData = new FormData();
     formData.append('image', file);
 
-    const res = await fetch('http://localhost:4000/upload/image', {
+    const res = await fetch(`${BASE_URL}/upload/image`, {
       method: 'POST',
       body: formData,
       credentials: 'include',

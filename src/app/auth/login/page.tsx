@@ -102,8 +102,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex justify-center items-center px-4 mt-12 mb-16">
-      <Card className="w-full max-w-md p-6">
+    <div className="flex justify-center px-4 mt-2 mb-16">
+      <Card className="w-full max-w-md p-6 dark:bg-gray-900">
         <CardHeader>
           <CardTitle className="text-center text-xl font-semibold">
             Đăng nhập
@@ -158,7 +158,7 @@ export default function LoginPage() {
             </div>
             <Button
               type="submit"
-              className="w-full"
+              className="w-full text-white"
               disabled={isLoading}
             >
               {isLoading ? (

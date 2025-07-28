@@ -91,7 +91,7 @@ export default function RegisterPage() {
 
   return (
     <div className="flex justify-center px-4 mt-2 mb-16">
-      <Card className="w-full max-w-md p-6">
+      <Card className="w-full max-w-md p-6 dark:bg-gray-900">
         <CardHeader>
           <CardTitle className="text-center text-xl font-semibold">
             Đăng ký tài khoản
@@ -151,7 +151,7 @@ export default function RegisterPage() {
               />
               <Button
                 type="submit"
-                className="w-full"
+                className="w-full text-white"
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -178,7 +178,7 @@ export default function RegisterPage() {
               <span className="w-full border-t" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2 text-muted-foreground">
+              <span className="bg-gray-900 px-2 text-muted-foreground">
                 Hoặc đăng nhập bằng
               </span>
             </div>

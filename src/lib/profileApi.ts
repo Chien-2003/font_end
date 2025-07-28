@@ -1,8 +1,15 @@
+const BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 export interface UpdateProfilePayload {
-  full_name: string;
+  full_name?: string;
   phone?: string;
   address?: string;
-  order_address?: string;
+  order_address?: {
+    province_code: string;
+    district_code: string;
+    ward_code: string;
+    detail: string;
+  };
   birth_date?: string | null;
   gender?: 0 | 1 | 2;
   avatar?: string | null;
@@ -19,13 +26,18 @@ export interface UserResponse {
   email: string;
   phone?: string;
   address?: string;
-  order_address?: string;
+  order_address?: {
+    province_code: string;
+    district_code: string;
+    ward_code: string;
+    detail: string;
+  };
   birth_date?: string;
   gender?: 0 | 1 | 2;
 }
 
 export const getProfile = async (): Promise<UserResponse> => {
-  const res = await fetch('http://localhost:4000/profile/get-user', {
+  const res = await fetch(`${BASE_URL}/profile/get-user`, {
     credentials: 'include',
   });
 
@@ -41,17 +53,14 @@ export const getProfile = async (): Promise<UserResponse> => {
 export const updateProfile = async (
   data: UpdateProfilePayload,
 ): Promise<UpdateProfileResponse> => {
-  const res = await fetch(
-    'http://localhost:4000/profile/create-user',
-    {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
+  const res = await fetch(`${BASE_URL}/profile/update-user`, {
+    method: 'PUT',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  );
+    body: JSON.stringify(data),
+  });
 
   const result: UpdateProfileResponse = await res.json();
 

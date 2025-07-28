@@ -5,6 +5,7 @@ import { Product } from '@/lib/productsApi';
 import { useDebounce } from '@/lib/useDebounce';
 import ProductCard from './ItemCard';
 import { MdOutlineClose } from 'react-icons/md';
+import { searchProducts } from '@/lib/searchApi'; // ✅ dùng hàm API mới
 
 interface ModalProps {
   isOpen: boolean;
@@ -26,22 +27,14 @@ export default function ProductModal({
       return;
     }
 
-    setLoading(true);
-    fetch(
-      `http://localhost:4000/search?q=${encodeURIComponent(debouncedQuery)}`,
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        const normalized: Product[] = (data.hits || []).map(
-          (item: any) => ({
-            ...item,
-            id: item.id ?? item.objectID, // 🔧 đảm bảo có `id`
-          }),
-        );
-        setResults(normalized);
-      })
-      .catch(() => setResults([]))
-      .finally(() => setLoading(false));
+    const fetchData = async () => {
+      setLoading(true);
+      const res = await searchProducts(debouncedQuery);
+      setResults(res);
+      setLoading(false);
+    };
+
+    fetchData();
   }, [debouncedQuery]);
 
   if (!isOpen) return null;

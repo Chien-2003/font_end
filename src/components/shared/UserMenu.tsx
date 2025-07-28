@@ -13,6 +13,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
+import { logoutApi } from '@/lib/authApi';
 
 export default function UserMenu() {
   const { user, setUser } = useUser();
@@ -20,10 +21,7 @@ export default function UserMenu() {
 
   const handleLogout = async () => {
     try {
-      await fetch('http://localhost:4000/auth/logout', {
-        method: 'POST',
-        credentials: 'include',
-      });
+      await logoutApi();
       await signOut({ redirect: false });
       setUser(null);
       router.push('/auth/login');
@@ -71,7 +69,10 @@ export default function UserMenu() {
         </button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end" className="w-48">
+      <DropdownMenuContent
+        align="end"
+        className="w-48 dark:bg-gray-900"
+      >
         <DropdownMenuItem asChild>
           <Link href="/profile">Thông tin cá nhân</Link>
         </DropdownMenuItem>

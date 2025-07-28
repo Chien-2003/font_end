@@ -158,7 +158,7 @@ function ProductCard({
         </CardHeader>
         <CardContent className="p-3 flex flex-col flex-grow">
           <Link href={`/${categorySlug}/${id}`}>
-            <h3 className="text-sm font-semibold mb-2 hover:text-[#b4282b]">
+            <h3 className="text-sm font-semibold mb-2 hover:text-primary">
               {name.length > 32 ? `${name.slice(0, 32)}...` : name}
             </h3>
           </Link>

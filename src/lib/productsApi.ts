@@ -1,3 +1,6 @@
+const BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+
 import { PaginatedResponse, ProductVariant } from '@/types/products';
 import { Category } from './categoryApi';
 import { Subcategory } from './subcategoryApi';
@@ -49,7 +52,7 @@ export async function getProducts(params?: {
   if (params?.limit) query.set('limit', params.limit.toString());
 
   const res = await fetch(
-    `http://localhost:4000/products?${query.toString()}`,
+    `${BASE_URL}/products?${query.toString()}`,
     {
       cache: 'no-store',
     },
@@ -63,7 +66,7 @@ export async function getProducts(params?: {
 export async function createProduct(
   data: CreateProductData,
 ): Promise<Product> {
-  const res = await fetch('http://localhost:4000/products/create', {
+  const res = await fetch(`${BASE_URL}/products/create`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
@@ -78,7 +81,7 @@ export async function updateProduct(
   id: string,
   data: CreateProductData,
 ): Promise<Product> {
-  const res = await fetch(`http://localhost:4000/products/${id}`, {
+  const res = await fetch(`${BASE_URL}/products/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
@@ -90,7 +93,7 @@ export async function updateProduct(
 }
 
 export async function deleteProduct(id: string): Promise<void> {
-  const res = await fetch(`http://localhost:4000/products/${id}`, {
+  const res = await fetch(`${BASE_URL}/products/${id}`, {
     method: 'DELETE',
   });
 
@@ -101,7 +104,7 @@ export async function getProductDetail(
   slug: string,
 ): Promise<Product> {
   const id = slug.replace('ew-', '');
-  const res = await fetch(`http://localhost:4000/products/${id}`, {
+  const res = await fetch(`${BASE_URL}/products/${id}`, {
     cache: 'no-store',
   });
 

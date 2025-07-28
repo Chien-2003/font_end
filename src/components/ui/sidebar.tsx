@@ -400,7 +400,7 @@ function SidebarContent({
       data-slot="sidebar-content"
       data-sidebar="content"
       className={cn(
-        'flex lg:min-h-[calc(100vh-100px)] flex-1 flex-col gap-2 overflow-y-auto group-data-[collapsible=icon]:overflow-hidden',
+        'flex lg:min-h-[calc(100vh-100px)] flex-1 flex-col gap-2 overflow-y-auto group-data-[collapsible=icon]:overflow-hidden [&::-webkit-scrollbar]:hidden scrollbar-hide',
         className,
       )}
       {...props}
@@ -417,7 +417,7 @@ function SidebarGroup({
       data-slot="sidebar-group"
       data-sidebar="group"
       className={cn(
-        'relative flex w-full min-w-0 flex-col p-2',
+        'relative flex w-full min-w-0 flex-col px-2',
         className,
       )}
       {...props}
@@ -437,7 +437,7 @@ function SidebarGroupLabel({
       data-slot="sidebar-group-label"
       data-sidebar="group-label"
       className={cn(
-        'text-sidebar-foreground/70 ring-sidebar-ring flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium outline-hidden transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0',
+        'text-sidebar-foreground/70 ring-sidebar-ring flex h-8 shrink-0 items-center rounded-md text-xs font-medium outline-hidden transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0',
         'group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0',
         className,
       )}

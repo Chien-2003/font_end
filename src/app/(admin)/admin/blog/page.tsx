@@ -1,12 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import {
-  Button,
-  Container,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 import SimpleEditor from '../../components/SimpleEditor';
 
 export default function CreatePostPage() {
@@ -16,31 +13,31 @@ export default function CreatePostPage() {
   const handleSubmit = () => {};
 
   return (
-    <Container maxWidth="md" className="py-10" sx={{ p: 0 }}>
-      <Typography variant="h4" gutterBottom>
-        Tạo bài viết
-      </Typography>
+    <div className="max-w-3xl mx-auto py-4 px-4">
+      <h1 className="text-3xl font-bold mb-6">Tạo bài viết</h1>
 
-      <TextField
-        fullWidth
-        label="Tiêu đề"
-        variant="outlined"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        sx={{ mb: 2 }}
-      />
+      <div className="flex flex-col space-y-4">
+        <div className="flex flex-col space-y-2">
+          <Label htmlFor="title">Tiêu đề</Label>
+          <Input
+            id="title"
+            placeholder="Nhập tiêu đề bài viết..."
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
 
-      <SimpleEditor onChange={(val) => setContent(val)} />
+        <div className="flex flex-col space-y-2">
+          <Label>Nội dung</Label>
+          <SimpleEditor onChange={(val) => setContent(val)} />
+        </div>
 
-      <div className="mt-6">
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleSubmit}
-        >
-          Đăng bài
-        </Button>
+        <div className="pt-4">
+          <Button onClick={handleSubmit} className="text-white">
+            Đăng bài
+          </Button>
+        </div>
       </div>
-    </Container>
+    </div>
   );
 }

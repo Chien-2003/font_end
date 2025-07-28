@@ -49,8 +49,8 @@ export function AppSidebar({ category }: AppSidebarProps) {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="mb-2">
-            Bộ lọc
+          <SidebarGroupLabel className="mb-2 text-base">
+            Bộ lọc danh mục
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <RadioGroup

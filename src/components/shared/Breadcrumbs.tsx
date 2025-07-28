@@ -11,29 +11,7 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from '@/components/ui/breadcrumb';
-
-interface Category {
-  id: number;
-  name: string;
-  slug_category: string;
-}
-
-async function fetchCategoryName(
-  slug: string,
-): Promise<string | null> {
-  try {
-    const res = await fetch(
-      `http://localhost:4000/categories?slug_category=${slug}`,
-      { cache: 'no-store' },
-    );
-    if (!res.ok) return null;
-    const data: Category[] = await res.json();
-    if (data.length === 0) return null;
-    return data[0].name;
-  } catch {
-    return null;
-  }
-}
+import { getCategoryBySlug } from '@/lib/categoryApi';
 
 export default function Breadcrumbs() {
   const pathname = usePathname();
@@ -46,10 +24,11 @@ export default function Breadcrumbs() {
 
       for (let i = 0; i < pathParts.length; i++) {
         const part = pathParts[i];
+
         if (i === 0) {
-          const categoryName = await fetchCategoryName(part);
-          if (categoryName) {
-            newLabels.push(categoryName);
+          const category = await getCategoryBySlug(part);
+          if (category?.name) {
+            newLabels.push(category.name);
           } else {
             newLabels.push(
               part.charAt(0).toUpperCase() +
@@ -71,7 +50,7 @@ export default function Breadcrumbs() {
   }, [pathname]);
 
   return (
-    <Breadcrumb className="w-full px-1 p-2">
+    <Breadcrumb className="w-full pb-2">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink
@@ -81,6 +60,7 @@ export default function Breadcrumbs() {
             <Link href="/">Trang chủ</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
+
         {pathParts.map((part, index) => {
           const href = '/' + pathParts.slice(0, index + 1).join('/');
           const isLast = index === pathParts.length - 1;

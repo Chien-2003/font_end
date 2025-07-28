@@ -219,7 +219,7 @@ export default function CreateProductPage() {
         Tạo sản phẩm mới
       </Typography>
 
-      <Card className="mb-6">
+      <Card className="mb-6 dark:bg-gray-900">
         <CardHeader className="grid gap-4">
           <Input
             name="name"
@@ -337,7 +337,7 @@ export default function CreateProductPage() {
         </CardHeader>
       </Card>
 
-      <Card className="mb-6">
+      <Card className="mb-6 dark:bg-gray-900">
         <CardHeader>
           <h2 className="text-lg font-semibold">Biến thể sản phẩm</h2>
         </CardHeader>
@@ -397,7 +397,7 @@ export default function CreateProductPage() {
       </Card>
 
       <div className="text-right">
-        <Button onClick={handleSubmit} className="px-6">
+        <Button onClick={handleSubmit} className="px-6 text-white">
           Tạo sản phẩm
         </Button>
       </div>

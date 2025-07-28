@@ -246,7 +246,7 @@ export default function CreateDiscountForm() {
               <CardHeader>
                 <CardTitle>Chọn danh mục áp dụng</CardTitle>
               </CardHeader>
-              <CardContent className="grid grid-cols-2 gap-2 max-h-48 overflow-auto">
+              <CardContent className="grid grid-cols-2 gap-2 max-h-48 overflow-auto [&::-webkit-scrollbar]:hidden scrollbar-hide">
                 {categories.map((cat) => (
                   <label
                     key={cat.id}
@@ -268,7 +268,7 @@ export default function CreateDiscountForm() {
               <CardHeader>
                 <CardTitle>Chọn danh mục con áp dụng</CardTitle>
               </CardHeader>
-              <CardContent className="grid grid-cols-2 gap-2 max-h-48 overflow-auto">
+              <CardContent className="grid grid-cols-2 gap-2 max-h-48 overflow-auto [&::-webkit-scrollbar]:hidden scrollbar-hide">
                 {subcategories.map((subcat) => (
                   <label
                     key={subcat.id}
@@ -333,7 +333,7 @@ export default function CreateDiscountForm() {
             {files[0]?.preview && (
               <button
                 type="button"
-                className="absolute top-4 right-4 focus-visible:border-ring focus-visible:ring-ring/50 z-50 flex size-8 items-center justify-center rounded-full bg-black/60 text-white transition hover:bg-black/80 focus-visible:ring-[3px]"
+                className="absolute top-4 right-4 focus-visible:border-ring focus-visible:ring-ring/50 z-50 flex size-8 items-center justify-center rounded-full bg-black/60 text-white transition hover:bg-black/80 focus-visible:ring-[1px]"
                 onClick={() => removeFile(files[0]?.id)}
                 aria-label="Xóa ảnh"
               >

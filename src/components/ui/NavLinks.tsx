@@ -76,7 +76,7 @@ export default function NavLinks({
                 className={`uppercase text-sm font-semibold px-4 py-2 rounded-md transition-colors duration-200 ${
                   isActive
                     ? 'text-primary bg-primary/10 dark:bg-primary/20'
-                    : 'text-white hover:text-primary hover:bg-muted/50 dark:hover:text-primary dark:hover:bg-muted/30'
+                    : 'dark:text-white hover:text-primary hover:bg-muted/50 dark:hover:text-primary dark:hover:bg-muted/30'
                 }`}
               >
                 <Link href={href} className="w-full h-full block">
@@ -103,18 +103,18 @@ export default function NavLinks({
                                 <li key={sub.id}>
                                   <Link
                                     href={subHref}
-                                    className={`block rounded-md p-3 leading-none no-underline outline-none transition-colors duration-200 hover:text-primary focus:bg-primary/10 focus:text-primary ${
+                                    className={`block rounded-md p-3 leading-none no-underline outline-none transition-colors duration-200 hover:bg-primary/10 focus:bg-primary/10 focus:text-primary ${
                                       isSubActive
                                         ? 'text-primary font-semibold'
-                                        : 'text-white'
+                                        : 'dark:text-white'
                                     }`}
                                   >
-                                    <div className="text-sm font-semibold">
+                                    <div className="text-sm font-semibold hover:text-primary">
                                       {sub.name}
                                     </div>
-                                    <p className="line-clamp-2 text-xs text-white">
+                                    {/* <div className="line-clamp-2 text-xs dark:text-white">
                                       {sub.name}
-                                    </p>
+                                    </div> */}
                                   </Link>
                                 </li>
                               );
@@ -138,7 +138,7 @@ export default function NavLinks({
                 className={`uppercase text-sm font-semibold px-4 py-2 rounded-md transition-colors duration-200 ${
                   isActive
                     ? 'text-primary bg-primary/10 dark:bg-primary/20'
-                    : 'text-white hover:text-primary hover:bg-muted/50 dark:hover:text-primary dark:hover:bg-muted/30'
+                    : 'dark:text-white hover:text-primary hover:bg-muted/50 dark:hover:text-primary dark:hover:bg-muted/30'
                 }`}
               >
                 {link.name}

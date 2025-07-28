@@ -13,6 +13,16 @@ import {
 } from '@/lib/profileApi';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+
+import { useLocation } from '@/hooks/useLocation';
 
 export interface AddressesPageRef {
   handleUpdate: () => Promise<UpdateProfileResponse>;
@@ -20,19 +30,85 @@ export interface AddressesPageRef {
 
 const AddressesPage = forwardRef<AddressesPageRef>((_, ref) => {
   const { user } = useUser();
-  const [orderAddress, setOrderAddress] = useState('');
 
+  const {
+    provinces,
+    districts,
+    wards,
+    provinceCode,
+    setProvinceCode,
+    districtCode,
+    setDistrictCode,
+    wardCode,
+    setWardCode,
+  } = useLocation();
+
+  const [detail, setDetail] = useState<string>('');
+
+  // Step 1: Set provinceCode và detail khi user có dữ liệu
   useEffect(() => {
     if (user?.order_address) {
-      setOrderAddress(user.order_address);
+      const { codes, detail } = user.order_address;
+      setProvinceCode(codes?.province_code ?? '');
+      setDetail(detail ?? '');
     }
-  }, [user]);
+  }, [user, setProvinceCode, setDetail]);
+
+  // Step 2: Khi districts đã load, set districtCode từ user (nếu có và hợp lệ)
+  useEffect(() => {
+    if (user?.order_address && districts.length > 0) {
+      const districtCodeFromUser =
+        user.order_address.codes?.district_code ?? '';
+      if (districtCodeFromUser) {
+        const foundDistrict = districts.find(
+          (d) => d.code === districtCodeFromUser,
+        );
+        if (foundDistrict) {
+          setDistrictCode(districtCodeFromUser);
+        }
+      }
+    }
+  }, [districts, user, setDistrictCode]);
+
+  // Step 3: Khi wards đã load, set wardCode từ user (nếu có và hợp lệ)
+  useEffect(() => {
+    if (user?.order_address && wards.length > 0) {
+      const wardCodeFromUser =
+        user.order_address.codes?.ward_code ?? '';
+      if (wardCodeFromUser) {
+        const foundWard = wards.find(
+          (w) => w.code === wardCodeFromUser,
+        );
+        if (foundWard) {
+          setWardCode(wardCodeFromUser);
+        }
+      }
+    }
+  }, [wards, user, setWardCode]);
+
+  const getFullAddress = () => {
+    const province =
+      provinces.find((p) => p.code === provinceCode)
+        ?.name_with_type ?? '';
+    const district =
+      districts.find((d) => d.code === districtCode)
+        ?.name_with_type ?? '';
+    const ward =
+      wards.find((w) => w.code === wardCode)?.name_with_type ?? '';
+    return `${detail}, ${ward}, ${district}, ${province}`
+      .replace(/^(,\s)+|(\s,)+$/g, '')
+      .replace(/(,\s){2,}/g, ', ');
+  };
 
   useImperativeHandle(ref, () => ({
     handleUpdate: async () => {
       return await updateProfile({
-        order_address: orderAddress,
-        full_name: '',
+        order_address: {
+          province_code: provinceCode,
+          district_code: districtCode,
+          ward_code: wardCode,
+          detail,
+        },
       });
     },
   }));
@@ -40,14 +116,94 @@ const AddressesPage = forwardRef<AddressesPageRef>((_, ref) => {
   return (
     <div className="space-y-4">
       <h2 className="text-2xl font-semibold">Địa chỉ nhận hàng</h2>
-      <div className="space-y-2">
-        <Label htmlFor="order_address">Địa chỉ nhận hàng</Label>
+
+      <div className="flex flex-wrap gap-4">
+        {/* Province */}
+        <div className="flex-1">
+          <Label htmlFor="province">Tỉnh/Thành phố</Label>
+          <Select
+            onValueChange={setProvinceCode}
+            value={provinceCode}
+          >
+            <SelectTrigger id="province" className="w-full">
+              <SelectValue placeholder="Chọn Tỉnh/TP" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {provinces.map((province) => (
+                  <SelectItem
+                    key={province.code}
+                    value={province.code}
+                  >
+                    {province.name_with_type}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* District */}
+        {provinceCode && (
+          <div className="flex-1">
+            <Label htmlFor="district">Quận/Huyện</Label>
+            <Select
+              onValueChange={setDistrictCode}
+              value={districtCode}
+            >
+              <SelectTrigger id="district" className="w-full">
+                <SelectValue placeholder="Chọn Quận/Huyện" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {districts.map((district) => (
+                    <SelectItem
+                      key={district.code}
+                      value={district.code}
+                    >
+                      {district.name_with_type}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+
+        {/* Ward */}
+        {provinceCode && districtCode && (
+          <div className="flex-1">
+            <Label htmlFor="ward">Phường/Xã</Label>
+            <Select onValueChange={setWardCode} value={wardCode}>
+              <SelectTrigger id="ward" className="w-full">
+                <SelectValue placeholder="Chọn Phường/Xã" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {wards.map((ward) => (
+                    <SelectItem key={ward.code} value={ward.code}>
+                      {ward.name_with_type}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+      </div>
+
+      <div className="flex-[2]">
+        <Label htmlFor="detail">Địa chỉ cụ thể</Label>
         <Input
-          id="order_address"
-          value={orderAddress}
-          onChange={(e) => setOrderAddress(e.target.value)}
-          placeholder="Nhập địa chỉ nhận hàng"
+          id="detail"
+          value={detail}
+          onChange={(e) => setDetail(e.target.value)}
+          placeholder="Số nhà, tên đường..."
         />
+      </div>
+
+      <div className="mt-2 text-gray-600">
+        <strong>Địa chỉ đầy đủ:</strong> {getFullAddress()}
       </div>
     </div>
   );

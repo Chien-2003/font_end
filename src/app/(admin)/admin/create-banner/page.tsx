@@ -99,7 +99,7 @@ export default function BannerAdminPage() {
       <Typography variant="h1" className="text-2xl font-bold mb-6">
         Tạo quản lý Banner
       </Typography>
-      <Card className="col-start-1 col-end-8">
+      <Card className="col-start-1 col-end-8 dark:bg-gray-900">
         <CardContent className="space-y-4">
           <Input
             name="title"
@@ -172,7 +172,10 @@ export default function BannerAdminPage() {
         </CardContent>
 
         <CardFooter>
-          <Button onClick={handleSubmit} className="w-full">
+          <Button
+            onClick={handleSubmit}
+            className="w-full text-white"
+          >
             Tạo banner
           </Button>
         </CardFooter>

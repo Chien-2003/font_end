@@ -104,7 +104,7 @@ export default function CartPage() {
     <div className="max-w-3xl w-full mx-auto px-4 py-6 relative">
       <h1 className="text-2xl font-bold mb-6">Giỏ hàng của bạn</h1>
 
-      <Card className="p-4">
+      <Card className="p-4 dark:bg-gray-900">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2">
             <Checkbox
@@ -203,7 +203,10 @@ export default function CartPage() {
         </div>
 
         <div className="text-right mt-4">
-          <Button disabled={selectedItems.length === 0}>
+          <Button
+            disabled={selectedItems.length === 0}
+            className="text-white"
+          >
             Thanh toán ({selectedItems.length} sản phẩm)
           </Button>
         </div>
@@ -214,15 +217,7 @@ export default function CartPage() {
           <VisuallyHidden>
             <DialogTitle>Xem ảnh sản phẩm</DialogTitle>
           </VisuallyHidden>
-
           <div className="relative w-full h-full flex justify-center items-center p-4">
-            <button
-              onClick={() => setOpenImage(false)}
-              className="absolute top-4 right-4 text-white bg-black/60 rounded-full p-2 z-10"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
             {previewImage && (
               <Image
                 src={previewImage}

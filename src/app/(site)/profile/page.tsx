@@ -58,7 +58,7 @@ export default function ProfilePage() {
         </h1>
         <p>Vui lòng đăng nhập để xem hồ sơ của bạn.</p>
         <Link href="/auth/login">
-          <Button className="mt-4">Đăng nhập</Button>
+          <Button className="mt-4 text-white">Đăng nhập</Button>
         </Link>
       </div>
     );
@@ -97,7 +97,7 @@ export default function ProfilePage() {
         className="w-full flex-row"
       >
         <div className="grid md:grid-cols-4 gap-6 w-full max-w-[1400px] mx-auto">
-          <Card className="p-6 flex flex-col">
+          <Card className="p-6 flex flex-col dark:bg-gray-900">
             <Link href="/" className="flex items-center gap-2 mb-4">
               <Image
                 src="/logo.svg"
@@ -142,7 +142,7 @@ export default function ProfilePage() {
             </TabsList>
           </Card>
           <div className="md:col-span-3 space-y-4">
-            <div className="rounded-md border text-start p-5">
+            <div className="rounded-md border text-start p-5 h-full">
               <TabsContent value="personal">
                 <PersonalInfoPage ref={personalInfoRef} />
               </TabsContent>

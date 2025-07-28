@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 export default function page() {
   return (
     <Fragment>
-      <div className=""></div>
+      <div className="">danh sách sản phẩm đã mua</div>
     </Fragment>
   );
 }

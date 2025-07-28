@@ -1,5 +1,6 @@
 'use client';
-
+const BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 import React, {
   createContext,
   useContext,
@@ -16,7 +17,18 @@ export interface User {
   avatar?: string;
   phone?: string;
   address?: string;
-  order_address?: string;
+  order_address?: {
+    detail: string;
+    province: string;
+    district: string;
+    ward: string;
+    full_address: string;
+    codes: {
+      province_code: string;
+      district_code: string;
+      ward_code: string;
+    };
+  };
   birth_date?: string;
   gender?: 0 | 1 | 2;
 }
@@ -54,12 +66,9 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        'http://localhost:4000/profile/get-user',
-        {
-          credentials: 'include',
-        },
-      );
+      const res = await fetch(`${BASE_URL}/profile/get-user`, {
+        credentials: 'include',
+      });
 
       if (!res.ok) {
         const errorData = await res.json();

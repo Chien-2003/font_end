@@ -1,3 +1,6 @@
+const BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+
 export interface CreateDiscountPayload {
   code: string;
   type: 'percentage' | 'fixed' | 'freeship';
@@ -10,7 +13,7 @@ export interface CreateDiscountPayload {
 }
 
 export async function createDiscount(payload: CreateDiscountPayload) {
-  const res = await fetch('http://localhost:4000/discounts', {
+  const res = await fetch(`${BASE_URL}/discounts`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
