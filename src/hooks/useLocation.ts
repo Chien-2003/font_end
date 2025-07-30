@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 export interface LocationItem {
   code: string;
   name_with_type: string;
+  name: string;
   parent_code?: string;
 }
 

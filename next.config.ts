@@ -11,6 +11,7 @@ const nextConfig = {
       'n7media.coolmate.me',
       'platform-lookaside.fbsbx.com',
       'res.cloudinary.com',
+      'mcdn.coolmate.me'
     ],
   },
 };

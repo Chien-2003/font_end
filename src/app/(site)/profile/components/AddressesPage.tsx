@@ -44,8 +44,6 @@ const AddressesPage = forwardRef<AddressesPageRef>((_, ref) => {
   } = useLocation();
 
   const [detail, setDetail] = useState<string>('');
-
-  // Step 1: Set provinceCode và detail khi user có dữ liệu
   useEffect(() => {
     if (user?.order_address) {
       const { codes, detail } = user.order_address;
@@ -53,8 +51,6 @@ const AddressesPage = forwardRef<AddressesPageRef>((_, ref) => {
       setDetail(detail ?? '');
     }
   }, [user, setProvinceCode, setDetail]);
-
-  // Step 2: Khi districts đã load, set districtCode từ user (nếu có và hợp lệ)
   useEffect(() => {
     if (user?.order_address && districts.length > 0) {
       const districtCodeFromUser =
@@ -69,8 +65,6 @@ const AddressesPage = forwardRef<AddressesPageRef>((_, ref) => {
       }
     }
   }, [districts, user, setDistrictCode]);
-
-  // Step 3: Khi wards đã load, set wardCode từ user (nếu có và hợp lệ)
   useEffect(() => {
     if (user?.order_address && wards.length > 0) {
       const wardCodeFromUser =
@@ -88,8 +82,7 @@ const AddressesPage = forwardRef<AddressesPageRef>((_, ref) => {
 
   const getFullAddress = () => {
     const province =
-      provinces.find((p) => p.code === provinceCode)
-        ?.name_with_type ?? '';
+      provinces.find((p) => p.code === provinceCode)?.name ?? '';
     const district =
       districts.find((d) => d.code === districtCode)
         ?.name_with_type ?? '';
@@ -118,7 +111,6 @@ const AddressesPage = forwardRef<AddressesPageRef>((_, ref) => {
       <h2 className="text-2xl font-semibold">Địa chỉ nhận hàng</h2>
 
       <div className="flex flex-wrap gap-4">
-        {/* Province */}
         <div className="flex-1">
           <Label htmlFor="province">Tỉnh/Thành phố</Label>
           <Select
@@ -135,7 +127,7 @@ const AddressesPage = forwardRef<AddressesPageRef>((_, ref) => {
                     key={province.code}
                     value={province.code}
                   >
-                    {province.name_with_type}
+                    {province.name}
                   </SelectItem>
                 ))}
               </SelectGroup>

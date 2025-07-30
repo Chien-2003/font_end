@@ -153,7 +153,7 @@ export default function ProductVariantSelector({
                 onClick={() => setSelectedSize(variant.size)}
                 disabled={variant.quantity === 0}
                 title={`Số lượng còn lại: ${variant.quantity}`}
-                className='text-white'
+                className="text-white"
               >
                 {variant.size}
               </Button>

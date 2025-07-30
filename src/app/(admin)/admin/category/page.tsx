@@ -185,7 +185,7 @@ export default function AdminCategoryPage() {
                       <div className="flex w-full justify-center">
                         <Button
                           variant="default"
-                          className="w-auto"
+                          className="w-auto text-white"
                           onClick={() => handleSave(category.id)}
                         >
                           Lưu

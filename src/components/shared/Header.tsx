@@ -11,10 +11,7 @@ import MobileMenu from './MobileMenu';
 import CartButton from './CartButton';
 import { ModeToggle } from '@/components/shared/ModeToggle';
 import SearchModalTrigger from './SearchDropdown';
-
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Bell } from 'lucide-react';
+import Notifications from './Notifications';
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -51,28 +48,10 @@ export default function Navbar() {
 
             <div className="flex items-center gap-3 shrink-0">
               <UserMenu />
-
-              {/* Replace MUI IconButton + Badge with Button + Badge */}
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleClick}
-                className="relative"
-                aria-label="notifications"
-              >
-                <Bell className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-                <Badge
-                  className="absolute top-1 right-1 w-5 h-5 translate-x-1/2 -translate-y-1/2 px-1.5 py-0.5 text-[10px] bg-red-500 text-white rounded-full"
-                  variant="default"
-                >
-                  99+
-                </Badge>
-              </Button>
-
+              <Notifications />
               <Link href="/cart">
                 <CartButton />
               </Link>
-
               <ModeToggle />
             </div>
           </div>

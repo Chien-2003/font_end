@@ -86,7 +86,7 @@ export default function NavLinks({
 
               {category.subcategories &&
                 category.subcategories.length > 0 && (
-                  <NavigationMenuContent className="z-50 bg-white dark:bg-gray-900 rounded-md shadow-lg p-6 min-w-[400px] md:min-w-[480px] lg:min-w-[520px]">
+                  <NavigationMenuContent className="z-50 bg-white dark:bg-gray-900 rounded-md shadow-lg p-4 min-w-[400px] md:min-w-[480px] lg:min-w-[520px]">
                     <div className="flex gap-x-8">
                       {chunkArray(category.subcategories, 4).map(
                         (group, idx) => (
@@ -103,18 +103,13 @@ export default function NavLinks({
                                 <li key={sub.id}>
                                   <Link
                                     href={subHref}
-                                    className={`block rounded-md p-3 leading-none no-underline outline-none transition-colors duration-200 hover:bg-primary/10 focus:bg-primary/10 focus:text-primary ${
+                                    className={`block rounded-md p-3 leading-none no-underline outline-none transition-colors duration-200 hover:bg-primary/10 focus:bg-primary/10 focus:text-primary hover:text-primary ${
                                       isSubActive
-                                        ? 'text-primary font-semibold'
-                                        : 'dark:text-white'
+                                        ? 'text-primary font-semibold hover:text-primary'
+                                        : 'dark:text-white hover:text-primary'
                                     }`}
                                   >
-                                    <div className="text-sm font-semibold hover:text-primary">
-                                      {sub.name}
-                                    </div>
-                                    {/* <div className="line-clamp-2 text-xs dark:text-white">
-                                      {sub.name}
-                                    </div> */}
+                                    {sub.name}
                                   </Link>
                                 </li>
                               );
