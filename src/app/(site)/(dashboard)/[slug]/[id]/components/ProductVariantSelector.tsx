@@ -12,19 +12,24 @@ import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
 import { addToCart } from '@/lib/cartApi';
 import Alert from '@/components/shared/Alert';
+import { createOrder } from '@/lib/orderApi';
 
 export interface ProductVariant {
   id: string;
+  product_id: string;
+  product_name: string;
   color: string;
   size: string;
   quantity: number;
 }
 
 interface ProductVariantSelectorProps {
+  productId: string;
   variants: ProductVariant[];
 }
 
 export default function ProductVariantSelector({
+  productId,
   variants,
 }: ProductVariantSelectorProps) {
   type AlertType = 'info' | 'error' | 'success';
@@ -80,6 +85,30 @@ export default function ProductVariantSelector({
       setAlertType('error');
     }
   };
+  const handleBuyNow = async () => {
+    if (!currentVariant) return;
+    try {
+      const orderData = {
+        items: [
+          {
+            variant_id: currentVariant.id,
+            product_id: currentVariant.product_id,
+            product_name: currentVariant.product_name,
+            color: currentVariant.color,
+            size: currentVariant.size,
+            quantity,
+          },
+        ],
+        payment_method: 'COD',
+      };
+      const order = await createOrder(orderData);
+      // router.push(`/orders/${order.id}`);
+    } catch (error) {
+      setAlertMessage('Mua ngay thất bại!');
+      setAlertType('error');
+    }
+  };
+
   useEffect(() => {
     const newColor = getColorFromParams();
     if (newColor !== selectedColor) setSelectedColor(newColor);
@@ -210,7 +239,7 @@ export default function ProductVariantSelector({
               disabled={
                 !currentVariant || currentVariant.quantity === 0
               }
-              onClick={() => {}}
+              onClick={handleBuyNow}
               className="w-full h-full uppercase bg-orange-500 hover:bg-orange-600 text-white transition-all duration-300 hover:scale-105"
             >
               Mua ngay

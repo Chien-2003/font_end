@@ -102,7 +102,12 @@ export default async function ProductDetailPage({
             </div>
 
             <ProductVariantSelector
-              variants={product.variants ?? []}
+              productId={product.id}
+              variants={(product.variants ?? []).map((v) => ({
+                ...v,
+                product_id: product.id,
+                product_name: product.name,
+              }))}
             />
           </div>
         </div>

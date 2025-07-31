@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { useUser } from '@/contexts/UserContext';
 import { useLocation } from '@/hooks/useLocation';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
   Select,
   SelectContent,
@@ -14,12 +15,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from '@/components/ui/radio-group';
 import { Minus, Plus, Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
+
 type PaymentMethod = 'cod' | 'zalopay' | 'momo' | 'vnpay';
+
 export default function CheckoutPage() {
   const { user } = useUser();
-  const [selected, setSelected] = useState<PaymentMethod>('vnpay');
+  const [selected, setSelected] = useState<PaymentMethod>('cod');
 
   const paymentOptions: {
     id: PaymentMethod;
@@ -53,6 +62,7 @@ export default function CheckoutPage() {
       icon: '/vnpay.png',
     },
   ];
+
   const {
     provinces,
     districts,
@@ -64,10 +74,13 @@ export default function CheckoutPage() {
     wardCode,
     setWardCode,
   } = useLocation();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [detail, setDetail] = useState('');
+  const [otherReceiver, setOtherReceiver] = useState(false);
+
   useEffect(() => {
     if (user) {
       setName(user.full_name ?? '');
@@ -75,6 +88,7 @@ export default function CheckoutPage() {
       setPhone(user.phone ?? '');
     }
   }, [user]);
+
   useEffect(() => {
     if (user?.order_address) {
       const { codes, detail } = user.order_address;
@@ -82,32 +96,24 @@ export default function CheckoutPage() {
       setDetail(detail ?? '');
     }
   }, [user, setProvinceCode, setDetail]);
+
   useEffect(() => {
     if (user?.order_address && districts.length > 0) {
       const districtCodeFromUser =
         user.order_address.codes?.district_code ?? '';
-      if (districtCodeFromUser) {
-        const foundDistrict = districts.find(
-          (d) => d.code === districtCodeFromUser,
-        );
-        if (foundDistrict) {
-          setDistrictCode(districtCodeFromUser);
-        }
-      }
+      const found = districts.find(
+        (d) => d.code === districtCodeFromUser,
+      );
+      if (found) setDistrictCode(districtCodeFromUser);
     }
   }, [districts, user, setDistrictCode]);
+
   useEffect(() => {
     if (user?.order_address && wards.length > 0) {
       const wardCodeFromUser =
         user.order_address.codes?.ward_code ?? '';
-      if (wardCodeFromUser) {
-        const foundWard = wards.find(
-          (w) => w.code === wardCodeFromUser,
-        );
-        if (foundWard) {
-          setWardCode(wardCodeFromUser);
-        }
-      }
+      const found = wards.find((w) => w.code === wardCodeFromUser);
+      if (found) setWardCode(wardCodeFromUser);
     }
   }, [wards, user, setWardCode]);
 
@@ -118,7 +124,6 @@ export default function CheckoutPage() {
           <h2 className="mb-2 font-criteria text-xl leading-6 lg:mb-5 lg:text-[28px] lg:leading-10">
             Thông tin vận chuyển
           </h2>
-
           <div className="grid grid-cols-2 gap-4">
             <Input
               placeholder="Họ và tên"
@@ -131,9 +136,7 @@ export default function CheckoutPage() {
               onChange={(e) => setPhone(e.target.value)}
             />
           </div>
-
           <Input placeholder="Email" value={email} disabled />
-
           <Input
             placeholder="Số nhà, tên đường..."
             value={detail}
@@ -189,59 +192,134 @@ export default function CheckoutPage() {
               </SelectContent>
             </Select>
           </div>
-
-          <Textarea placeholder="Nhập ghi chú" />
-
+          <div className="grid w-full gap-2">
+            <Label id="note" htmlFor="note">
+              Nhập ghi chú
+            </Label>
+            <Textarea placeholder="Nhập ghi chú" id="note" />
+          </div>
+          <div className="relative h-[1px] w-full my-5 bg-neutral-900/10 dark:bg-gray-500 max-lg:hidden"></div>
+          <div className="space-y-3">
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="other-receiver"
+                checked={otherReceiver}
+                onCheckedChange={(val) => setOtherReceiver(!!val)}
+              />
+              <Label
+                htmlFor="other-receiver"
+                className="text-primary font-semibold cursor-pointer"
+              >
+                Gọi người khác nhận hàng (nếu có)
+              </Label>
+            </div>
+            <AnimatePresence initial={false}>
+              {otherReceiver && (
+                <motion.div
+                  key="other-receiver-info"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="overflow-hidden rounded p-4 space-y-4 bg-neutral-100 dark:bg-gray-900"
+                >
+                  <RadioGroup
+                    defaultValue="nu"
+                    className="flex items-center gap-6"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="nam" id="r-nam" />
+                      <label
+                        htmlFor="r-nam"
+                        className="text-sm font-medium leading-none"
+                      >
+                        Nam
+                      </label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="nu" id="r-nu" />
+                      <label
+                        htmlFor="r-nu"
+                        className="text-sm font-medium leading-none"
+                      >
+                        Nữ
+                      </label>
+                    </div>
+                  </RadioGroup>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <Input
+                      className="rounded-full h-11 px-4 bg-white dark:bg-gray-900 dark:border-white"
+                      placeholder="Họ và tên người nhận"
+                    />
+                    <Input
+                      className="rounded-full h-11 px-4 bg-white dark:bg-gray-900 dark:border-white"
+                      placeholder="Số điện thoại người nhận"
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+          <div className="relative h-[1px] w-full my-5 bg-neutral-900/10 dark:bg-gray-500 max-lg:hidden"></div>
           <h2 className="mb-2 font-criteria text-xl leading-6 lg:mb-5 lg:text-[28px] lg:leading-10">
             Hình thức thanh toán
           </h2>
-          {paymentOptions.map((option) => (
-            <div
-              key={option.id}
-              className={`flex cursor-pointer items-center gap-2 border rounded-xl px-4 py-2 lg:gap-4 ${
-                selected === option.id
-                  ? 'dark:bg-neutral-100 border-blue-600'
-                  : 'dark:bg-white'
-              } cursor-pointer transition`}
-              onClick={() => setSelected(option.id)}
-            >
-              <input
-                type="radio"
-                name="payment"
-                checked={selected === option.id}
-                onChange={() => setSelected(option.id)}
-                className="w-5 h-5 checked:accent-blue-600 accent-white border border-gray-300 rounded-full cursor-pointer"
-              />
-              <div className="flex-shrink-0 w-12 h-12 relative">
-                <Image
-                  src={option.icon}
-                  alt={option.label}
-                  fill
-                  className="object-contain"
+          <RadioGroup
+            value={selected}
+            onValueChange={(val) => setSelected(val as PaymentMethod)}
+            className="space-y-2"
+          >
+            {paymentOptions.map((option) => (
+              <div
+                key={option.id}
+                className={`flex items-center gap-2 border rounded-xl px-4 py-2 lg:gap-4 transition cursor-pointer ${
+                  selected === option.id
+                    ? 'dark:bg-gray-900 border-blue-600'
+                    : 'dark:bg-gray-800'
+                }`}
+              >
+                <RadioGroupItem
+                  value={option.id}
+                  id={`payment-${option.id}`}
+                  className="h-5 w-5"
                 />
-              </div>
-              <div className="flex-1">
-                <div className="font-sans text-sm font-semibold text-neutral-800">
-                  {option.label}
-                </div>
-                {option.subLabel && (
-                  <div className="font-sans text-xxs leading-2.5 text-neutral-500 lg:text-xs">
-                    {option.subLabel}
-                  </div>
-                )}
-                {option.image && (
-                  <div className="flex-shrink-0 w-[156px] h-3 relative mt-1">
+                <label
+                  htmlFor={`payment-${option.id}`}
+                  className="flex items-center gap-2 w-full cursor-pointer"
+                >
+                  <div className="w-12 h-12 relative shrink-0">
                     <Image
-                      src={option.image}
+                      src={option.icon}
                       alt={option.label}
                       fill
                       className="object-contain"
                     />
                   </div>
-                )}
+                  <div className="flex-1">
+                    <div className="font-sans text-sm font-semibold">
+                      {option.label}
+                    </div>
+                    {option.subLabel && (
+                      <div className="font-sans text-xxs leading-2.5 lg:text-xs">
+                        {option.subLabel}
+                      </div>
+                    )}
+                    {option.image && (
+                      <div className="flex-shrink-0 w-[156px] h-3 relative mt-1">
+                        <Image
+                          src={option.image}
+                          alt={option.label}
+                          fill
+                          className="object-contain"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </label>
               </div>
-            </div>
-          ))}
+            ))}
+          </RadioGroup>
+
           <p className="text-sm mt-4">
             Nếu bạn không hài lòng với sản phẩm của chúng tôi? Bạn
             hoàn toàn có thể trả lại sản phẩm.
@@ -260,15 +338,19 @@ export default function CheckoutPage() {
 
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2">
-              <input type="checkbox" />
-              <span>Tất cả sản phẩm</span>
+              <Checkbox id="check-all" />
+              <label htmlFor="check-all" className="text-sm">
+                Tất cả sản phẩm
+              </label>
             </div>
             <button className="text-sm text-muted-foreground hover:underline cursor-pointer">
               Xóa tất cả
             </button>
           </div>
           <div className="flex gap-4">
-            <input type="checkbox" className="mt-2" />
+            <div className="flex flex-col items-center justify-center">
+              <Checkbox className="mt-2" />
+            </div>
             <Image
               src="/placeholder.png"
               width={80}
@@ -333,38 +415,13 @@ export default function CheckoutPage() {
                   </div>
                 </div>
               </div>
-              <div className="mt-1 flex items-end justify-between">
-                <div className="flex items-center gap-0.5 text-sm opacity-70 hover:text-red-500 cursor-pointer">
+              <div className="mt-1 flex items-end justify-start">
+                <div className="flex items-center gap-0.5 text-sm opacity-70 hover:text-red-500 cursor-pointer justify-center">
                   <Trash2 className="w-4 h-4" />
-                  <span>Xóa</span>
+                  <div className="flex items-center text-center mt-1">
+                    Xóa
+                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div className="border rounded-md p-4">
-            <p className="font-semibold text-pink-600 mb-2">
-              Ưu đãi dành riêng cho bạn
-            </p>
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <Image
-                  src="/placeholder.png"
-                  width={80}
-                  height={80}
-                  alt="Combo"
-                  className="mb-1"
-                />
-                Combo 5 Đôi Tất cổ trung Basics
-              </div>
-              <div>
-                <Image
-                  src="/placeholder.png"
-                  width={80}
-                  height={80}
-                  alt="Combo"
-                  className="mb-1"
-                />
-                Combo 4 Tất Nam Cổ Ngắn
               </div>
             </div>
           </div>
@@ -398,11 +455,12 @@ export default function CheckoutPage() {
                   {paymentOptions.find((opt) => opt.id === selected)
                     ?.subLabel && (
                     <>
+                      {' '}
                       {
                         paymentOptions.find(
                           (opt) => opt.id === selected,
                         )?.subLabel
-                      }
+                      }{' '}
                     </>
                   )}
                 </div>

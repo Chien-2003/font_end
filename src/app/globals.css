@@ -195,13 +195,13 @@ body {
   width: 4px;
 }
 .dark ::-webkit-scrollbar-track {
-  background: #374151;
+  background: #111827;
 }
 .dark ::-webkit-scrollbar-thumb {
-  background: #1f2937;
+  background: #111827;
 }
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #111827;
+  background: #1f2937;
 }
 #nprogress {
   pointer-events: none;

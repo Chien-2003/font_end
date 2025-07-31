@@ -1,8 +1,12 @@
+import { BiSolidDislike } from 'react-icons/bi';
+import { BiSolidLike } from 'react-icons/bi';
+import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Fragment } from 'react';
+import { Button } from '@/components/ui/button';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Dịch vụ 60 ngày đổi trả',
   description:
     'Chính sách đổi trả miễn phí trong 60 ngày của Elysia Wear - đổi/trả đến khi bạn hài lòng, kể cả sản phẩm đã qua sử dụng.',
@@ -60,7 +64,7 @@ export default function page() {
                 Trong vòng 60 ngày
               </p>
             </div>
-            <div className="grid grid-cols-2 mobile-grid--one-column justify-center py-12 h-full">
+            <div className="grid grid-cols-2 justify-center py-12 h-full">
               <div className="box-border flex-1 m-0 min-h-[1px] p-3 relative align-top flex flex-col gap-4">
                 <h3 className="font-medium text-[2rem]">
                   Đối với những sản phẩm bạn đã mua tại Elysia Wear
@@ -199,6 +203,98 @@ export default function page() {
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="grid grid-cols-2 justify-center py-12 gap-3 h-full">
+              <div className="box-border flex-1 m-0 min-h-[1px] relative align-top flex flex-col gap-4">
+                <h3 className="font-medium text-[1.5rem]">
+                  Đối với việc đổi trả hàng
+                </h3>
+                <p>
+                  Chúng tôi sẽ hoàn lại số tiền hàng (sau khi đã trừ
+                  25.000 VNĐ phí ship hàng) vào tài khoản mà bạn cung
+                  cấp tối đa trong 24h làm việc (không tính thứ 7 &
+                  Chủ Nhật) sau khi yêu cầu hoàn tiền được CSKH xác
+                  nhận.
+                </p>
+                <h4 className="font-medium text-[1.5rem]">Lưu ý</h4>
+                <ul className="flex flex-col gap-3">
+                  <li className="pl-4">
+                    Coolmate có quyền quyết định dừng việc hỗ trợ đổi
+                    trả hàng và trả lại tiền cho khách hàng nếu phát
+                    hiện khách hàng sử dụng chính sách để trục lợi
+                    (như việc đổi quá nhiều lần).
+                  </li>
+                  <li className="pl-4">
+                    Với các đơn sàn TMĐT thì sẽ áp dụng chính sách đổi
+                    trả hàng của sàn TMĐT. Tuy nhiên, trường hợp quá
+                    thời gian đổi trả hàng của sàn TMĐT sẽ được áp
+                    dụng chính sách đổi trả hàng của Coolmate
+                  </li>
+                </ul>
+                <h4 className="font-medium text-[1.5rem]">
+                  Chúng tôi làm gì với hàng đổi trả
+                </h4>
+                <ul className="flex flex-col gap-3">
+                  <li className="pl-4">
+                    Áo thun, quần short: thu gom và gởi cho các chương
+                    trình từ thiện Bít tất, boxer: huỷ bỏ 100%
+                  </li>
+                </ul>
+              </div>
+
+              <div className="w-full box-border ml-0 mr-0 min-h-[1px] relative align-text-top h-[550px]">
+                <Image
+                  src="https://mcdn.coolmate.me/image/August2023/mceclip4_56.png"
+                  alt="product"
+                  className="w-full h-full align-middle"
+                  fill
+                />
+              </div>
+            </div>
+          </div>
+          <div className="w-full relative" style={{ height: 300 }}>
+            <Image
+              src="https://mcdn.coolmate.me/image/August2023/mceclip10.gif"
+              alt="product"
+              className="rounded-2xl object-fill"
+              fill
+              priority
+            />
+          </div>
+          <div className="text-center mt-12">
+            <div>
+              <h3 className="text-[2rem]">
+                Bài viết có hữu ích cho bạn không?
+              </h3>
+              <div className="flex justify-center">
+                <Button
+                  variant="outline"
+                  className="m-2 px-5 py-5 flex justify-center items-center gap-2 rounded border border-[#cbcbcb] cursor-pointer hover:bg-primary hover:border-primary hover:text-white transition-all duration-200"
+                >
+                  <BiSolidLike /> <span>Có</span>
+                </Button>
+                <Button
+                  variant="outline"
+                  className="m-2 px-5 py-5 flex justify-center items-center gap-2 rounded border border-[#cbcbcb] cursor-pointer hover:text-white hover:bg-black hover:border-black transition-all duration-200"
+                >
+                  <BiSolidDislike />
+                  <span> Không</span>
+                </Button>
+              </div>
+              <p className="text-center max-w-[800px] mx-auto my-[10px]">
+                Nếu trang trợ giúp của chúng tôi chưa trả lời được các
+                yêu cầu của bạn hoặc những góp ý khác từ bạn. Vui lòng
+                liên hệ Trung Tâm CSKH của chúng tôi qua
+                <span className="font-bold mx-1.5">
+                  <Link href="mailto:nguyendinhchien19042003@gmail.com">
+                    email
+                  </Link>
+                </span>
+                hoặc điện thoại
+                <span className="font-bold ml-1.5">
+                  <Link href="tel:0384265606">0384265606.</Link>
+                </span>
+              </p>
             </div>
           </div>
         </div>

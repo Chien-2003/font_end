@@ -285,15 +285,23 @@ const PersonalInfoPage = forwardRef<PersonalInfoPageRef>((_, ref) => {
             className="mt-1 flex gap-4"
           >
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="0" id="nam" />
+              <RadioGroupItem
+                value="0"
+                id="nam"
+                className="h-5 w-5"
+              />
               <Label htmlFor="nam">Nam</Label>
             </div>
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="1" id="nu" />
+              <RadioGroupItem value="1" id="nu" className="h-5 w-5" />
               <Label htmlFor="nu">Nữ</Label>
             </div>
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="2" id="khac" />
+              <RadioGroupItem
+                value="2"
+                id="khac"
+                className="h-5 w-5"
+              />
               <Label htmlFor="khac">Khác</Label>
             </div>
           </RadioGroup>

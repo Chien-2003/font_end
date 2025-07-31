@@ -194,8 +194,9 @@ const AddressesPage = forwardRef<AddressesPageRef>((_, ref) => {
         />
       </div>
 
-      <div className="mt-2 text-gray-600">
-        <strong>Địa chỉ đầy đủ:</strong> {getFullAddress()}
+      <div className="mt-2 text-gray-500">
+        <strong className="dark:text-white">Địa chỉ đầy đủ:</strong>{' '}
+        {getFullAddress()}
       </div>
     </div>
   );
