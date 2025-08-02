@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { Fragment, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import gsap from 'gsap';
@@ -27,8 +27,10 @@ import AddressesPage, {
 } from './components/AddressesPage';
 import { Typography } from '@/components/ui/typography';
 import { ProfilePageSkeleton } from '@/components/skeleton/ProfileSkeleton';
+import { Loader2Icon } from 'lucide-react';
 
 export default function ProfilePage() {
+  const [loadingBtn, setLoadingBtn] = React.useState(false);
   const { user, fetchUser, loading, error } = useUser();
   const personalInfoRef = useRef<PersonalInfoPageRef>(null);
   const addressRef = useRef<AddressesPageRef>(null);
@@ -65,6 +67,8 @@ export default function ProfilePage() {
   }
 
   const handleUpdate = async () => {
+    if (loadingBtn) return;
+    setLoadingBtn(true);
     gsap.to(btnRef.current, {
       scale: 0.95,
       duration: 0.2,
@@ -85,6 +89,8 @@ export default function ProfilePage() {
       if (response?.message) showSuccess(response.message);
     } catch (err: any) {
       if (err?.message) showError(err.message);
+    } finally {
+      setLoadingBtn(false);
     }
   };
 
@@ -157,13 +163,21 @@ export default function ProfilePage() {
               </TabsContent>
 
               {(tab === 'personal' || tab === 'addresses') && (
-                <div className="text-center mt-4">
+                <div className="text-center flex flex-row justify-center mt-4">
                   <Button
                     ref={btnRef}
                     onClick={handleUpdate}
-                    className="dark:text-accent-foreground cursor-pointer"
+                    className="dark:text-accent-foreground cursor-pointer flex items-center justify-center gap-2"
+                    disabled={loadingBtn}
                   >
-                    Cập nhật thông tin
+                    {loadingBtn ? (
+                      <Fragment>
+                        <Loader2Icon className="animate-spin h-5 w-5" />
+                        Đang cập nhật...
+                      </Fragment>
+                    ) : (
+                      'Cập nhật thông tin'
+                    )}
                   </Button>
                 </div>
               )}

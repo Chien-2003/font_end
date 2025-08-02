@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import { useRef, useEffect } from 'react';
-import Image from 'next/image';
-import gsap from 'gsap';
-import { addToCart } from '@/lib/cartApi';
-import { showError, showSuccess } from '@/lib/swal';
-import { useCart } from '@/contexts/CartContext';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { useRef, useEffect } from "react";
+import Image from "next/image";
+import gsap from "gsap";
+import { addToCart } from "@/lib/cartApi";
+import { showError, showSuccess } from "@/lib/swal";
+import { useCart } from "@/contexts/CartContext";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
+} from "@/components/ui/tooltip";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
 interface Variant {
   id: string;
@@ -37,7 +37,7 @@ interface ProductCardProps {
   index?: number;
 }
 
-function ProductCard({
+export default function ProductCard({
   id,
   categorySlug,
   name,
@@ -61,24 +61,23 @@ function ProductCard({
     tl.to(hoverImageRef.current, {
       opacity: 1,
       duration: 0.6,
-      ease: 'power3.out',
+      ease: "power3.out",
     });
 
     const onEnter = () => tl.play();
     const onLeave = () => tl.reverse();
 
     const card = cardRef.current;
-    card.addEventListener('mouseenter', onEnter);
-    card.addEventListener('mouseleave', onLeave);
+    card.addEventListener("mouseenter", onEnter);
+    card.addEventListener("mouseleave", onLeave);
 
     return () => {
-      card.removeEventListener('mouseenter', onEnter);
-      card.removeEventListener('mouseleave', onLeave);
+      card.removeEventListener("mouseenter", onEnter);
+      card.removeEventListener("mouseleave", onLeave);
     };
   }, []);
 
-  const mainImage =
-    image_url.length > 0 ? image_url[0] : '/placeholder.png';
+  const mainImage = image_url.length > 0 ? image_url[0] : "/placeholder.png";
 
   return (
     <motion.div
@@ -86,7 +85,7 @@ function ProductCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{
         duration: 0.4,
-        ease: 'easeOut',
+        ease: "easeOut",
         delay: index ? index * 0.25 : 0,
       }}
     >
@@ -117,39 +116,16 @@ function ProductCard({
           <div className="absolute bottom-1 left-1/2 -translate-x-1/2 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out z-30">
             <div className="bg-gray-400/20 backdrop-blur-[15px] border-none p-5 rounded-lg shadow-none md:w-[calc(290px-16px)] lg:w-[calc(290px-16px)] text-center">
               <p className="text-base text-start text-black mb-2">
-                Thêm nhanh vào giỏ hàng{' '}
-                <span className="text-lg">+</span>
+                Thêm nhanh vào giỏ hàng <span className="text-lg">+</span>
               </p>
               <TooltipProvider>
                 <div className="flex flex-wrap items-center gap-3">
                   {variants.map((variant) => (
-                    <Tooltip key={variant.id}>
-                      <TooltipTrigger asChild>
-                        <button
-                          className="text-sm bg-white text-black hover:bg-black hover:text-white px-4 py-2 rounded-md transition-colors cursor-pointer"
-                          onClick={() => {
-                            addToCart(variant.id, 1)
-                              .then(() => {
-                                refreshCart();
-                                showSuccess('Đã thêm vào giỏ hàng!');
-                              })
-                              .catch(() =>
-                                showError(
-                                  'Thêm vào giỏ hàng thất bại!',
-                                ),
-                              );
-                          }}
-                        >
-                          {variant.size}
-                        </button>
-                      </TooltipTrigger>
-                      <TooltipContent className="text-white">
-                        Màu sắc:{' '}
-                        <span className="font-medium uppercase text-white">
-                          {variant.color || 'Null'}
-                        </span>
-                      </TooltipContent>
-                    </Tooltip>
+                    <VariantAddButton
+                      key={variant.id}
+                      variant={variant}
+                      refreshCart={refreshCart}
+                    />
                   ))}
                 </div>
               </TooltipProvider>
@@ -174,12 +150,11 @@ function ProductCard({
                   {oldPrice}
                 </span>
               )}
-              {typeof discountPercent === 'number' &&
-                discountPercent > 0 && (
-                  <div className="text-xs bg-blue-500 text-white font-semibold px-2 py-1 rounded-full z-30">
-                    -{discountPercent}%
-                  </div>
-                )}
+              {typeof discountPercent === "number" && discountPercent > 0 && (
+                <div className="text-xs bg-blue-500 text-white font-semibold px-2 py-1 rounded-full z-30">
+                  -{discountPercent}%
+                </div>
+              )}
               <span className="text-base font-bold">{price}</span>
             </div>
           </div>
@@ -189,4 +164,101 @@ function ProductCard({
   );
 }
 
-export default ProductCard;
+interface VariantAddButtonProps {
+  variant: Variant;
+  refreshCart: () => void;
+}
+
+function VariantAddButton({ variant, refreshCart }: VariantAddButtonProps) {
+  const btnRef = useRef<HTMLButtonElement>(null);
+  const pulseTween = useRef<gsap.core.Tween | null>(null);
+
+  useEffect(() => {
+    if (!btnRef.current) return;
+    const btn = btnRef.current;
+
+    const onEnter = () => {
+      pulseTween.current?.kill();
+
+      gsap.to(btn, {
+        scale: 1.1,
+        boxShadow: "0 0 20px 5px rgba(59, 130, 246, 0.7)",
+        background:
+          "linear-gradient(135deg, #3b82f6 0%, #60a5fa 50%, #3b82f6 100%)",
+        color: "#fff",
+        duration: 0.3,
+        ease: "power3.out",
+      });
+
+      pulseTween.current = gsap.to(btn, {
+        boxShadow: "0 0 25px 8px rgba(59, 130, 246, 0.9)",
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        duration: 1.2,
+      });
+    };
+
+    const onLeave = () => {
+      pulseTween.current?.kill();
+      pulseTween.current = null;
+
+      gsap.to(btn, {
+        scale: 1,
+        boxShadow: "none",
+        background: "#fff",
+        color: "#000",
+        duration: 0.3,
+        ease: "power3.out",
+      });
+    };
+
+    const onClick = () => {
+      gsap.fromTo(
+        btn,
+        { scale: 1.1 },
+        { scale: 1, duration: 0.2, ease: "bounce.out" }
+      );
+    };
+
+    btn.addEventListener("mouseenter", onEnter);
+    btn.addEventListener("mouseleave", onLeave);
+    btn.addEventListener("click", onClick);
+
+    return () => {
+      btn.removeEventListener("mouseenter", onEnter);
+      btn.removeEventListener("mouseleave", onLeave);
+      btn.removeEventListener("click", onClick);
+      pulseTween.current?.kill();
+      pulseTween.current = null;
+    };
+  }, []);
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <button
+          ref={btnRef}
+          className="text-sm bg-white text-black px-4 py-2 rounded-md cursor-pointer select-none transition-colors"
+          onClick={() => {
+            addToCart(variant.id, 1)
+              .then(() => {
+                refreshCart();
+                showSuccess("Đã thêm vào giỏ hàng!");
+              })
+              .catch(() => showError("Thêm vào giỏ hàng thất bại!"));
+          }}
+          type="button"
+        >
+          {variant.size}
+        </button>
+      </TooltipTrigger>
+      <TooltipContent className="text-white">
+        Màu sắc:{" "}
+        <span className="font-medium uppercase text-white">
+          {variant.color || "Null"}
+        </span>
+      </TooltipContent>
+    </Tooltip>
+  );
+}

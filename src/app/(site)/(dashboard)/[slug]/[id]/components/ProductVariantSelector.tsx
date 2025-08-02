@@ -99,10 +99,9 @@ export default function ProductVariantSelector({
             quantity,
           },
         ],
-        payment_method: 'COD',
       };
-      const order = await createOrder(orderData);
-      // router.push(`/orders/${order.id}`);
+      await createOrder(orderData);
+      router.push('/orders/create-order');
     } catch (error) {
       setAlertMessage('Mua ngay thất bại!');
       setAlertType('error');
