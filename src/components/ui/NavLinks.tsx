@@ -1,8 +1,5 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import * as React from 'react';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,6 +8,9 @@ import {
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
 import { Category, getAllCategories } from '@/lib/categoryApi';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import * as React from 'react';
 
 function chunkArray<T>(arr: T[], size: number): T[][] {
   const result: T[][] = [];

@@ -1,8 +1,8 @@
 'use client';
 
-import * as React from 'react';
-import { GalleryVerticalEnd, Minus, Plus } from 'lucide-react';
+import { Minus, Plus } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import * as React from 'react';
 
 import {
   Collapsible,
@@ -22,8 +22,9 @@ import {
   SidebarMenuSubItem,
   SidebarRail,
 } from '@/components/ui/sidebar';
-import { SearchForm } from './search-form';
+import Image from 'next/image';
 import Link from 'next/link';
+import { SearchForm } from './search-form';
 
 const data = {
   navMain: [
@@ -95,13 +96,17 @@ export function AppSidebar({
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <Link href="/admin">
-                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                  <GalleryVerticalEnd className="size-4" />
-                </div>
-                <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-medium">Documentation</span>
-                  <span className="">v1.0.0</span>
+              <Link href="/" className="flex w-full">
+                <div className="flex flex-row items-center gap-5 leading-none">
+                  <Image
+                    src="/logo.svg"
+                    alt="Elysia Wear"
+                    width={35}
+                    height={35}
+                  />
+                  <div className="text-gray-900 dark:text-white font-semibold text-lg">
+                    Elysia Wear
+                  </div>
                 </div>
               </Link>
             </SidebarMenuButton>

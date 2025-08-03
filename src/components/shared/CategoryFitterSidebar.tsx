@@ -1,10 +1,10 @@
 'use client';
 
+import { Label } from '@/components/ui/label';
 import {
   RadioGroup,
   RadioGroupItem,
 } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
 import {
   Sidebar,
   SidebarContent,
@@ -12,12 +12,12 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
 } from '@/components/ui/sidebar';
+import type { Category } from '@/lib/categoryApi';
 import {
-  useSearchParams,
   usePathname,
   useRouter,
+  useSearchParams,
 } from 'next/navigation';
-import type { Category } from '@/lib/categoryApi';
 
 interface AppSidebarProps {
   category: Category;

@@ -1,16 +1,17 @@
 'use client';
 
-import * as React from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import {
   Breadcrumb,
-  BreadcrumbList,
   BreadcrumbItem,
   BreadcrumbLink,
-  BreadcrumbSeparator,
+  BreadcrumbList,
   BreadcrumbPage,
+  BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import * as React from 'react';
+
 import { getCategoryBySlug } from '@/lib/categoryApi';
 
 export default function Breadcrumbs() {
@@ -20,35 +21,51 @@ export default function Breadcrumbs() {
 
   React.useEffect(() => {
     async function loadLabels() {
-      const newLabels: string[] = [];
+      let newLabels: string[] = [];
 
-      for (let i = 0; i < pathParts.length; i++) {
-        const part = pathParts[i];
-
-        if (i === 0) {
-          const category = await getCategoryBySlug(part);
-          if (category?.name) {
-            newLabels.push(category.name);
-          } else {
-            newLabels.push(
-              part.charAt(0).toUpperCase() +
-                part.slice(1).replace(/-/g, ' '),
-            );
-          }
-        } else {
-          newLabels.push(
-            part.charAt(0).toUpperCase() +
-              part.slice(1).replace(/-/g, ' '),
-          );
-        }
+      if (pathParts.length === 0) {
+        setLabels(newLabels);
+        return;
       }
-
+      const categorySlug = pathParts[0];
+      const category = await getCategoryBySlug(categorySlug);
+      if (category?.name) {
+        newLabels.push(category.name);
+      } else {
+        newLabels.push(
+          categorySlug.charAt(0).toUpperCase() +
+            categorySlug.slice(1).replace(/-/g, ' '),
+        );
+      }
+      if (pathParts.length > 1) {
+        const subcategorySlug = pathParts[1];
+        let subcategoryName = '';
+        if (category?.subcategories) {
+          const sub = category.subcategories.find(
+            (sc) => sc.slug === subcategorySlug,
+          );
+          if (sub) {
+            subcategoryName = sub.name;
+          }
+        }
+        if (!subcategoryName) {
+          subcategoryName =
+            subcategorySlug.charAt(0).toUpperCase() +
+            subcategorySlug.slice(1).replace(/-/g, ' ');
+        }
+        newLabels.push(subcategoryName);
+      }
+      for (let i = 2; i < pathParts.length; i++) {
+        const part = pathParts[i];
+        newLabels.push(
+          part.charAt(0).toUpperCase() +
+            part.slice(1).replace(/-/g, ' '),
+        );
+      }
       setLabels(newLabels);
     }
-
     loadLabels();
   }, [pathname]);
-
   return (
     <Breadcrumb className="w-full pb-2">
       <BreadcrumbList>

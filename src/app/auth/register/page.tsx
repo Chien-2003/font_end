@@ -178,7 +178,7 @@ export default function RegisterPage() {
               <span className="w-full border-t" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-gray-900 px-2 text-muted-foreground">
+              <span className="dark:bg-gray-900 bg-white px-2 text-foreground">
                 Hoặc đăng nhập bằng
               </span>
             </div>

@@ -1,11 +1,5 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
-import Image from 'next/image';
-import gsap from 'gsap';
-import { addToCart } from '@/lib/cartApi';
-import { showError, showSuccess } from '@/lib/swal';
-import { useCart } from '@/contexts/CartContext';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import {
   Tooltip,
@@ -13,8 +7,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useCart } from '@/contexts/CartContext';
+import { addToCart } from '@/lib/cartApi';
+import { showError, showSuccess } from '@/lib/swal';
 import { motion } from 'framer-motion';
+import gsap from 'gsap';
+import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useRef } from 'react';
 
 interface Variant {
   id: string;
@@ -26,6 +26,7 @@ interface Variant {
 interface ProductCardProps {
   id: string;
   categorySlug: string;
+  subcategorySlug?: string;
   name: string;
   description: string;
   price: number;
@@ -40,6 +41,7 @@ interface ProductCardProps {
 export default function ProductCard({
   id,
   categorySlug,
+  subcategorySlug,
   name,
   description,
   price,
@@ -95,7 +97,7 @@ export default function ProductCard({
         className="h-full border shadow-none py-0 rounded-none"
       >
         <CardHeader className="p-0 relative h-[431px] overflow-hidden group">
-          <Link href={`/${categorySlug}/${id}`}>
+          <Link href={`/${categorySlug}/${subcategorySlug}/${id}`}>
             <Image
               width={287}
               height={431}

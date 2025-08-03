@@ -1,33 +1,33 @@
 'use client';
 
-import React, { Fragment, useRef } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
 import gsap from 'gsap';
+import Image from 'next/image';
+import Link from 'next/link';
+import React, { Fragment, useRef } from 'react';
 
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/ui/tabs';
 import { useUser } from '@/contexts/UserContext';
-import { showError, showSuccess } from '@/lib/swal';
 import { UpdateProfileResponse } from '@/lib/profileApi';
+import { showError, showSuccess } from '@/lib/swal';
 
-import PersonalInfoPage, {
-  PersonalInfoPageRef,
-} from './components/PersonalInfoPage';
-import OrdersPage from './components/OrdersPage';
-import FavoritesPage from './components/FavoritesPage';
+import { ProfilePageSkeleton } from '@/components/skeleton/ProfileSkeleton';
+import { Typography } from '@/components/ui/typography';
+import { Loader2Icon } from 'lucide-react';
 import AddressesPage, {
   AddressesPageRef,
 } from './components/AddressesPage';
-import { Typography } from '@/components/ui/typography';
-import { ProfilePageSkeleton } from '@/components/skeleton/ProfileSkeleton';
-import { Loader2Icon } from 'lucide-react';
+import FavoritesPage from './components/FavoritesPage';
+import OrdersPage from './components/OrdersPage';
+import PersonalInfoPage, {
+  PersonalInfoPageRef,
+} from './components/PersonalInfoPage';
 
 export default function ProfilePage() {
   const [loadingBtn, setLoadingBtn] = React.useState(false);
@@ -45,9 +45,11 @@ export default function ProfilePage() {
     return (
       <div className="mx-auto max-w-3xl w-full px-4 py-6 text-center text-red-600">
         <p>{error}</p>
-        <Button onClick={fetchUser} className="mt-4">
-          Thử lại
-        </Button>
+        <Link href="/auth/login">
+          <Button className="mt-4 bg-primary text-white">
+            Đăng nhập
+          </Button>
+        </Link>
       </div>
     );
   }

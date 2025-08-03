@@ -172,7 +172,7 @@ export default function LoginPage() {
                 <span className="w-full border-t"></span>
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card text-muted-foreground px-2">
+                <span className="dark:bg-gray-900 bg-white text-foreground px-2">
                   Hoặc đăng nhập bằng
                 </span>
               </div>

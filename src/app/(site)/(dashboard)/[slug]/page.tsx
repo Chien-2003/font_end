@@ -1,20 +1,20 @@
+import Breadcrumbs from '@/components/shared/Breadcrumbs';
+import { AppSidebar } from '@/components/shared/CategoryFitterSidebar';
+import ProductCard from '@/components/shared/ItemCard';
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
   PaginationLink,
-  PaginationPrevious,
   PaginationNext,
+  PaginationPrevious,
 } from '@/components/ui/pagination';
-import { notFound } from 'next/navigation';
-import ProductCard from '@/components/shared/ItemCard';
-import { getCategoryBySlug, Category } from '@/lib/categoryApi';
-import type { Metadata } from 'next';
-import Breadcrumbs from '@/components/shared/Breadcrumbs';
-import Image from 'next/image';
 import { SidebarProvider } from '@/components/ui/sidebar';
-import { AppSidebar } from '@/components/shared/CategorySidebar';
+import { Category, getCategoryBySlug } from '@/lib/categoryApi';
 import { getProducts, Product } from '@/lib/productsApi';
+import type { Metadata } from 'next';
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import { Fragment } from 'react';
 
 const PAGE_SIZE = 10;
@@ -128,6 +128,7 @@ export default async function CategoryPage({
                     key={product.id}
                     id={product.id}
                     categorySlug={product.category.slug_category}
+                    subcategorySlug={product.subcategory?.slug ?? ''}
                     name={product.name}
                     description={product.description}
                     price={product.discounted_price ?? product.price}

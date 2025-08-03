@@ -1,11 +1,13 @@
+import Breadcrumbs from '@/components/shared/Breadcrumbs';
+import { ModeToggle } from '@/components/shared/ModeToggle';
+import { Separator } from '@/components/ui/separator';
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
+import { Fragment } from 'react';
 import { AppSidebar } from './components/app-sidebar';
-import { Separator } from '@/components/ui/separator';
-import Breadcrumbs from '@/components/shared/Breadcrumbs';
 
 export default function AdminLayout({
   children,
@@ -23,8 +25,9 @@ export default function AdminLayout({
             className="mr-2 data-[orientation=vertical]:h-4"
           />
           <Breadcrumbs />
+          <ModeToggle />
         </header>
-        {children}
+        <Fragment>{children}</Fragment>
       </SidebarInset>
     </SidebarProvider>
   );
