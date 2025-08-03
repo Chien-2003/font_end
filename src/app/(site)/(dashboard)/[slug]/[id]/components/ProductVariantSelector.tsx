@@ -1,18 +1,18 @@
 'use client';
 
-import React, {
-  useState,
-  useMemo,
-  useEffect,
-  useRef,
-  Fragment,
-} from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import Alert from '@/components/shared/Alert';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
 import { addToCart } from '@/lib/cartApi';
-import Alert from '@/components/shared/Alert';
 import { createOrder } from '@/lib/orderApi';
+import { useRouter, useSearchParams } from 'next/navigation';
+import {
+  Fragment,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 export interface ProductVariant {
   id: string;
@@ -181,7 +181,7 @@ export default function ProductVariantSelector({
                 onClick={() => setSelectedSize(variant.size)}
                 disabled={variant.quantity === 0}
                 title={`Số lượng còn lại: ${variant.quantity}`}
-                className="text-white"
+                className="dark:text-white"
               >
                 {variant.size}
               </Button>

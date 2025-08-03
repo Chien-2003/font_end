@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { useUser } from '@/contexts/UserContext';
-import { useLocation } from '@/hooks/useLocation';
-import { AnimatePresence, motion } from 'framer-motion';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from '@/components/ui/radio-group';
 import {
   Select,
   SelectContent,
@@ -15,21 +15,56 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from '@/components/ui/radio-group';
+import { Textarea } from '@/components/ui/textarea';
+import { useUser } from '@/contexts/UserContext';
+import { useLocation } from '@/hooks/useLocation';
+import { getOrders, Order } from '@/lib/orderApi';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Minus, Plus, Trash2 } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
+import { useEffect, useState } from 'react';
 
 type PaymentMethod = 'cod' | 'zalopay' | 'momo' | 'vnpay';
-
+export interface OrdersResponse {
+  common: {
+    status: string;
+    order_address?: any;
+    note?: string | null;
+    payment_method?: string;
+    payment_status?: string | null;
+    shipping_info?: any;
+    user: {
+      id: string;
+      user_name: string;
+      email: string;
+    };
+  };
+  orders: Order[];
+}
 export default function CheckoutPage() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [detail, setDetail] = useState('');
+  const [orders, setOrders] = useState<Order[] | null>(null);
+  const [otherReceiver, setOtherReceiver] = useState(false);
+  const [data, setData] = useState<OrdersResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const { user } = useUser();
   const [selected, setSelected] = useState<PaymentMethod>('cod');
-
+  const {
+    provinces,
+    districts,
+    wards,
+    provinceCode,
+    setProvinceCode,
+    districtCode,
+    setDistrictCode,
+    wardCode,
+    setWardCode,
+  } = useLocation();
   const paymentOptions: {
     id: PaymentMethod;
     label: string;
@@ -62,24 +97,6 @@ export default function CheckoutPage() {
       icon: '/vnpay.png',
     },
   ];
-
-  const {
-    provinces,
-    districts,
-    wards,
-    provinceCode,
-    setProvinceCode,
-    districtCode,
-    setDistrictCode,
-    wardCode,
-    setWardCode,
-  } = useLocation();
-
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [detail, setDetail] = useState('');
-  const [otherReceiver, setOtherReceiver] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -117,6 +134,23 @@ export default function CheckoutPage() {
     }
   }, [wards, user, setWardCode]);
 
+  useEffect(() => {
+    async function fetchOrders() {
+      try {
+        const res = await getOrders();
+        setData(res);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : String(err));
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchOrders();
+  }, []);
+
+  if (loading) return <div>Đang tải đơn hàng...</div>;
+  if (error) return <div>Lỗi: {error}</div>;
+  // if (!data) return <div>Không có dữ liệu đơn hàng</div>;
   return (
     <div className="max-w-7xl mx-auto px-3 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -444,7 +478,7 @@ export default function CheckoutPage() {
                     className="object-contain"
                   />
                 </div>
-                <div className="line-clamp-1 font-sans text-sm text-neutral-600 lg:text-base lg:leading-4.5 flex gap-1 items-center">
+                <div className="line-clamp-1 font-sans text-sm text-neutral-600 lg:text-base lg:leading-4.5 flex gap-2 items-center">
                   <strong>
                     {
                       paymentOptions.find(

@@ -1,4 +1,3 @@
-// icons.tsx
 export function GenderIcon() {
   return (
     <svg

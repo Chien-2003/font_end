@@ -1,9 +1,9 @@
-import { notFound } from 'next/navigation';
-import type { Metadata } from 'next';
-import Image from 'next/image';
 import { getProductDetail } from '@/lib/productsApi';
-import ProductVariantSelector from './components/ProductVariantSelector';
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import ProductImageCarousel from './components/ProductImageCarousel';
+import ProductTabs from './components/ProductTabs';
+import ProductVariantSelector from './components/ProductVariantSelector';
 
 export async function generateMetadata({
   params,
@@ -80,9 +80,6 @@ export default async function ProductDetailPage({
             <h1 className="text-2xl font-bold mb-3">
               {product.name}
             </h1>
-            <p className="text-gray-600 mb-4">
-              {product.description}
-            </p>
 
             <div className="flex items-center gap-4 mb-4">
               {product.discounted_price && (
@@ -90,7 +87,7 @@ export default async function ProductDetailPage({
                   {product.price}
                 </span>
               )}
-              <span className="text-2xl font-bold text-red-600">
+              <span className="text-2xl font-bold dark:text-white">
                 {product.discounted_price ?? product.price}
               </span>
               {product.discount_percentage !== undefined &&
@@ -111,6 +108,7 @@ export default async function ProductDetailPage({
             />
           </div>
         </div>
+        <ProductTabs description={product.description} />
       </div>
     );
   } catch (err) {

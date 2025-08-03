@@ -12,7 +12,27 @@ export interface OrderItem {
 export interface OrderResponse {
   id: string;
 }
-
+export interface OrdersResponse {
+  common: {
+    status: string;
+    order_address?: {
+      province_code: string;
+      district_code: string;
+      ward_code: string;
+      detail: string;
+    };
+    note?: string | null;
+    payment_method?: string;
+    payment_status?: string | null;
+    shipping_info?: any;
+    user: {
+      id: string;
+      user_name: string;
+      email: string;
+    };
+  };
+  orders: Order[];
+}
 export interface Order {
   id: string;
   items: OrderItem[];
@@ -31,19 +51,16 @@ export async function createOrder(data: {
     body: JSON.stringify(data),
   });
 }
-
-export async function getOrders(): Promise<Order[]> {
-  return await apiFetch<Order[]>('/orders', {
+export async function getOrders(): Promise<OrdersResponse> {
+  return await apiFetch<OrdersResponse>('/orders', {
     method: 'GET',
   });
 }
-
 export async function getOrderById(id: string): Promise<Order> {
   return await apiFetch<Order>(`/orders/${id}`, {
     method: 'GET',
   });
 }
-
 export async function updateOrderStatus(
   id: string,
   status: string,
@@ -53,7 +70,6 @@ export async function updateOrderStatus(
     body: JSON.stringify({ status }),
   });
 }
-
 export async function updateOrder(
   id: string,
   data: Partial<{
@@ -70,7 +86,6 @@ export async function updateOrder(
     body: JSON.stringify(data),
   });
 }
-
 export async function deleteOrder(id: string): Promise<void> {
   return await apiFetch<void>(`/orders/${id}`, {
     method: 'DELETE',

@@ -14,3 +14,132 @@ isSubActive
 {sub.name}
 </div> */}
 </Link>
+
+{
+  // 🌈 Giao diện & theme
+  "workbench.colorTheme": "Dracula Theme",
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.startupEditor": "none",
+  "workbench.statusBar.visible": true,
+  "workbench.activityBar.visible": true,
+  "workbench.editor.highlightModifiedTabs": true,
+  "workbench.tree.indent": 16,
+  "workbench.editor.enablePreview": false,
+  "window.zoomLevel": 0,
+
+  // ✨ Font & Typography
+  "editor.fontFamily": "'MonoLisa', 'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace",
+  "editor.fontSize": 14,
+  "editor.lineHeight": 22,
+  "editor.letterSpacing": 0.5,
+  "editor.cursorStyle": "line",
+  "editor.cursorBlinking": "phase",
+  "editor.cursorSmoothCaretAnimation": true,
+
+  // 🚀 Trải nghiệm viết code
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "editor.smoothScrolling": true,
+  "editor.scrollBeyondLastLine": true,
+  "editor.wordWrap": "on",
+  "editor.minimap.enabled": false,
+  "editor.renderWhitespace": "boundary",
+  "editor.renderControlCharacters": false,
+  "editor.renderIndentGuides": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.formatOnSave": true,
+  "editor.autoClosingBrackets": "always",
+  "editor.autoClosingQuotes": "always",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.organizeImports": true
+  },
+
+  // 🧠 IntelliSense thông minh
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": true
+  },
+  "editor.parameterHints.enabled": true,
+  "editor.suggestSelection": "first",
+  "editor.snippetSuggestions": "top",
+  "typescript.suggest.completeFunctionCalls": true,
+  "javascript.suggest.completeFunctionCalls": true,
+
+  // 📐 Format code đẹp với Prettier
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "all",
+  "prettier.semi": true,
+  "prettier.arrowParens": "avoid",
+  "prettier.printWidth": 100,
+
+  // 🧹 File Explorer & quản lý file
+  "files.autoSave": "onWindowChange",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/.next": true
+  },
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.sortOrder": "type",
+
+  // 🖥️ Terminal
+  "terminal.integrated.fontFamily": "'JetBrains Mono', 'Fira Code', monospace",
+  "terminal.integrated.cursorBlinking": true,
+  "terminal.integrated.cursorStyle": "line",
+  "terminal.integrated.scrollback": 10000,
+
+  // 💡 Emmet cho React + Tailwind
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact",
+    "typescript": "typescriptreact",
+    "plaintext": "html"
+  },
+  "emmet.triggerExpansionOnTab": true,
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.includeLanguages": {
+    "javascript": "javascriptreact",
+    "typescript": "typescriptreact"
+  },
+
+  // 🔧 Git & SC
+  "git.enableSmartCommit": true,
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "diffEditor.ignoreTrimWhitespace": false,
+
+  // 🔎 UI tiện lợi
+  "breadcrumbs.enabled": true,
+  "editor.hover.enabled": true,
+  "editor.lightbulb.enabled": true,
+  "outline.icons": true,
+  "outline.problems.enabled": true,
+  "debug.openDebug": "neverOpen",
+
+  // 🌍 Language tweak
+  "json.schemaDownload.enable": true,
+  "typescript.updateImportsOnFileMove.enabled": "always"
+}

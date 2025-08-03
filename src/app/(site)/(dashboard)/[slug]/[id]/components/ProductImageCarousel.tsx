@@ -1,12 +1,13 @@
 'use client';
 
-import * as React from 'react';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Image from 'next/image';
+import * as React from 'react';
 
-import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper as SwiperClass } from 'swiper/types';
 
 interface ProductImageCarouselProps {
   images: string[];
@@ -18,6 +19,7 @@ export default function ProductImageCarousel({
   alt,
 }: ProductImageCarouselProps) {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const swiperRef = React.useRef<SwiperClass | null>(null);
 
   const handleThumbnailClick = (index: number) => {
     setSelectedIndex(index);
@@ -32,6 +34,9 @@ export default function ProductImageCarousel({
       (prev) => (prev - 1 + images.length) % images.length,
     );
   };
+  React.useEffect(() => {
+    swiperRef.current?.slideTo(selectedIndex);
+  }, [selectedIndex]);
 
   return (
     <div className="flex gap-2">
@@ -42,6 +47,9 @@ export default function ProductImageCarousel({
           spaceBetween={1}
           freeMode={true}
           mousewheel={true}
+          onSwiper={(swiper) => {
+            swiperRef.current = swiper;
+          }}
           className="h-[600px]"
         >
           {images.map((url, index) => (
@@ -58,7 +66,7 @@ export default function ProductImageCarousel({
             >
               <div
                 onClick={() => handleThumbnailClick(index)}
-                className={`relative h-34 w-34 border cursor-pointer overflow-hidden transition-opacity space-y-2.5 ${
+                className={`relative h-34 w-34 border cursor-pointer overflow-hidden transition-opacity ${
                   index === selectedIndex
                     ? 'opacity-100 ring-1 ring-blue-500'
                     : 'opacity-50'
