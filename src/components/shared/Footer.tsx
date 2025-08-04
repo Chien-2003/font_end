@@ -83,39 +83,39 @@ export default function Footer() {
           </div>
           <div>
             <h4 className="font-semibold text-white mb-4">
-              Về Chúng Tôi
+              Chính sách
             </h4>
             <ul className="space-y-3 text-sm">
               <li>
                 <Link
-                  href="#"
+                  href="/dich-vu-60-ngay-doi-tra"
                   className="hover:text-white hover:underline"
                 >
-                  Câu chuyện
+                  Chính sách đổi trả 60 ngày
                 </Link>
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/chuong-trinh-va-chinh-sach-khuyen-mai"
                   className="hover:text-white hover:underline"
                 >
-                  Cửa hàng
+                  Chính sách khuyến mãi
                 </Link>
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/chinh-sach-bao-mat-thong-tin-ca-nhan"
                   className="hover:text-white hover:underline"
                 >
-                  Tuyển dụng
+                  Chính sách bảo mật
                 </Link>
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/chinh-sach-giao-hang"
                   className="hover:text-white hover:underline"
                 >
-                  Báo chí
+                  Chính sách giao hàng
                 </Link>
               </li>
             </ul>
