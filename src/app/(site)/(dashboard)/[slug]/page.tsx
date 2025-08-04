@@ -1,5 +1,6 @@
 import Breadcrumbs from '@/components/shared/Breadcrumbs';
 import { AppSidebar } from '@/components/shared/CategoryFitterSidebar';
+import { EmptyPlaceholder } from '@/components/shared/EmptyPlaceholder';
 import ProductCard from '@/components/shared/ItemCard';
 import {
   Pagination,
@@ -118,9 +119,9 @@ export default async function CategoryPage({
           <main className="ml-2 lg:ml-3">
             <Breadcrumbs />
             {paginatedProducts.length === 0 ? (
-              <p className="text-center w-full">
-                Không có sản phẩm nào.
-              </p>
+              <div className="w-full">
+                <EmptyPlaceholder description="Không có sản phẩm nào để hiển thị."/>
+              </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {paginatedProducts.map((product, index) => (
