@@ -6,12 +6,17 @@ export interface PrivacyPolicy {
   id?: string;
   title: string;
   content: string;
+  type_policy: 'information' | 'faq';
   createdAt?: string;
   updatedAt?: string;
 }
 
-export async function getPrivacyPolicy(): Promise<PrivacyPolicy | null> {
-  const res = await fetch(`${API_BASE}/get`);
+export async function getPrivacyPolicy(
+  type: 'information' | 'faq' = 'information',
+): Promise<PrivacyPolicy | null> {
+  const res = await fetch(`${API_BASE}/get?type=${type}`, {
+    cache: 'no-store',
+  });
   if (!res.ok) return null;
   return res.json();
 }

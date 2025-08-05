@@ -2,8 +2,7 @@ import { EmptyPlaceholder } from '@/components/shared/EmptyPlaceholder';
 import { getPrivacyPolicy } from '@/lib/policyApi';
 
 export default async function Page() {
-  const data = await getPrivacyPolicy();
-
+  const data = await getPrivacyPolicy('information');
   if (!data) {
     return (
       <div className="mx-auto md:px-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 w-full h-full py-4">

@@ -4,15 +4,23 @@ import Alert from '@/components/shared/Alert';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { createPrivacyPolicy } from '@/lib/policyApi';
 import { useState } from 'react';
 import SimpleEditor from '../../components/SimpleEditor';
-
 export default function CreatePostPage() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
-
+  const [typePolicy, setTypePolicy] = useState<'information' | 'faq'>(
+    'information',
+  );
   const [alertMessage, setAlertMessage] = useState('');
   const [alertType, setAlertType] = useState<
     'info' | 'error' | 'success'
@@ -34,7 +42,11 @@ export default function CreatePostPage() {
 
     setLoading(true);
     try {
-      await createPrivacyPolicy({ title, content });
+      await createPrivacyPolicy({
+        title,
+        content,
+        type_policy: typePolicy,
+      });
       showAlert('Tạo chính sách thành công!', 'success');
       setTitle('');
       setContent('');
@@ -61,7 +73,23 @@ export default function CreatePostPage() {
             disabled={loading}
           />
         </div>
-
+        <div className="flex flex-col space-y-2">
+          <Label>Loại chính sách</Label>
+          <Select
+            value={typePolicy}
+            onValueChange={(val) =>
+              setTypePolicy(val as 'information' | 'faq')
+            }
+          >
+            <SelectTrigger className="w-[200px]">
+              <SelectValue placeholder="Chọn loại chính sách" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="information">Thông tin</SelectItem>
+              <SelectItem value="faq">Câu hỏi thường gặp</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
         <div className="flex flex-col space-y-2">
           <Label>Nội dung</Label>
           <SimpleEditor

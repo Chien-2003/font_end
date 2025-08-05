@@ -237,7 +237,7 @@ export default function CreateDiscountForm() {
           />
           <Select value="" onValueChange={() => {}} open={false}>
             <Card className="border rounded-md p-4 dark:bg-gray-900">
-              <CardHeader className='lg:px-6 md:px-2 px-0'>
+              <CardHeader className="lg:px-6 md:px-2 px-0">
                 <CardTitle>Chọn danh mục áp dụng</CardTitle>
               </CardHeader>
               <CardContent className="grid lg:grid-cols-2 grid-cols-2 gap-2 max-h-48 overflow-auto [&::-webkit-scrollbar]:hidden scrollbar-hide lg:px-6 md:px-2 px-0">
@@ -259,7 +259,7 @@ export default function CreateDiscountForm() {
           </Select>
           <Select value="" onValueChange={() => {}} open={false}>
             <Card className="border rounded-md p-4 dark:bg-gray-900">
-              <CardHeader className='lg:px-6 md:px-2 px-0'>
+              <CardHeader className="lg:px-6 md:px-2 px-0">
                 <CardTitle>Chọn danh mục con áp dụng</CardTitle>
               </CardHeader>
               <CardContent className="grid grid-cols-2 gap-2 max-h-48 overflow-auto [&::-webkit-scrollbar]:hidden scrollbar-hide lg:px-6 md:px-2 px-0">
