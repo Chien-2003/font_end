@@ -82,6 +82,16 @@ const data = {
         },
       ],
     },
+    {
+      title: 'Chinh sách bảo mật',
+      url: '#',
+      items: [
+        {
+          title: 'Thông tin cá nhân',
+          url: '/admin/policy',
+        },
+      ],
+    },
   ],
 };
 

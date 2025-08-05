@@ -1,39 +1,44 @@
 'use client';
 
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
 import Heading from '@tiptap/extension-heading';
-import Underline from '@tiptap/extension-underline';
-import TextAlign from '@tiptap/extension-text-align';
-import Link from '@tiptap/extension-link';
+import Highlight from '@tiptap/extension-highlight';
 import Image from '@tiptap/extension-image';
+import Link from '@tiptap/extension-link';
+import Placeholder from '@tiptap/extension-placeholder';
 import Subscript from '@tiptap/extension-subscript';
 import Superscript from '@tiptap/extension-superscript';
-import Placeholder from '@tiptap/extension-placeholder';
-import Highlight from '@tiptap/extension-highlight';
+import TextAlign from '@tiptap/extension-text-align';
+import Underline from '@tiptap/extension-underline';
+import { EditorContent, useEditor } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
 
-import { Toolbar, ToolbarGroup, ToolbarSeparator } from './toolbar';
+import { useEffect } from 'react';
 import {
-  UndoRedoButtons,
-  HeadingSelect,
-  ListButtons,
   BoldButton,
-  ItalicButton,
   CodeButton,
-  StrikeButton,
-  UnderlineButton,
+  HeadingSelect,
   HighlightButton,
-  LinkButton,
-  SubSuperscriptButtons,
   ImageButton,
+  ItalicButton,
+  LinkButton,
+  ListButtons,
+  StrikeButton,
+  SubSuperscriptButtons,
+  UnderlineButton,
+  UndoRedoButtons,
 } from './buttons';
 import { TextAlignButtons } from './TextAlignButtons';
+import { Toolbar, ToolbarGroup, ToolbarSeparator } from './toolbar';
 
 interface Props {
   onChange?: (html: string) => void;
+  initialContent?: string;
 }
 
-export default function SimpleEditor({ onChange }: Props) {
+export default function SimpleEditor({
+  onChange,
+  initialContent = '',
+}: Props) {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({ heading: false }),
@@ -49,12 +54,16 @@ export default function SimpleEditor({ onChange }: Props) {
         placeholder: 'Viết nội dung bài viết...',
       }),
     ],
-    content: '',
+    content: initialContent,
     onUpdate: ({ editor }) => {
       onChange?.(editor.getHTML());
     },
   });
-
+  useEffect(() => {
+    if (editor && initialContent !== editor.getHTML()) {
+      editor.commands.setContent(initialContent || '');
+    }
+  }, [initialContent, editor]);
   if (!editor) return null;
 
   return (

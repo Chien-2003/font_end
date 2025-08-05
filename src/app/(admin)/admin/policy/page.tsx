@@ -1,0 +1,93 @@
+'use client';
+
+import Alert from '@/components/shared/Alert';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { createPrivacyPolicy } from '@/lib/policyApi';
+import { useState } from 'react';
+import SimpleEditor from '../../components/SimpleEditor';
+
+export default function CreatePostPage() {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertType, setAlertType] = useState<
+    'info' | 'error' | 'success'
+  >('info');
+
+  const showAlert = (
+    message: string,
+    type: 'info' | 'error' | 'success' = 'info',
+  ) => {
+    setAlertMessage(message);
+    setAlertType(type);
+  };
+
+  const handleSubmit = async () => {
+    if (!title.trim() || !content.trim()) {
+      showAlert('Vui lòng nhập đầy đủ tiêu đề và nội dung!', 'error');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await createPrivacyPolicy({ title, content });
+      showAlert('Tạo chính sách thành công!', 'success');
+      setTitle('');
+      setContent('');
+    } catch (error) {
+      console.error(error);
+      showAlert('Có lỗi xảy ra khi tạo chính sách!', 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="max-w-3xl mx-auto py-4 px-4">
+      <h1 className="text-3xl font-bold mb-6">Chính sách bảo mật</h1>
+
+      <div className="flex flex-col space-y-4">
+        <div className="flex flex-col space-y-2">
+          <Label htmlFor="title">Tiêu đề</Label>
+          <Input
+            id="title"
+            placeholder="Nhập tiêu đề bài viết..."
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            disabled={loading}
+          />
+        </div>
+
+        <div className="flex flex-col space-y-2">
+          <Label>Nội dung</Label>
+          <SimpleEditor
+            key={content}
+            initialContent={content}
+            onChange={(html) => setContent(html)}
+          />
+        </div>
+
+        <div className="pt-4">
+          <Button
+            onClick={handleSubmit}
+            disabled={loading}
+            className="text-white"
+          >
+            {loading ? 'Đang tạo chính sách' : 'Tạo chính sách'}
+          </Button>
+        </div>
+      </div>
+
+      <Alert
+        type={alertType}
+        message={alertMessage}
+        onClose={() => setAlertMessage('')}
+        duration={3000}
+      />
+    </div>
+  );
+}
