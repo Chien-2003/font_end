@@ -61,7 +61,7 @@ export default function NavLinks({
     <NavigationMenu
       className={`${className} bg-background dark:bg-gray-900`}
     >
-      <NavigationMenuList className="flex gap-4">
+      <NavigationMenuList className="flex gap-6">
         {categories.map((category) => {
           const href = `/${category.slug_category}`;
           const isActive =
@@ -73,20 +73,36 @@ export default function NavLinks({
               className="relative"
             >
               <NavigationMenuTrigger
-                className={`uppercase text-sm font-semibold px-4 py-2 rounded-md transition-colors duration-200 ${
-                  isActive
-                    ? 'text-primary bg-primary/10 dark:bg-primary/20'
-                    : 'dark:text-white hover:text-primary hover:bg-muted/50 dark:hover:text-primary dark:hover:bg-muted/30'
-                }`}
+                className={`
+                  uppercase text-sm font-semibold py-2 px-1 rounded-md nav-link transition-colors duration-200 relative
+                  before:content-['']
+                  before:absolute
+                  before:left-0
+                  before:bottom-0
+                  before:h-[2px]
+                  before:bg-primary
+                  before:w-0
+                  before:transition-all
+                  before:duration-200
+                 hover:before:w-full
+                  ${
+                    isActive
+                      ? 'text-primary before:w-full hover:text-primary'
+                      : 'dark:text-white hover:text-primary dark:hover:text-primary'
+                  }
+                `}
               >
-                <Link href={href} className="w-full h-full block">
+                <Link
+                  href={href}
+                  className="w-full h-full block px-0"
+                >
                   {category.name}
                 </Link>
               </NavigationMenuTrigger>
 
               {category.subcategories &&
                 category.subcategories.length > 0 && (
-                  <NavigationMenuContent className="z-50 bg-white dark:bg-gray-900 rounded-md shadow-lg p-4 min-w-[400px] md:min-w-[480px] lg:min-w-[520px]">
+                  <NavigationMenuContent className="z-50 bg-white dark:bg-gray-900 shadow-lg p-4 min-w-[400px] md:min-w-[480px] lg:min-w-[520px]">
                     <div className="flex gap-x-8">
                       {chunkArray(category.subcategories, 4).map(
                         (group, idx) => (
@@ -103,11 +119,14 @@ export default function NavLinks({
                                 <li key={sub.id}>
                                   <Link
                                     href={subHref}
-                                    className={`block rounded-md p-3 leading-none no-underline outline-none transition-colors duration-200 hover:bg-primary/10 focus:bg-primary/10 focus:text-primary hover:text-primary ${
-                                      isSubActive
-                                        ? 'text-primary font-semibold hover:text-primary'
-                                        : 'dark:text-white hover:text-primary'
-                                    }`}
+                                    className={`
+                                  block rounded-md p-3 leading-none nav-link no-underline outline-none transition-colors duration-200 relative
+                                  ${
+                                    isSubActive
+                                      ? 'text-primary italic font-bold before:w-full hover:text-primary'
+                                      : 'dark:text-white hover:text-primary'
+                                  }
+                                `}
                                   >
                                     {sub.name}
                                   </Link>
@@ -130,11 +149,24 @@ export default function NavLinks({
             <NavigationMenuItem key={link.name}>
               <Link
                 href={link.href}
-                className={`uppercase text-sm font-semibold px-4 py-2 rounded-md transition-colors duration-200 ${
-                  isActive
-                    ? 'text-primary bg-primary/10 dark:bg-primary/20'
-                    : 'dark:text-white hover:text-primary hover:bg-muted/50 dark:hover:text-primary dark:hover:bg-muted/30'
-                }`}
+                className={`
+                  uppercase text-sm text-center font-semibold px-1 py-2 nav-link rounded-md transition-colors duration-200 relative
+                  before:content-['']
+                  before:absolute
+                  before:left-0
+                  before:bottom-0
+                  before:h-[2px]
+                  before:bg-primary
+                  before:w-0
+                  before:transition-all
+                  before:duration-200
+                 hover:before:w-full
+                  ${
+                    isActive
+                      ? 'text-primary bg-primary/10 dark:bg-primary/20 before:w-full'
+                      : 'dark:text-white hover:text-primary dark:hover:text-primary'
+                  }
+                `}
               >
                 {link.name}
               </Link>

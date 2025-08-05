@@ -1,6 +1,5 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
 import {
   Carousel,
   CarouselContent,
@@ -8,8 +7,10 @@ import {
 } from '@/components/ui/carousel';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
-import { getBanners, BannerFormData } from '@/lib/bannerApi';
+import { BannerFormData, getBanners } from '@/lib/bannerApi';
+import { EmptyPlaceholder } from './EmptyPlaceholder';
 
 export default function HomeBanner() {
   const [banners, setBanners] = useState<BannerFormData[]>([]);
@@ -29,8 +30,10 @@ export default function HomeBanner() {
     fetchBanners();
   }, []);
 
-  if (loading) return <div>Đang tải banner...</div>;
-  if (banners.length === 0) return <div>Không có banner nào.</div>;
+  if (loading)
+    return <div className="text-center">Đang tải banner...</div>;
+  if (banners.length === 0)
+    return <EmptyPlaceholder description="Không có banner." />;
 
   const banner = banners[0];
 

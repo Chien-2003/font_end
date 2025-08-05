@@ -17,6 +17,7 @@ import { useUser } from '@/contexts/UserContext';
 import { UpdateProfileResponse } from '@/lib/profileApi';
 import { showError, showSuccess } from '@/lib/swal';
 
+import { EmptyPlaceholder } from '@/components/shared/EmptyPlaceholder';
 import { ProfilePageSkeleton } from '@/components/skeleton/ProfileSkeleton';
 import { Typography } from '@/components/ui/typography';
 import { Loader2Icon } from 'lucide-react';
@@ -44,6 +45,7 @@ export default function ProfilePage() {
   if (error) {
     return (
       <div className="mx-auto max-w-3xl w-full px-4 py-6 text-center text-red-600">
+        <EmptyPlaceholder />
         <p>{error}</p>
         <Link href="/auth/login">
           <Button className="mt-4 bg-primary text-white">
@@ -57,9 +59,7 @@ export default function ProfilePage() {
   if (!user) {
     return (
       <div className="mx-auto max-w-3xl w-full px-4 py-6 text-center text-gray-500">
-        <h1 className="text-2xl font-bold mb-4">
-          Không tìm thấy thông tin người dùng
-        </h1>
+        <EmptyPlaceholder description="Không có thông tin." />
         <p>Vui lòng đăng nhập để xem hồ sơ của bạn.</p>
         <Link href="/auth/login">
           <Button className="mt-4 text-white">Đăng nhập</Button>

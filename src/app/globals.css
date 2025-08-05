@@ -228,3 +228,6 @@ body {
 .reset-all {
   all: revert;
 }
+.nav-link:hover {
+  color: var(--primary) !important;
+}

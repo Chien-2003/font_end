@@ -1,9 +1,6 @@
-import ProductCard from '@/components/shared/ItemCard';
 import HomeBanner from '@/components/shared/HomeBanner';
 import HomeCategorySection from '@/components/shared/HomeCategorySection';
-import { getProducts } from '@/lib/productsApi';
-import { Fragment } from 'react';
-import Image from 'next/image';
+import ProductCard from '@/components/shared/ItemCard';
 import {
   Carousel,
   CarouselContent,
@@ -11,7 +8,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import { getProducts } from '@/lib/productsApi';
+import Image from 'next/image';
 import Link from 'next/link';
+import { Fragment } from 'react';
 export default async function HomePage() {
   const allProductsResponse = await getProducts({
     page: 1,
@@ -97,8 +97,10 @@ function Section({
                 className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
               >
                 <ProductCard
+                  key={product.id}
                   id={product.id}
-                  categorySlug={product.category?.slug_category}
+                  categorySlug={product.category.slug_category}
+                  subcategorySlug={product.subcategory?.slug ?? ''}
                   name={product.name}
                   description={product.description}
                   price={product.discounted_price ?? product.price}

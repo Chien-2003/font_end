@@ -56,3 +56,15 @@ export async function updateCategory(
   if (!res.ok) throw new Error('Cập nhật danh mục thất bại');
   return res.json();
 }
+export async function getSubcategoryBySlug(
+  categorySlug: string,
+  subcategorySlug: string,
+): Promise<Subcategory | null> {
+  const category = await getCategoryBySlug(categorySlug);
+  if (!category?.subcategories) return null;
+
+  const found = category.subcategories.find(
+    (sub) => sub.slug === subcategorySlug,
+  );
+  return found || null;
+}

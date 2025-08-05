@@ -120,7 +120,7 @@ export default async function CategoryPage({
             <Breadcrumbs />
             {paginatedProducts.length === 0 ? (
               <div className="w-full">
-                <EmptyPlaceholder description="Không có sản phẩm nào để hiển thị."/>
+                <EmptyPlaceholder description="Không có sản phẩm nào để hiển thị." />
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -1,3 +1,4 @@
+import Breadcrumbs from '@/components/shared/Breadcrumbs';
 import { getProductDetail } from '@/lib/productsApi';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -64,8 +65,9 @@ export default async function ProductDetailPage({
     }
 
     return (
-      <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-2 sm:px-2 lg:px-8 w-full h-full py-8">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+      <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-2 sm:px-2 lg:px-8 w-full h-full py-4">
+        <Breadcrumbs />
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mt-2">
           <div className="md:col-span-6">
             <ProductImageCarousel
               images={

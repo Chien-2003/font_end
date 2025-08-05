@@ -8,21 +8,18 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { getCategoryBySlug } from '@/lib/categoryApi';
+import { getProductDetail } from '@/lib/productsApi';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import * as React from 'react';
-
-import { getCategoryBySlug } from '@/lib/categoryApi';
-
 export default function Breadcrumbs() {
   const pathname = usePathname();
   const pathParts = pathname.split('/').filter((part) => part !== '');
   const [labels, setLabels] = React.useState<string[]>([]);
-
   React.useEffect(() => {
     async function loadLabels() {
       let newLabels: string[] = [];
-
       if (pathParts.length === 0) {
         setLabels(newLabels);
         return;
@@ -55,17 +52,25 @@ export default function Breadcrumbs() {
         }
         newLabels.push(subcategoryName);
       }
-      for (let i = 2; i < pathParts.length; i++) {
-        const part = pathParts[i];
-        newLabels.push(
-          part.charAt(0).toUpperCase() +
-            part.slice(1).replace(/-/g, ' '),
-        );
+      if (pathParts.length > 2) {
+        try {
+          const productId = pathParts[2];
+          const product = await getProductDetail(productId);
+          newLabels.push(product.name);
+        } catch (error) {
+          newLabels.push(
+            pathParts[2].charAt(0).toUpperCase() +
+              pathParts[2].slice(1).replace(/-/g, ' '),
+          );
+        }
       }
       setLabels(newLabels);
     }
     loadLabels();
   }, [pathname]);
+  if (labels.length !== pathParts.length) {
+    return null;
+  }
   return (
     <Breadcrumb className="w-full pb-2">
       <BreadcrumbList>
@@ -77,15 +82,12 @@ export default function Breadcrumbs() {
             <Link href="/">Trang chủ</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
-
-        {pathParts.map((part, index) => {
+        {labels.map((label, index) => {
           const href = '/' + pathParts.slice(0, index + 1).join('/');
-          const isLast = index === pathParts.length - 1;
-          const label = labels[index] || part;
-
+          const isLast = index === labels.length - 1;
           return (
             <React.Fragment key={index}>
-              <BreadcrumbSeparator className="px-1">
+              <BreadcrumbSeparator className="">
                 /
               </BreadcrumbSeparator>
               <BreadcrumbItem>
