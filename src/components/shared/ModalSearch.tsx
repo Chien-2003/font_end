@@ -1,11 +1,11 @@
 'use client';
 
-import { Fragment, useEffect, useState } from 'react';
 import { Product } from '@/lib/productsApi';
-import { useDebounce } from '@/lib/useDebounce';
-import ProductCard from './ItemCard';
-import { MdOutlineClose } from 'react-icons/md';
 import { searchProducts } from '@/lib/searchApi'; // ✅ dùng hàm API mới
+import { useDebounce } from '@/lib/useDebounce';
+import { Fragment, useEffect, useState } from 'react';
+import { MdOutlineClose } from 'react-icons/md';
+import ProductCard from './ItemCard';
 
 interface ModalProps {
   isOpen: boolean;
@@ -75,7 +75,8 @@ export default function ProductModal({
               <ProductCard
                 key={product.id ?? `product-${index}`}
                 id={product.id}
-                categorySlug={product.category?.slug_category}
+                categorySlug={product.category.slug_category}
+                subcategorySlug={product.subcategory?.slug ?? ''}
                 name={product.name}
                 description={product.description}
                 price={product.discounted_price ?? product.price}

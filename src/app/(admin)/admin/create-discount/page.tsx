@@ -1,39 +1,33 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { Input } from '@/components/ui/input';
+import Alert from '@/components/shared/Alert';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
 import {
   Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
   SelectTrigger,
   SelectValue,
-  SelectContent,
-  SelectItem,
-  SelectGroup,
-  SelectLabel,
 } from '@/components/ui/select';
-import { uploadImage } from '@/lib/uploadApi';
-import { createDiscount } from '@/lib/discountApi';
 import { useFileUpload } from '@/hooks/use-file-upload';
 import { Category, getAllCategories } from '@/lib/categoryApi';
+import { createDiscount } from '@/lib/discountApi';
 import {
   Subcategory,
   getAllSubcategories,
 } from '@/lib/subcategoryApi';
-import {
-  AlertCircleIcon,
-  ImageIcon,
-  UploadIcon,
-  XIcon,
-} from 'lucide-react';
-import Alert from '@/components/shared/Alert';
+import { uploadImage } from '@/lib/uploadApi';
+import { AlertCircleIcon, UploadIcon, XIcon } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 
 type AlertType = 'info' | 'error' | 'success';
 
@@ -187,7 +181,7 @@ export default function CreateDiscountForm() {
         <CardHeader>
           <CardTitle>Tạo mã giảm giá</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 lg:px-6 md:px-2 px-0">
           <Input
             name="code"
             placeholder="Mã giảm giá *"
@@ -243,14 +237,14 @@ export default function CreateDiscountForm() {
           />
           <Select value="" onValueChange={() => {}} open={false}>
             <Card className="border rounded-md p-4 dark:bg-gray-900">
-              <CardHeader>
+              <CardHeader className='lg:px-6 md:px-2 px-0'>
                 <CardTitle>Chọn danh mục áp dụng</CardTitle>
               </CardHeader>
-              <CardContent className="grid grid-cols-2 gap-2 max-h-48 overflow-auto [&::-webkit-scrollbar]:hidden scrollbar-hide">
+              <CardContent className="grid lg:grid-cols-2 grid-cols-2 gap-2 max-h-48 overflow-auto [&::-webkit-scrollbar]:hidden scrollbar-hide lg:px-6 md:px-2 px-0">
                 {categories.map((cat) => (
                   <label
                     key={cat.id}
-                    className="flex items-center space-x-2 cursor-pointer"
+                    className="flex items-center space-x-1 lg:space-x-2 cursor-pointer"
                   >
                     <Checkbox
                       checked={form.category_ids.includes(cat.id)}
@@ -265,10 +259,10 @@ export default function CreateDiscountForm() {
           </Select>
           <Select value="" onValueChange={() => {}} open={false}>
             <Card className="border rounded-md p-4 dark:bg-gray-900">
-              <CardHeader>
+              <CardHeader className='lg:px-6 md:px-2 px-0'>
                 <CardTitle>Chọn danh mục con áp dụng</CardTitle>
               </CardHeader>
-              <CardContent className="grid grid-cols-2 gap-2 max-h-48 overflow-auto [&::-webkit-scrollbar]:hidden scrollbar-hide">
+              <CardContent className="grid grid-cols-2 gap-2 max-h-48 overflow-auto [&::-webkit-scrollbar]:hidden scrollbar-hide lg:px-6 md:px-2 px-0">
                 {subcategories.map((subcat) => (
                   <label
                     key={subcat.id}

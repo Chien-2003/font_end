@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300 border-t border-gray-800">
       <div className="mx-auto max-w-full md:px-4 lg:py-16 md:py-8 py-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 w-full h-full">
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
           <div className="lg:col-span-2">
             <h3 className="text-xl font-bold mb-4 text-white">
               Elysia Wear
@@ -121,7 +121,7 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold text-white mb-4">Hỗ Trợ</h4>
+            <h4 className="font-semibold text-white mb-4">Hỗ Trợ & Chăm sóc khách hàng</h4>
             <ul className="space-y-3 text-sm">
               <li>
                 <Link
@@ -136,7 +136,7 @@ export default function Footer() {
                   href="#"
                   className="hover:text-white hover:underline"
                 >
-                  FAQ
+                  Hỏi đáp - FAQs
                 </Link>
               </li>
               <li>
@@ -144,7 +144,7 @@ export default function Footer() {
                   href="#"
                   className="hover:text-white hover:underline"
                 >
-                  Chính sách Đổi trả
+                  Blog
                 </Link>
               </li>
               <li>
