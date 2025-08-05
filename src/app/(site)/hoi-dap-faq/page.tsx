@@ -4,18 +4,18 @@ import { getPrivacyPolicy } from '@/lib/policyApi';
 import { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const data = await getPrivacyPolicy('information');
+  const data = await getPrivacyPolicy('faq');
 
   return {
-    title: data?.title || 'Chính sách bảo mật thông tin cá nhân',
+    title: data?.title || 'Hỏi đáp (FAQ)',
     description:
       data?.content?.replace(/<[^>]*>/g, '').slice(0, 150) ||
-      'Xem chi tiết chính sách bảo mật thông tin cá nhân.',
+      'Các câu hỏi thường gặp về dịch vụ và sản phẩm của.',
   };
 }
 
 export default async function Page() {
-  const data = await getPrivacyPolicy('information');
+  const data = await getPrivacyPolicy('faq');
   if (!data) {
     return (
       <div className="mx-auto md:px-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 w-full h-full py-4">

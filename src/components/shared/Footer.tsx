@@ -135,7 +135,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/hoi-dap-faq"
                   className="hover:text-white hover:underline"
                 >
                   Hỏi đáp - FAQs
