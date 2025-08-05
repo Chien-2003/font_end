@@ -5,12 +5,11 @@ import { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getPrivacyPolicy('faq');
-
+  const baseTitle = 'CÂU HỎI THƯỜNG GẶP KHI MUA SẮM TẠI Elysia Wear';
   return {
-    title: data?.title || 'Hỏi đáp (FAQ)',
+    title: data?.title ? `${data.title} - ${baseTitle}` : baseTitle,
     description:
-      data?.content?.replace(/<[^>]*>/g, '').slice(0, 150) ||
-      'Các câu hỏi thường gặp về dịch vụ và sản phẩm của.',
+      'Tổng hợp các câu hỏi thường gặp khi mua sắm tại Elysia Wear, các vấn đề liên quan tới đơn hàng: giao hàng, chính sách đổi/trả hàng, địa chỉ đến xem hàng trực tiếp...',
   };
 }
 
