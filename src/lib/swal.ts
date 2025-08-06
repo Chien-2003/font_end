@@ -38,7 +38,7 @@ export const showConfirm = (
     showCancelButton: true,
     confirmButtonText: 'Đồng ý',
     cancelButtonText: 'Huỷ',
-  }).then((result) => {
+  }).then((result: any) => {
     if (result.isConfirmed) {
       onConfirm?.();
     } else if (result.isDismissed) {

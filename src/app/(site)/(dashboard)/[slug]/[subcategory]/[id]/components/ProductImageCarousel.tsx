@@ -47,7 +47,7 @@ export default function ProductImageCarousel({
           spaceBetween={1}
           freeMode={true}
           mousewheel={true}
-          onSwiper={(swiper) => {
+          onSwiper={(swiper: any) => {
             swiperRef.current = swiper;
           }}
           className="h-[600px]"
