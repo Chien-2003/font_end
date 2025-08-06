@@ -1,21 +1,21 @@
 'use client';
 
-import { Fragment, useEffect, useState } from 'react';
-import Image from 'next/image';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import Alert from '@/components/shared/Alert';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Category,
   getAllCategories,
   updateCategory,
-} from '@/lib/categoryApi';
-import Alert from '@/components/shared/Alert';
+} from '@/services/categoryApi';
+import Image from 'next/image';
+import { Fragment, useEffect, useState } from 'react';
 
 export default function AdminCategoryPage() {
   const [categories, setCategories] = useState<Category[]>([]);

@@ -16,8 +16,8 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import {
   getCategoryBySlug,
   getSubcategoryBySlug,
-} from '@/lib/categoryApi';
-import { getProducts } from '@/lib/productsApi';
+} from '@/services/categoryApi';
+import { getProducts } from '@/services/productsApi';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Fragment } from 'react';

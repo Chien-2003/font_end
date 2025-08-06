@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
+import NProgress from '@/services/nprogress';
 import { usePathname, useRouter } from 'next/navigation';
-import { useTransition } from 'react';
-import NProgress from '@/lib/nprogress';
+import { useEffect, useTransition } from 'react';
 
 export default function NProgressProvider() {
   const router = useRouter();

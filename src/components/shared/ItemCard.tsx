@@ -8,8 +8,8 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useCart } from '@/contexts/CartContext';
-import { addToCart } from '@/lib/cartApi';
 import { showError, showSuccess } from '@/lib/swal';
+import { addToCart } from '@/services/cartApi';
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import Image from 'next/image';

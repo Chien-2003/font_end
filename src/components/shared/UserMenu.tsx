@@ -1,19 +1,19 @@
 'use client';
 
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useUser } from '@/contexts/UserContext';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
+import { useUser } from '@/contexts/UserContext';
+import { logoutApi } from '@/services/authApi';
 import { signOut } from 'next-auth/react';
+import Image from 'next/image';
 import Link from 'next/link';
-import { logoutApi } from '@/lib/authApi';
+import { useRouter } from 'next/navigation';
 
 export default function UserMenu() {
   const { user, setUser } = useUser();

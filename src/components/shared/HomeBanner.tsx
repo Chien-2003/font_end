@@ -9,7 +9,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-import { BannerFormData, getBanners } from '@/lib/bannerApi';
+import { BannerFormData, getBanners } from '@/services/bannerApi';
 import { EmptyPlaceholder } from './EmptyPlaceholder';
 
 export default function HomeBanner() {

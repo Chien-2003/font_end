@@ -8,8 +8,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { getCategoryBySlug } from '@/lib/categoryApi';
-import { getProductDetail } from '@/lib/productsApi';
+import { getCategoryBySlug } from '@/services/categoryApi';
+import { getProductDetail } from '@/services/productsApi';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import * as React from 'react';

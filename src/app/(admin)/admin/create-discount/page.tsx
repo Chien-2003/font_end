@@ -19,13 +19,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useFileUpload } from '@/hooks/use-file-upload';
-import { Category, getAllCategories } from '@/lib/categoryApi';
-import { createDiscount } from '@/lib/discountApi';
+import { Category, getAllCategories } from '@/services/categoryApi';
+import { createDiscount } from '@/services/discountApi';
 import {
   Subcategory,
   getAllSubcategories,
-} from '@/lib/subcategoryApi';
-import { uploadImage } from '@/lib/uploadApi';
+} from '@/services/subcategoryApi';
+import { uploadImage } from '@/services/uploadApi';
 import { AlertCircleIcon, UploadIcon, XIcon } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 

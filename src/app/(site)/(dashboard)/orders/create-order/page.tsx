@@ -18,7 +18,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { useUser } from '@/contexts/UserContext';
 import { useLocation } from '@/hooks/useLocation';
-import { getOrders, Order } from '@/lib/orderApi';
+import { getOrders, Order } from '@/services/orderApi';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Minus, Plus, Trash2 } from 'lucide-react';
 import Image from 'next/image';

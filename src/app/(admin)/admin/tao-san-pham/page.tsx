@@ -1,9 +1,13 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -11,22 +15,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from '@/components/ui/card';
-import { Trash2, Plus } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import { Plus, Trash2 } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
 
-import { createProduct, CreateProductData } from '@/lib/productsApi';
-import { getAllCategories, Category } from '@/lib/categoryApi';
+import { Typography } from '@/components/ui/typography';
+import { showError, showSuccess } from '@/lib/swal';
+import { Category, getAllCategories } from '@/services/categoryApi';
+import {
+  createProduct,
+  CreateProductData,
+} from '@/services/productsApi';
 import {
   getAllSubcategories,
   Subcategory,
-} from '@/lib/subcategoryApi';
-import { showError, showSuccess } from '@/lib/swal';
-import { Typography } from '@/components/ui/typography';
+} from '@/services/subcategoryApi';
 
 interface ProductForm {
   name: string;

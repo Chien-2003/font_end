@@ -1,11 +1,11 @@
 'use client';
 
-import { signIn, useSession } from 'next-auth/react';
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { showSuccess, showError } from '@/lib/swal';
-import { FaGoogle } from 'react-icons/fa';
 import { useUser } from '@/contexts/UserContext';
+import { showError, showSuccess } from '@/lib/swal';
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { FaGoogle } from 'react-icons/fa';
 import { Button } from '../ui/button';
 
 export default function LoginWithGoogleButton() {

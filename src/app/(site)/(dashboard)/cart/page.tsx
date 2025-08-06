@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
-import Image from 'next/image';
 import { useCart } from '@/contexts/CartContext';
-import { deleteCartItem } from '@/lib/cartApi';
+import { deleteCartItem } from '@/services/cartApi';
+import Image from 'next/image';
+import { useState } from 'react';
 
-import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   Dialog,
@@ -14,9 +14,9 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
-import { Trash2, ShoppingCart, X } from 'lucide-react';
-import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { CartPageSkeleton } from '@/components/skeleton/CartPageSkeleton';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
+import { ShoppingCart, Trash2 } from 'lucide-react';
 
 import Alert from '@/components/shared/Alert';
 

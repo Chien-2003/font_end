@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { createPrivacyPolicy } from '@/lib/policyApi';
+import { createPrivacyPolicy } from '@/services/policyApi';
 import { useState } from 'react';
 import SimpleEditor from '../../components/SimpleEditor';
 export default function CreatePostPage() {
@@ -93,7 +93,7 @@ export default function CreatePostPage() {
         <div className="flex flex-col space-y-2">
           <Label>Nội dung</Label>
           <SimpleEditor
-            key={content}
+            // key={content}
             initialContent={content}
             onChange={(html) => setContent(html)}
           />

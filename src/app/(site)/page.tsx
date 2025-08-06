@@ -8,7 +8,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-import { getProducts } from '@/lib/productsApi';
+import { getProducts } from '@/services/productsApi';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Fragment } from 'react';

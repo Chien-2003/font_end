@@ -14,8 +14,8 @@ import {
   TabsTrigger,
 } from '@/components/ui/tabs';
 import { useUser } from '@/contexts/UserContext';
-import { UpdateProfileResponse } from '@/lib/profileApi';
 import { showError, showSuccess } from '@/lib/swal';
+import { UpdateProfileResponse } from '@/services/profileApi';
 
 import { EmptyPlaceholder } from '@/components/shared/EmptyPlaceholder';
 import { ProfilePageSkeleton } from '@/components/skeleton/ProfileSkeleton';

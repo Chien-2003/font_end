@@ -1,28 +1,28 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { showSuccess, showError } from '@/lib/swal';
-import { useUser } from '@/contexts/UserContext';
 import { login } from '@/app/actions/login';
+import { useUser } from '@/contexts/UserContext';
+import { showError, showSuccess } from '@/lib/swal';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
+import { Button } from '@/components/ui/button';
 import {
   Card,
+  CardContent,
   CardHeader,
   CardTitle,
-  CardContent,
 } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
 
-import { Loader2 } from 'lucide-react';
-import Swal from 'sweetalert2';
-import Link from 'next/link';
-import LoginWithGoogleButton from '@/components/shared/LoginWithGoogleButton';
 import LoginWithFacebookButton from '@/components/shared/LoginWithFacebookButton';
+import LoginWithGoogleButton from '@/components/shared/LoginWithGoogleButton';
 import PasswordInput from '@/components/shared/PasswordInput';
+import { Loader2 } from 'lucide-react';
+import Link from 'next/link';
+import Swal from 'sweetalert2';
 
 export default function LoginPage() {
   const router = useRouter();

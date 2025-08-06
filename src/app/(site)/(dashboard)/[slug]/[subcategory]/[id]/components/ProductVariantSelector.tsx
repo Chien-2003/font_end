@@ -3,8 +3,8 @@
 import Alert from '@/components/shared/Alert';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
-import { addToCart } from '@/lib/cartApi';
-import { createOrder } from '@/lib/orderApi';
+import { addToCart } from '@/services/cartApi';
+import { createOrder } from '@/services/orderApi';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
   Fragment,

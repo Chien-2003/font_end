@@ -7,7 +7,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
-import { Category, getAllCategories } from '@/lib/categoryApi';
+import { Category, getAllCategories } from '@/services/categoryApi';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import * as React from 'react';

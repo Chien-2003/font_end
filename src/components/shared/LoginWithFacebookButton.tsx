@@ -1,11 +1,11 @@
 'use client';
 
-import { signIn, useSession } from 'next-auth/react';
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { showError, showSuccess } from '@/lib/swal';
-import { FaFacebookF } from 'react-icons/fa';
 import { useUser } from '@/contexts/UserContext';
+import { showError, showSuccess } from '@/lib/swal';
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { FaFacebookF } from 'react-icons/fa';
 import { Button } from '../ui/button';
 
 export default function LoginWithFacebookButton() {

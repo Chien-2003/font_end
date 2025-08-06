@@ -1,18 +1,7 @@
 'use client';
 
-import React, {
-  useEffect,
-  useState,
-  forwardRef,
-  useImperativeHandle,
-} from 'react';
-import { useUser } from '@/contexts/UserContext';
-import {
-  updateProfile,
-  UpdateProfileResponse,
-} from '@/lib/profileApi';
-import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -21,6 +10,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useUser } from '@/contexts/UserContext';
+import {
+  updateProfile,
+  UpdateProfileResponse,
+} from '@/services/profileApi';
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from 'react';
 
 import { useLocation } from '@/hooks/useLocation';
 

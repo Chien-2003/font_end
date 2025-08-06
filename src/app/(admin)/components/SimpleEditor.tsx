@@ -4,14 +4,12 @@ import Heading from '@tiptap/extension-heading';
 import Highlight from '@tiptap/extension-highlight';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
-import Placeholder from '@tiptap/extension-placeholder';
 import Subscript from '@tiptap/extension-subscript';
 import Superscript from '@tiptap/extension-superscript';
 import TextAlign from '@tiptap/extension-text-align';
 import Underline from '@tiptap/extension-underline';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-
 import { useEffect } from 'react';
 import {
   BoldButton,
@@ -50,9 +48,6 @@ export default function SimpleEditor({
       Image,
       Subscript,
       Superscript,
-      Placeholder.configure({
-        placeholder: 'Viết nội dung bài viết...',
-      }),
     ],
     content: initialContent,
     onUpdate: ({ editor }) => {

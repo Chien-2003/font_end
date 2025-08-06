@@ -1,7 +1,7 @@
 'use client';
 
-import { Product } from '@/lib/productsApi';
-import { searchProducts } from '@/lib/searchApi'; // ✅ dùng hàm API mới
+import { Product } from '@/services/productsApi';
+import { searchProducts } from '@/services/searchApi'; // ✅ dùng hàm API mới
 import { useDebounce } from '@/lib/useDebounce';
 import { Fragment, useEffect, useState } from 'react';
 import { MdOutlineClose } from 'react-icons/md';

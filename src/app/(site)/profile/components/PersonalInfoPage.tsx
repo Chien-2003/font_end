@@ -1,39 +1,39 @@
 'use client';
 
-import React, {
-  useEffect,
-  useState,
-  forwardRef,
-  useImperativeHandle,
-} from 'react';
-import {
-  XIcon,
-  CircleUserRoundIcon,
-  CalendarIcon,
-} from 'lucide-react';
 import { format } from 'date-fns';
 import dayjs from 'dayjs';
+import {
+  CalendarIcon,
+  CircleUserRoundIcon,
+  XIcon,
+} from 'lucide-react';
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from 'react';
 
 import { useUser } from '@/contexts/UserContext';
 import {
   updateProfile,
   UpdateProfileResponse,
-} from '@/lib/profileApi';
-import { uploadImage } from '@/lib/uploadApi';
+} from '@/services/profileApi';
+import { uploadImage } from '@/services/uploadApi';
 
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from '@/components/ui/radio-group';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from '@/components/ui/radio-group';
 import {
   Select,
   SelectContent,
@@ -41,10 +41,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { DropdownNavProps, DropdownProps } from 'react-day-picker';
-import { cn } from '@/lib/utils';
 import { useFileUpload } from '@/hooks/use-file-upload';
+import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import { DropdownNavProps, DropdownProps } from 'react-day-picker';
 
 export interface PersonalInfoPageRef {
   handleUpdate: () => Promise<UpdateProfileResponse>;

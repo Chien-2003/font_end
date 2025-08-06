@@ -12,7 +12,7 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
 } from '@/components/ui/sidebar';
-import type { Category } from '@/lib/categoryApi';
+import type { Category } from '@/services/categoryApi';
 import {
   usePathname,
   useRouter,

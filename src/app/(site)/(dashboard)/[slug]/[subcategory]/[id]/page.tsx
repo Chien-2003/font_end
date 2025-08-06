@@ -1,5 +1,5 @@
 import Breadcrumbs from '@/components/shared/Breadcrumbs';
-import { getProductDetail } from '@/lib/productsApi';
+import { getProductDetail } from '@/services/productsApi';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ProductImageCarousel from './components/ProductImageCarousel';

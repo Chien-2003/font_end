@@ -1,15 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
 import { Typography } from '@/components/ui/typography';
 import { showError, showSuccess } from '@/lib/swal';
-import { Switch } from '@/components/ui/switch';
-import { Trash2, Plus } from 'lucide-react';
-import { BannerFormData, createBanner } from '@/lib/bannerApi';
+import { BannerFormData, createBanner } from '@/services/bannerApi';
+import { Plus, Trash2 } from 'lucide-react';
+import React, { useState } from 'react';
 
 export default function BannerAdminPage() {
   const [bannerForm, setBannerForm] = useState<BannerFormData>({

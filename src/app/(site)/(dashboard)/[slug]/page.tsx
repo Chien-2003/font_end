@@ -11,8 +11,8 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { SidebarProvider } from '@/components/ui/sidebar';
-import { Category, getCategoryBySlug } from '@/lib/categoryApi';
-import { getProducts, Product } from '@/lib/productsApi';
+import { Category, getCategoryBySlug } from '@/services/categoryApi';
+import { getProducts, Product } from '@/services/productsApi';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';

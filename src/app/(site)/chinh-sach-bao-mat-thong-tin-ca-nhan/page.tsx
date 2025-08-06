@@ -1,5 +1,5 @@
 import { EmptyPlaceholder } from '@/components/shared/EmptyPlaceholder';
-import { getPrivacyPolicy } from '@/lib/policyApi';
+import { getPrivacyPolicy } from '@/services/policyApi';
 
 import { Metadata } from 'next';
 

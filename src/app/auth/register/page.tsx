@@ -1,35 +1,35 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
 
 import { register } from '@/app/actions/register';
 import { useUser } from '@/contexts/UserContext';
 import { showError, showSuccess } from '@/lib/swal';
 
+import LoginWithFacebookButton from '@/components/shared/LoginWithFacebookButton';
+import LoginWithGoogleButton from '@/components/shared/LoginWithGoogleButton';
+import PasswordInput from '@/components/shared/PasswordInput';
+import { Button } from '@/components/ui/button';
 import {
   Card,
+  CardContent,
   CardHeader,
   CardTitle,
-  CardContent,
 } from '@/components/ui/card';
 import {
   Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
-import PasswordInput from '@/components/shared/PasswordInput';
-import LoginWithGoogleButton from '@/components/shared/LoginWithGoogleButton';
-import LoginWithFacebookButton from '@/components/shared/LoginWithFacebookButton';
 import Link from 'next/link';
 
 const formSchema = z.object({
