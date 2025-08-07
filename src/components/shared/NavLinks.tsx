@@ -84,7 +84,7 @@ export default function NavLinks({
                   before:w-0
                   before:transition-all
                   before:duration-200
-                 hover:before:w-full
+                  hover:before:w-full
                   ${
                     isActive
                       ? 'text-primary before:w-full hover:text-primary'
@@ -147,10 +147,10 @@ export default function NavLinks({
           const isActive = pathname === link.href;
           return (
             <NavigationMenuItem key={link.name}>
-              <Link
-                href={link.href}
+              <NavigationMenuTrigger
+                hasSubmenu={false}
                 className={`
-                  uppercase text-sm text-center font-semibold px-1 py-2 nav-link rounded-md transition-colors duration-200 relative
+                  uppercase text-sm font-semibold py-2 px-1 rounded-md nav-link transition-colors duration-200 relative
                   before:content-['']
                   before:absolute
                   before:left-0
@@ -160,16 +160,21 @@ export default function NavLinks({
                   before:w-0
                   before:transition-all
                   before:duration-200
-                 hover:before:w-full
+                  hover:before:w-full
                   ${
                     isActive
-                      ? 'text-primary bg-primary/10 dark:bg-primary/20 before:w-full'
+                      ? 'text-primary before:w-full hover:text-primary'
                       : 'dark:text-white hover:text-primary dark:hover:text-primary'
                   }
                 `}
               >
-                {link.name}
-              </Link>
+                <Link
+                  href={link.href}
+                  className="w-full h-full block px-0"
+                >
+                  {link.name}
+                </Link>
+              </NavigationMenuTrigger>
             </NavigationMenuItem>
           );
         })}

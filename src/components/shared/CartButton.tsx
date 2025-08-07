@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect } from 'react';
-import { motion, useAnimation } from 'framer-motion';
-import { useCart } from '@/contexts/CartContext';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ShoppingCart } from 'lucide-react';
+import { useCart } from '@/contexts/CartContext';
+import { motion, useAnimation } from 'framer-motion';
+import { useEffect } from 'react';
+import { BsCart3 } from 'react-icons/bs';
 
 export default function CartButton() {
   const { cartItems } = useCart();
@@ -29,11 +29,10 @@ export default function CartButton() {
     <motion.div animate={controls}>
       <Button
         variant="ghost"
-        size="icon"
         className="relative p-2"
         aria-label="Giỏ hàng"
       >
-        <ShoppingCart className="w-5 h-5 text-orange-500" />
+        <BsCart3 className="text-orange-500" size={20} />
         {totalCount > 0 && (
           <Badge
             className="absolute top-1 right-1 w-5 h-5 translate-x-1/2 -translate-y-1/2 px-1.5 py-0.5 text-[10px] rounded-full bg-primary text-white"

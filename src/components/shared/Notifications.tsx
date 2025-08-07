@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import { BellIcon } from 'lucide-react';
+import { useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -113,9 +113,9 @@ export default function Notifications() {
           className="relative border-none hover:text-red-500"
           aria-label="Open notifications"
         >
-          <BellIcon size={16} aria-hidden="true" />
+          <BellIcon size={20} aria-hidden="true" />
           {unreadCount > 0 && (
-            <Badge className="absolute -top-2 left-full min-w-5 -translate-x-1/2 px-1 dark:text-white">
+            <Badge className="absolute top-1 right-1 w-5 h-5 translate-x-1/2 -translate-y-1/2 px-1.5 py-0.5 dark:text-white">
               {unreadCount > 99 ? '99+' : unreadCount}
             </Badge>
           )}

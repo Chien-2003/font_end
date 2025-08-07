@@ -1,16 +1,23 @@
 'use client';
 
 import NProgress from '@/services/nprogress';
-import { usePathname, useRouter } from 'next/navigation';
+import {
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from 'next/navigation';
 import { useEffect, useTransition } from 'react';
 
 export default function NProgressProvider() {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [, startTransition] = useTransition();
+
   useEffect(() => {
     NProgress.done();
-  }, [pathname]);
+  }, [pathname, searchParams?.toString()]);
+
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (e.button !== 0) return;
@@ -39,11 +46,9 @@ export default function NProgressProvider() {
 
       NProgress.start();
 
-      setTimeout(() => {
-        startTransition(() => {
-          router.push(href);
-        });
-      }, 600);
+      startTransition(() => {
+        router.push(href);
+      });
     }
 
     document.addEventListener('click', handleClick);

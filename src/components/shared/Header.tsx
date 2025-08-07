@@ -57,7 +57,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        <div className="relative flex items-center justify-center lg:py-1">
+        <div className="relative flex items-center justify-center lg:py-0.5">
           <div className="hidden sm:block">
             <NavLinks className="flex space-x-4" />
           </div>

@@ -46,7 +46,7 @@ export function AppSidebar({ category }: AppSidebarProps) {
   };
 
   return (
-    <Sidebar>
+    <Sidebar className="sticky lg:top-25 mg:top-5 top-0">
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="mb-2 text-base">

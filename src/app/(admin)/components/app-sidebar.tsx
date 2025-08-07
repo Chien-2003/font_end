@@ -154,9 +154,9 @@ export function AppSidebar({
                                 subItem.url,
                               )}
                             >
-                              <a href={subItem.url}>
+                              <Link href={subItem.url}>
                                 {subItem.title}
-                              </a>
+                              </Link>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                         ))}

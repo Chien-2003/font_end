@@ -1,8 +1,7 @@
 'use client';
 
-import { BellIcon, MailIcon } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
+import { BellIcon, MailIcon } from 'lucide-react';
 
 const mockNotifications = [
   {

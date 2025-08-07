@@ -270,3 +270,218 @@ export default function NavLinks({ className = '' }: { className?: string }) {
     </nav>
   );
 }
+
+
+/////////////////
+import Breadcrumbs from '@/components/shared/Breadcrumbs';
+import { AppSidebar } from '@/components/shared/CategoryFitterSidebar';
+import { SidebarProvider } from '@/components/ui/sidebar';
+import { Category, getCategoryBySlug } from '@/services/categoryApi';
+import { getProducts, Product } from '@/services/productsApi';
+import type { Metadata } from 'next';
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
+import { Fragment } from 'react';
+import ProductListLoadMore from './components/ProductListLoadMore';
+
+const PAGE_SIZE = 10;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: any;
+}): Promise<Metadata> {
+  const awaitedParams = await params;
+  const { slug } = awaitedParams;
+  const category = await getCategoryBySlug(slug);
+
+  if (!category) return {};
+
+  const title = `Danh mục: ${category.name}`;
+  const description = category.description;
+
+  const ogImageUrl =
+    slug === 'trang-phuc-nam'
+      ? (process.env.NEXT_PUBLIC_SITE_URL ??
+        'https://n7media.coolmate.me/uploads/July2025/EXCOOL_-_Desktop-1.jpg')
+      : 'https://n7media.coolmate.me/uploads/July2025/EXCOOL_-_Desktop-1.jpg';
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'website',
+      url: `http://localhost:3000/${slug}`,
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: category.name,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImageUrl],
+    },
+  };
+}
+
+export default async function CategoryPage({
+  params,
+  searchParams,
+}: {
+  params: any;
+  searchParams?: any;
+}) {
+  const awaitedParams = await params;
+  const awaitedSearchParams = await searchParams;
+
+  const { slug } = awaitedParams;
+  const page = Number(awaitedSearchParams?.page) || 1;
+  const subSlug = awaitedSearchParams?.sub || '';
+
+  const category: Category | null = await getCategoryBySlug(slug);
+  if (!category) return notFound();
+
+  const productsResponse = await getProducts({
+    category_id: category.id,
+    subcategory_slug: subSlug,
+    page,
+    limit: PAGE_SIZE,
+  });
+  const products: Product[] = productsResponse.data || [];
+  const totalItems = productsResponse.pagination?.total || 0;
+
+  return (
+    <Fragment>
+      {category.image && (
+        <div className="relative w-full h-[556px]">
+          <Image
+            src={category.image}
+            alt={category.name}
+            fill
+            className="object-fill h-full"
+          />
+        </div>
+      )}
+      <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-2 sm:px-2 lg:px-8 w-full h-full py-8">
+        <SidebarProvider className="mt-3">
+          <AppSidebar category={category} />
+          <main className="ml-2 lg:ml-3">
+            <Breadcrumbs />
+            <ProductListLoadMore
+              initialProducts={products}
+              categoryId={category.id}
+              subSlug={subSlug}
+              totalItems={totalItems}
+            />
+          </main>
+        </SidebarProvider>
+      </div>
+    </Fragment>
+  );
+}
+
+//////////////////
+
+
+'use client';
+
+import { EmptyPlaceholder } from '@/components/shared/EmptyPlaceholder';
+import ProductCard from '@/components/shared/ItemCard';
+import { Button } from '@/components/ui/button';
+import { getProducts, Product } from '@/services/productsApi';
+import { Fragment, useState } from 'react';
+
+const PAGE_SIZE = 10;
+
+interface ProductListLoadMoreProps {
+  initialProducts: Product[];
+  categoryId: string;
+  subSlug: string;
+  totalItems: number;
+}
+
+export default function ProductListLoadMore({
+  initialProducts,
+  categoryId,
+  subSlug,
+  totalItems,
+}: ProductListLoadMoreProps) {
+  const [products, setProducts] =
+    useState<Product[]>(initialProducts);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+
+  const loadMore = async () => {
+    if (loading) return;
+    setLoading(true);
+    try {
+      const nextPage = page + 1;
+      const productsResponse = await getProducts({
+        category_id: categoryId,
+        subcategory_slug: subSlug,
+        page: nextPage,
+        limit: PAGE_SIZE,
+      });
+      setProducts((prev) => [...prev, ...productsResponse.data]);
+      setPage(nextPage);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const hasMore = products.length < totalItems;
+
+  if (products.length === 0) {
+    return (
+      <EmptyPlaceholder description="Không có sản phẩm nào để hiển thị." />
+    );
+  }
+
+  return (
+    <Fragment>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {products.map((product) => (
+          <ProductCard
+            key={product.id}
+            id={product.id}
+            categorySlug={product.category.slug_category}
+            subcategorySlug={product.subcategory?.slug ?? ''}
+            name={product.name}
+            description={product.description}
+            price={product.discounted_price ?? product.price}
+            oldPrice={
+              product.discounted_price ? product.price : undefined
+            }
+            discountPercent={product.discount_percentage}
+            image_url={product.image_url}
+            image_hover_url={product.image_hover_url}
+            variants={product.variants ?? []}
+          />
+        ))}
+      </div>
+
+      {hasMore && (
+        <div className="flex justify-center mt-6">
+          <Button
+            variant={'outline'}
+            onClick={loadMore}
+            disabled={loading}
+            className="rounded hover:bg-primary hover:text-white transition-colors"
+          >
+            {loading ? 'Đang tải...' : 'Xem thêm'}
+          </Button>
+        </div>
+      )}
+    </Fragment>
+  );
+}

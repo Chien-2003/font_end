@@ -65,8 +65,11 @@ const navigationMenuTriggerStyle = cva(
 function NavigationMenuTrigger({
   className,
   children,
+  hasSubmenu = true,
   ...props
-}: React.ComponentProps<typeof NavigationMenuPrimitive.Trigger>) {
+}: React.ComponentProps<typeof NavigationMenuPrimitive.Trigger> & {
+  hasSubmenu?: boolean;
+}) {
   return (
     <NavigationMenuPrimitive.Trigger
       data-slot="navigation-menu-trigger"
@@ -74,10 +77,12 @@ function NavigationMenuTrigger({
       {...props}
     >
       {children}{' '}
-      <ChevronDownIcon
-        className="relative top-[1px] ml-1 size-3 transition duration-300 group-data-[state=open]:rotate-180"
-        aria-hidden="true"
-      />
+      {hasSubmenu && (
+        <ChevronDownIcon
+          className="relative top-[1px] ml-1 size-3 transition duration-300 group-data-[state=open]:rotate-180"
+          aria-hidden="true"
+        />
+      )}
     </NavigationMenuPrimitive.Trigger>
   );
 }
@@ -111,9 +116,8 @@ function NavigationMenuViewport({
     >
       <NavigationMenuPrimitive.Viewport
         data-slot="navigation-menu-viewport"
-        // rounded-md
         className={cn(
-          'origin-top-center text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 relative mt-1 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden border shadow md:w-[var(--radix-navigation-menu-viewport-width)]',
+          'origin-top-center text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 relative mt-[1px] h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden border shadow md:w-[var(--radix-navigation-menu-viewport-width)]',
           className,
         )}
         {...props}
