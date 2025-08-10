@@ -6,17 +6,23 @@ import {
   useRouter,
   useSearchParams,
 } from 'next/navigation';
-import { useEffect, useTransition } from 'react';
+import { useEffect, useTransition, useMemo } from 'react';
 
 export default function NProgressProvider() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  const searchString = useMemo(
+    () => searchParams?.toString() ?? '',
+    [searchParams],
+  );
+
   const [, startTransition] = useTransition();
 
   useEffect(() => {
     NProgress.done();
-  }, [pathname, searchParams?.toString()]);
+  }, [pathname, searchString]);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
