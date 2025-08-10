@@ -1,28 +1,19 @@
 'use client';
 
 import NProgress from '@/services/nprogress';
-import {
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from 'next/navigation';
-import { useEffect, useTransition, useMemo } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useTransition } from 'react';
 
 export default function NProgressProvider() {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const searchString = useMemo(
-    () => searchParams?.toString() ?? '',
-    [searchParams],
-  );
-
+  // const searchParams = useSearchParams();
   const [, startTransition] = useTransition();
 
   useEffect(() => {
     NProgress.done();
-  }, [pathname, searchString]);
+    // , searchParams?.toString()
+  }, [pathname]);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
