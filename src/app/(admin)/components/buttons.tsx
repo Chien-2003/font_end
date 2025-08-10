@@ -1,21 +1,22 @@
+'use client';
 import { Editor } from '@tiptap/react';
 import { Fragment, useRef } from 'react';
 import {
+  MdCode,
   MdFormatBold,
   MdFormatItalic,
-  MdCode,
-  MdStrikethroughS,
-  MdFormatUnderlined,
-  MdHighlight,
-  MdLink,
-  MdSubscript,
-  MdSuperscript,
-  MdImage,
-  MdUndo,
-  MdRedo,
   MdFormatListBulleted,
   MdFormatListNumbered,
   MdFormatQuote,
+  MdFormatUnderlined,
+  MdHighlight,
+  MdImage,
+  MdLink,
+  MdRedo,
+  MdStrikethroughS,
+  MdSubscript,
+  MdSuperscript,
+  MdUndo,
 } from 'react-icons/md';
 
 export function BoldButton({ editor }: { editor: Editor }) {

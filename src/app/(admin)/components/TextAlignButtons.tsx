@@ -1,9 +1,9 @@
 import { Editor } from '@tiptap/react';
 import {
-  MdFormatAlignLeft,
   MdFormatAlignCenter,
-  MdFormatAlignRight,
   MdFormatAlignJustify,
+  MdFormatAlignLeft,
+  MdFormatAlignRight,
 } from 'react-icons/md';
 
 export function TextAlignButtons({ editor }: { editor: Editor }) {

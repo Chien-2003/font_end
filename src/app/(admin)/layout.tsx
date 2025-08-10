@@ -6,7 +6,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
-import { Fragment } from 'react';
+import { Fragment, Suspense } from 'react';
 import { AppSidebar } from './components/app-sidebar';
 
 export default function AdminLayout({
@@ -27,7 +27,9 @@ export default function AdminLayout({
           <Breadcrumbs />
           <ModeToggle />
         </header>
-        <Fragment>{children}</Fragment>
+        <Suspense fallback={<div></div>}>
+          <Fragment>{children}</Fragment>
+        </Suspense>
       </SidebarInset>
     </SidebarProvider>
   );
