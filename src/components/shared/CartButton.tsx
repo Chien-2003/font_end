@@ -29,7 +29,7 @@ export default function CartButton() {
     <motion.div animate={controls}>
       <Button
         variant="ghost"
-        className="relative p-2"
+        className="relative p-2 cursor-pointer"
         aria-label="Giỏ hàng"
       >
         <BsCart3 className="text-orange-500" size={20} />

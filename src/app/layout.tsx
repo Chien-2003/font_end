@@ -34,6 +34,7 @@ export default function RootLayout({
                 <div className="dark:bg-gray-900 elysia-wear">
                   {children}
                 </div>
+                {/* <Chat /> */}
               </CartProvider>
             </UserProvider>
           </ThemeProvider>

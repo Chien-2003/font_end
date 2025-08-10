@@ -117,8 +117,8 @@ function Section({
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="hidden lg:flex" />
-          <CarouselNext className="hidden lg:flex" />
+          <CarouselPrevious className="hidden lg:flex cursor-pointer" />
+          <CarouselNext className="hidden lg:flex cursor-pointer" />
         </Carousel>
       )}
     </div>

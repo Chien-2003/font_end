@@ -110,7 +110,7 @@ export default function Notifications() {
         <Button
           size="icon"
           variant="outline"
-          className="relative border-none hover:text-red-500"
+          className="relative border-none hover:text-red-500 cursor-pointer"
           aria-label="Open notifications"
         >
           <BellIcon size={20} aria-hidden="true" />
