@@ -1,10 +1,6 @@
 'use client';
 
-import { useCart } from '@/contexts/CartContext';
-import { deleteCartItem } from '@/services/cartApi';
-import Image from 'next/image';
-import { useState } from 'react';
-
+import { CartPageSkeleton } from '@/components/skeleton/CartPageSkeleton';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -13,12 +9,13 @@ import {
   DialogContent,
   DialogTitle,
 } from '@/components/ui/dialog';
-
-import { CartPageSkeleton } from '@/components/skeleton/CartPageSkeleton';
+import { useCart } from '@/contexts/CartContext';
+import { alertError, alertSuccess } from '@/lib/alerts';
+import { deleteCartItem } from '@/services/cartApi';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { ShoppingCart, Trash2 } from 'lucide-react';
-
-import Alert from '@/components/shared/Alert';
+import Image from 'next/image';
+import { useState } from 'react';
 
 function formatVND(value: number) {
   return value.toLocaleString('vi-VN', {
@@ -34,11 +31,6 @@ export default function CartPage() {
   const [previewImage, setPreviewImage] = useState<string | null>(
     null,
   );
-
-  const [alertMessage, setAlertMessage] = useState('');
-  const [alertType, setAlertType] = useState<
-    'info' | 'error' | 'success'
-  >('info');
 
   if (isLoading) {
     return <CartPageSkeleton />;
@@ -58,7 +50,6 @@ export default function CartPage() {
   const isAllSelected = selectedItems.length === cartItems.length;
 
   const toggleSelectItem = (id: string) => {
-    // id string
     setSelectedItems((prev) =>
       prev.includes(id)
         ? prev.filter((itemId) => itemId !== id)
@@ -73,23 +64,15 @@ export default function CartPage() {
   };
 
   const removeItem = async (id: string) => {
-    // id string
     try {
       const res = await deleteCartItem(id);
       await refreshCart();
       setSelectedItems((prev) =>
         prev.filter((itemId) => itemId !== id),
       );
-      setAlertType('success');
-      setAlertMessage(res.message || 'Xóa sản phẩm thành công!');
+      alertSuccess(res.message);
     } catch (err: any) {
-      console.error('Lỗi khi xoá sản phẩm:', err);
-      setAlertType('error');
-      setAlertMessage(
-        err?.response?.data?.message ||
-          err.message ||
-          'Có lỗi xảy ra!',
-      );
+      alertError(err?.response?.data?.message || err.message);
     }
   };
 
@@ -186,7 +169,7 @@ export default function CartPage() {
 
                 <button
                   onClick={() => removeItem(item.id)}
-                  className="text-red-600 hover:text-red-800 mt-1"
+                  className="text-red-600 hover:text-red-800 mt-1 cursor-pointer"
                 >
                   <Trash2 className="w-5 h-5" />
                 </button>
@@ -230,12 +213,6 @@ export default function CartPage() {
           </div>
         </DialogContent>
       </Dialog>
-
-      <Alert
-        type={alertType}
-        message={alertMessage}
-        onClose={() => setAlertMessage('')}
-      />
     </div>
   );
 }

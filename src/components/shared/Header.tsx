@@ -22,7 +22,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 shadow bg-white dark:bg-gray-900">
+    <nav className="sticky top-0 z-50 shadow bg-background dark:bg-gray-900">
       <div
         data-label="container"
         className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 w-full h-full"

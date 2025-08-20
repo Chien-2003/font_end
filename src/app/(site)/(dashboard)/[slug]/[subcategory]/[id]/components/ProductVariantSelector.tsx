@@ -1,8 +1,8 @@
 'use client';
 
-import Alert from '@/components/shared/Alert';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
+import { alertError, alertSuccess } from '@/lib/alerts';
 import { addToCart } from '@/services/cartApi';
 import { createOrder } from '@/services/orderApi';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -32,23 +32,20 @@ export default function ProductVariantSelector({
   productId,
   variants,
 }: ProductVariantSelectorProps) {
-  type AlertType = 'info' | 'error' | 'success';
-
-  const [alertMessage, setAlertMessage] = useState('');
-  const [alertType, setAlertType] = useState<AlertType>('info');
   const { refreshCart } = useCart();
   const router = useRouter();
   const searchParams = useSearchParams();
   const isFirstSync = useRef(true);
-
+  const [variantsState, setVariantsState] =
+    useState<ProductVariant[]>(variants);
   const colors = useMemo(
-    () => Array.from(new Set(variants.map((v) => v.color))),
-    [variants],
+    () => Array.from(new Set(variantsState.map((v) => v.color))),
+    [variantsState],
   );
   const getColorFromParams = () =>
     searchParams.get('color') || colors[0] || '';
   const getVariantsByColor = (color: string) =>
-    variants.filter((v) => v.color === color);
+    variantsState.filter((v) => v.color === color);
   const getSizeFromParams = (colorVariants: ProductVariant[]) =>
     searchParams.get('size') || colorVariants[0]?.size || '';
   const getQuantityFromParams = () => {
@@ -76,13 +73,22 @@ export default function ProductVariantSelector({
   const handleAddToCart = async () => {
     if (!currentVariant) return;
     try {
-      await addToCart(currentVariant.id, quantity);
-      refreshCart();
-      setAlertMessage('Đã thêm vào giỏ hàng!');
-      setAlertType('success');
-    } catch (error) {
-      setAlertMessage('Thêm vào giỏ hàng thất bại!');
-      setAlertType('error');
+      const res = await addToCart(currentVariant.id, quantity);
+      await refreshCart();
+      setVariantsState((prev) =>
+        prev.map((v) =>
+          v.id === currentVariant.id
+            ? { ...v, quantity: v.quantity - quantity }
+            : v,
+        ),
+      );
+      alertSuccess(res?.message || 'Đã thêm vào giỏ hàng!');
+    } catch (err: any) {
+      alertError(
+        err?.response?.data?.message ||
+          err.message ||
+          'Có lỗi xảy ra!',
+      );
     }
   };
   const handleBuyNow = async () => {
@@ -103,8 +109,7 @@ export default function ProductVariantSelector({
       await createOrder(orderData);
       router.push('/orders/create-order');
     } catch (error) {
-      setAlertMessage('Mua ngay thất bại!');
-      setAlertType('error');
+      alertError('Mua ngay thất bại!');
     }
   };
 
@@ -120,11 +125,13 @@ export default function ProductVariantSelector({
     const newQuantity = getQuantityFromParams();
     if (newQuantity !== quantity) setQuantity(newQuantity);
   }, [searchParams]);
+
   useEffect(() => {
     const firstSize = variantsByColor[0]?.size || '';
     if (firstSize !== selectedSize) setSelectedSize(firstSize);
     setQuantity(1);
   }, [selectedColor]);
+
   useEffect(() => {
     if (isFirstSync.current) {
       isFirstSync.current = false;
@@ -246,12 +253,6 @@ export default function ProductVariantSelector({
           </div>
         </div>
       </div>
-      <Alert
-        type={alertType}
-        message={alertMessage}
-        duration={3000}
-        onClose={() => setAlertMessage('')}
-      />
     </Fragment>
   );
 }

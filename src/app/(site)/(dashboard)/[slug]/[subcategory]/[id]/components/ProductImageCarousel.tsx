@@ -68,7 +68,7 @@ export default function ProductImageCarousel({
                 onClick={() => handleThumbnailClick(index)}
                 className={`relative h-34 w-34 border cursor-pointer overflow-hidden transition-opacity ${
                   index === selectedIndex
-                    ? 'opacity-100 ring-1 ring-blue-500'
+                    ? 'opacity-100 ring-1 ring-primary'
                     : 'opacity-50'
                 }`}
               >

@@ -71,7 +71,7 @@ export default function UserMenu() {
 
       <DropdownMenuContent
         align="end"
-        className="w-48 dark:bg-gray-900"
+        className="w-48 dark:bg-gray-900 bg-background"
       >
         <DropdownMenuItem asChild>
           <Link href="/profile">Thông tin cá nhân</Link>

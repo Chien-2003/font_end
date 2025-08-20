@@ -40,7 +40,7 @@ type MessageInputProps =
   | MessageInputWithAttachmentsProps;
 
 export function MessageInput({
-  placeholder = 'Ask AI...',
+  placeholder = 'Nhắn tin...',
   className,
   onKeyDown: onKeyDownProp,
   submitOnEnter = true,
@@ -185,7 +185,7 @@ export function MessageInput({
 
   return (
     <div
-      className="relative flex w-full mt-5"
+      className="relative flex w-[500px] mt-5 float-right items-end"
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}
       onDrop={onDrop}

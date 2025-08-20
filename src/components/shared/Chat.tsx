@@ -36,31 +36,32 @@ export function Chat() {
   }
 
   return (
-    <div className="flex flex-col h-[600px] justify-between w-full border rounded-md dark:bg-gray-900 relative">
-      <MessageList messages={messages} />
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSend(input);
-        }}
-        className="absolute bottom-0 left-0 right-0 w-full dark:bg-gray-900 bg-white"
-      >
-        <MessageInput
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
+    <div className="relative">
+      <div className="flex flex-col h-[600px] justify-end float-right border rounded-md dark:bg-gray-900 z-50 w-[500px] absolute bottom-5 right-9">
+        <MessageList messages={messages} />
+        <form
           onSubmit={(e) => {
             e.preventDefault();
             handleSend(input);
           }}
-          isGenerating={isGenerating}
-          stop={() => {
-            setIsGenerating(false);
-          }}
-          transcribeAudio={async (blob) => {
-            return 'Nội dung giọng nói chuyển thành text';
-          }}
-        />
-      </form>
+        >
+          <MessageInput
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSend(input);
+            }}
+            isGenerating={isGenerating}
+            stop={() => {
+              setIsGenerating(false);
+            }}
+            transcribeAudio={async (blob) => {
+              return 'Nội dung giọng nói chuyển thành text';
+            }}
+          />
+        </form>
+      </div>
     </div>
   );
 }

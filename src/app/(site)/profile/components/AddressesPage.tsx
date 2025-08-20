@@ -120,7 +120,7 @@ const AddressesPage = forwardRef<AddressesPageRef>((_, ref) => {
             <SelectTrigger id="province" className="w-full">
               <SelectValue placeholder="Chọn Tỉnh/TP" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-background dark:bg-gray-900">
               <SelectGroup>
                 {provinces.map((province) => (
                   <SelectItem
@@ -134,8 +134,6 @@ const AddressesPage = forwardRef<AddressesPageRef>((_, ref) => {
             </SelectContent>
           </Select>
         </div>
-
-        {/* District */}
         {provinceCode && (
           <div className="flex-1">
             <Label htmlFor="district">Quận/Huyện</Label>
@@ -146,7 +144,7 @@ const AddressesPage = forwardRef<AddressesPageRef>((_, ref) => {
               <SelectTrigger id="district" className="w-full">
                 <SelectValue placeholder="Chọn Quận/Huyện" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-background dark:bg-gray-900">
                 <SelectGroup>
                   {districts.map((district) => (
                     <SelectItem
@@ -161,8 +159,6 @@ const AddressesPage = forwardRef<AddressesPageRef>((_, ref) => {
             </Select>
           </div>
         )}
-
-        {/* Ward */}
         {provinceCode && districtCode && (
           <div className="flex-1">
             <Label htmlFor="ward">Phường/Xã</Label>
@@ -170,7 +166,7 @@ const AddressesPage = forwardRef<AddressesPageRef>((_, ref) => {
               <SelectTrigger id="ward" className="w-full">
                 <SelectValue placeholder="Chọn Phường/Xã" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-background dark:bg-gray-900">
                 <SelectGroup>
                   {wards.map((ward) => (
                     <SelectItem key={ward.code} value={ward.code}>

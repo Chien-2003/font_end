@@ -6,6 +6,8 @@ import { ThemeProvider } from '@/components/theme/theme-provider';
 import { CartProvider } from '@/contexts/CartContext';
 import { UserProvider } from '@/contexts/UserContext';
 import { Inter } from 'next/font/google';
+import { Suspense } from 'react';
+import { Toaster } from 'sonner';
 import 'swiper/css';
 import 'swiper/css/pagination';
 const inter = Inter({
@@ -30,8 +32,16 @@ export default function RootLayout({
           >
             <UserProvider>
               <CartProvider>
-                <NProgressProvider />
-                <div className="dark:bg-gray-900 elysia-wear">
+                <Suspense fallback={null}>
+                  <NProgressProvider />
+                </Suspense>
+                <Toaster
+                  richColors
+                  position="top-right"
+                  closeButton={true}
+                  expand={false}
+                />
+                <div className="bg-background dark:bg-gray-900 elysia-wear">
                   {children}
                 </div>
                 {/* <Chat /> */}

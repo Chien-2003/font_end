@@ -102,7 +102,7 @@ export default function NavLinks({
 
               {category.subcategories &&
                 category.subcategories.length > 0 && (
-                  <NavigationMenuContent className="z-50 bg-white dark:bg-gray-900 shadow-lg p-4 min-w-[400px] md:min-w-[480px] lg:min-w-[520px]">
+                  <NavigationMenuContent className="z-50 bg-background dark:bg-gray-900 shadow-lg p-4 min-w-[400px] md:min-w-[480px] lg:min-w-[520px]">
                     <div className="flex gap-x-8">
                       {chunkArray(category.subcategories, 4).map(
                         (group, idx) => (

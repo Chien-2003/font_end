@@ -25,7 +25,7 @@ export function MessageList({
   return (
     <div
       className="h-[600px] space-y-4 overflow-y-auto"
-      style={{ marginBottom: '100px' }}
+      // style={{ marginBottom: '100px' }}
     >
       {messages.map((message, index) => {
         const additionalOptions =

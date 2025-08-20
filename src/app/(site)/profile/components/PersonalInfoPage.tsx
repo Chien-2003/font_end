@@ -228,7 +228,7 @@ const PersonalInfoPage = forwardRef<PersonalInfoPageRef>((_, ref) => {
               </Button>
             </PopoverTrigger>
             <PopoverContent
-              className="w-auto p-0 dark:bg-gray-900"
+              className="w-auto p-0 bg-background dark:bg-gray-900"
               align="start"
             >
               <Calendar
