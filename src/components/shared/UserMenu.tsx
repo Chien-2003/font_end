@@ -4,12 +4,19 @@ import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useUser } from '@/contexts/UserContext';
 import { logoutApi } from '@/services/authApi';
+import {
+  CircleUserRoundIcon,
+  LayoutDashboardIcon,
+  LogOutIcon,
+} from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -18,7 +25,6 @@ import { useRouter } from 'next/navigation';
 export default function UserMenu() {
   const { user, setUser } = useUser();
   const router = useRouter();
-
   const handleLogout = async () => {
     try {
       await logoutApi();
@@ -29,20 +35,19 @@ export default function UserMenu() {
       console.error('Lỗi khi đăng xuất:', error);
     }
   };
-
   if (!user) {
     return (
       <div className="ml-3 flex space-x-2">
         <Button
           variant="outline"
-          className="text-sm cursor-pointer"
+          className="text-sm"
           onClick={() => router.push('/auth/login')}
         >
           Đăng nhập
         </Button>
         <Button
           variant="outline"
-          className="text-sm cursor-pointer"
+          className="text-sm"
           onClick={() => router.push('/auth/register')}
         >
           Đăng ký
@@ -54,38 +59,69 @@ export default function UserMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button
-          className="flex items-center space-x-2 px-3 py-2 text-sm font-medium rounded
-            focus:outline-none border-none shadow-none cursor-pointer"
+        <Button
+          size="icon"
+          variant="ghost"
+          aria-label="Open user menu"
+          className="rounded-full overflow-hidden"
         >
           <Image
             src={user.avatar || '/image.webp'}
             alt="User Avatar"
+            width={30}
+            height={30}
+            className="rounded-full w-full h-full"
+          />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        align="center"
+        className="max-w-60 bg-background dark:bg-gray-900"
+      >
+        <DropdownMenuLabel className="flex items-start gap-3">
+          <Image
+            src={user.avatar || '/image.webp'}
+            alt="Avatar"
             width={32}
             height={32}
-            className="rounded-full"
+            className="rounded-full shrink-0"
           />
-          <span>{user.full_name}</span>
-        </button>
-      </DropdownMenuTrigger>
-
-      <DropdownMenuContent
-        align="end"
-        className="w-48 dark:bg-gray-900 bg-background"
-      >
-        <DropdownMenuItem asChild>
-          <Link href="/profile">Thông tin cá nhân</Link>
-        </DropdownMenuItem>
-
-        {user.email === 'nguyendinhchien19042003@gmail.com' && (
-          <DropdownMenuItem asChild>
-            <Link href="/admin">Trang quản lý</Link>
-          </DropdownMenuItem>
-        )}
-
+          <div className="flex min-w-0 flex-col">
+            <span className="truncate text-sm font-medium">
+              {user.full_name}
+            </span>
+            <span className="truncate text-xs text-muted-foreground">
+              {user.email}
+            </span>
+          </div>
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleLogout}>
-          Đăng xuất
+        <DropdownMenuGroup>
+          <DropdownMenuItem asChild>
+            <Link href="/profile" className="flex items-center gap-2">
+              <CircleUserRoundIcon size={16} className="opacity-60" />
+              <span>Thông tin cá nhân</span>
+            </Link>
+          </DropdownMenuItem>
+          {user.email === 'nguyendinhchien19042003@gmail.com' && (
+            <DropdownMenuItem asChild>
+              <Link href="/admin" className="flex items-center gap-2">
+                <LayoutDashboardIcon
+                  size={16}
+                  className="opacity-60"
+                />
+                <span>Trang quản lý</span>
+              </Link>
+            </DropdownMenuItem>
+          )}
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={handleLogout}
+          className="cursor-pointer"
+        >
+          <LogOutIcon size={16} className="opacity-60" />
+          <span>Đăng xuất</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

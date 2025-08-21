@@ -1,5 +1,6 @@
 const BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+
 export interface UpdateProfilePayload {
   full_name?: string;
   phone?: string;
@@ -23,6 +24,7 @@ export interface UpdateProfileResponse {
 export interface UserResponse {
   id?: string;
   full_name: string;
+  avatar: string;
   email: string;
   phone?: string;
   address?: string;
@@ -36,29 +38,34 @@ export interface UserResponse {
   gender?: 0 | 1 | 2;
 }
 
-export const getProfile = async (): Promise<UserResponse> => {
+// Lấy profile server-side với cookie (credentials: 'include')
+export const getProfile = async (
+  cookie?: string,
+): Promise<UserResponse> => {
   const res = await fetch(`${BASE_URL}/profile/get-user`, {
+    headers: cookie ? { cookie } : {},
     credentials: 'include',
   });
 
   const result = await res.json();
 
   if (!res.ok || !result?.data) {
-    throw new Error(result.message);
+    throw new Error(
+      result.message || 'Không lấy được thông tin user',
+    );
   }
 
   return result.data;
 };
 
+// Update profile
 export const updateProfile = async (
   data: UpdateProfilePayload,
 ): Promise<UpdateProfileResponse> => {
   const res = await fetch(`${BASE_URL}/profile/update-user`, {
     method: 'PUT',
     credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   });
 

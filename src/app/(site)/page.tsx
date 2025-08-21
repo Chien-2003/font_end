@@ -9,6 +9,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { getProducts } from '@/services/productsApi';
+import { ChevronsRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Fragment } from 'react';
@@ -79,9 +80,9 @@ function Section({
           <h2 className="text-3xl font-medium">{title}</h2>
           <Link
             href={`/${products[0]?.category?.slug_category}`}
-            className="text-base font-medium text-primary hover:underline hover:opacity-80 transform transition-all"
+            className="text-base font-medium text-primary hover:underline hover:opacity-80 transform transition-all flex flex-row gap-1"
           >
-            Xem thêm
+            Xem tất cả <ChevronsRight />
           </Link>
         </div>
       </div>

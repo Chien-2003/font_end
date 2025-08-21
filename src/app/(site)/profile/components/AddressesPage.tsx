@@ -110,7 +110,7 @@ const AddressesPage = forwardRef<AddressesPageRef>((_, ref) => {
     <div className="space-y-4">
       <h2 className="text-2xl font-semibold">Địa chỉ nhận hàng</h2>
 
-      <div className="flex flex-wrap gap-4">
+      <div className="flex lg:flex-row flex-col flex-wrap gap-4">
         <div className="flex-1">
           <Label htmlFor="province">Tỉnh/Thành phố</Label>
           <Select
@@ -179,20 +179,20 @@ const AddressesPage = forwardRef<AddressesPageRef>((_, ref) => {
           </div>
         )}
       </div>
-
-      <div className="flex-[2]">
-        <Label htmlFor="detail">Địa chỉ cụ thể</Label>
-        <Input
-          id="detail"
-          value={detail}
-          onChange={(e) => setDetail(e.target.value)}
-          placeholder="Số nhà, tên đường..."
-        />
-      </div>
-
-      <div className="mt-2 text-gray-500">
-        <strong className="dark:text-white">Địa chỉ đầy đủ:</strong>{' '}
-        {getFullAddress()}
+      <div className="flex flex-col lg:flex-row lg:items-center gap-3">
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="detail">Địa chỉ cụ thể</Label>
+          <Input
+            id="detail"
+            value={detail}
+            onChange={(e) => setDetail(e.target.value)}
+            placeholder="Số nhà, tên đường..."
+          />
+        </div>
+        <div className="mt-2 lg:mt-5 text-gray-500">
+          <strong className="dark:text-white">Địa chỉ đầy đủ:</strong>{' '}
+          {getFullAddress()}
+        </div>
       </div>
     </div>
   );

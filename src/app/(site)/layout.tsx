@@ -1,12 +1,12 @@
-import Navbar from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
+import Navbar from '@/components/shared/Header';
 import { Metadata } from 'next';
 import { Fragment } from 'react';
 export const metadata: Metadata = {
   title: {
     default:
       'Elysia Wear - Thương Hiệu Thời Trang Chất Lượng Từ Việt Nam',
-    template: 'Elysia Wear - %s',
+    template: '%s - Elysia Wear',
   },
   description:
     'Elysia Wear - cửa hàng thời trang hiện đại, cập nhật xu hướng mỗi ngày.',

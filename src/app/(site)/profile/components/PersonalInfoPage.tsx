@@ -169,11 +169,11 @@ const PersonalInfoPage = forwardRef<PersonalInfoPageRef>((_, ref) => {
 
       <div className="grid gap-4 md:grid-cols-2">
         <div>
-          <Label htmlFor="fullName" className="mb-2">
+          <Label htmlFor="full_name" className="mb-2">
             Họ và tên
           </Label>
           <Input
-            id="fullName"
+            id="full_name"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
           />

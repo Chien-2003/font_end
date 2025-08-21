@@ -31,7 +31,7 @@ export async function generateMetadata({
 
   if (!category) return {};
 
-  const title = `Danh mục: ${category.name}`;
+  const title = category.name;
   const description = category.description;
 
   const ogImageUrl =

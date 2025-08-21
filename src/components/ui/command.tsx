@@ -59,7 +59,10 @@ function CommandInput({
 }: React.ComponentProps<typeof CommandPrimitive.Input>) {
   return (
     <div
-      className="border-input flex items-center border-b px-5"
+      className={cn(
+        'border-input flex items-center border-b px-5',
+        className,
+      )}
       cmdk-input-wrapper=""
     >
       <SearchIcon

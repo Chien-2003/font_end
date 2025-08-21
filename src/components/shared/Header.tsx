@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { ModeToggle } from '@/components/shared/ModeToggle';
@@ -10,17 +9,11 @@ import CartButton from './CartButton';
 import MobileMenu from './MobileMenu';
 import NavLinks from './NavLinks';
 import Notifications from './Notifications';
-import SearchModalTrigger from './SearchDropdown';
+import SearchCommand from './SearchDropdown';
 import UserMenu from './UserMenu';
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const router = useRouter();
-
-  const handleClick = () => {
-    router.push('/notification');
-  };
-
   return (
     <nav className="sticky top-0 z-50 shadow bg-background dark:bg-gray-900">
       <div
@@ -43,9 +36,7 @@ export default function Navbar() {
                 Elysia Wear
               </span>
             </Link>
-
-            <SearchModalTrigger />
-
+            <SearchCommand />
             <div className="flex items-center gap-3 shrink-0">
               <UserMenu />
               <Notifications />
