@@ -11,13 +11,19 @@ import { searchProducts } from '@/services/searchApi';
 import { Search } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import * as React from 'react';
 import { Fragment } from 'react';
 import { EmptyPlaceholder } from './EmptyPlaceholder';
 
+export const formatCurrency = (amount: number | undefined | null) => {
+  if (!amount) return '';
+  return new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+  }).format(amount);
+};
+
 export default function SearchCommand() {
-  const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState('');
   const [results, setResults] = React.useState<Product[]>([]);
@@ -119,14 +125,14 @@ export default function SearchCommand() {
                     <p className="flex flex-row gap-2 items-center">
                       <Link
                         href={`/${product.category.slug_category}/${product.subcategory?.slug}`}
-                        className="text-primary"
+                        className="text-indigo-500 hover:text-indigo-600/90"
                       >
                         {product.subcategory?.name}
                       </Link>{' '}
                       thuộc{' '}
                       <Link
                         href={`/${product.category.slug_category}`}
-                        className="text-primary"
+                        className="text-sky-500 hover:text-sky-600"
                       >
                         {product.category.name}
                       </Link>
@@ -134,7 +140,7 @@ export default function SearchCommand() {
                     <div className="flex items-center gap-2 text-sm">
                       {product.discounted_price && (
                         <span className="line-through text-muted-foreground">
-                          {product.price}₫
+                          {formatCurrency(product.price)}
                         </span>
                       )}
                       {product.discount_percentage && (
@@ -143,7 +149,9 @@ export default function SearchCommand() {
                         </span>
                       )}
                       <span className="text-primary font-semibold">
-                        {product.discounted_price ?? product.price}₫
+                        {formatCurrency(
+                          product.discounted_price ?? product.price,
+                        )}
                       </span>
                     </div>
                   </div>
