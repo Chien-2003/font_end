@@ -2,7 +2,11 @@
 
 import { useUser } from '@/contexts/UserContext';
 import { useLocation } from '@/hooks/useLocation';
-import { getOrders, Order } from '@/services/orderApi';
+import {
+  getOrders,
+  Order,
+  OrdersResponse,
+} from '@/services/orderApi';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import CartSummary from '../components/CartSummary';
@@ -12,24 +16,6 @@ import PaymentMethods from '../components/PaymentMethods';
 import ShippingInfo from '../components/ShippingInfo';
 
 type PaymentMethod = 'cod' | 'zalopay' | 'momo' | 'vnpay';
-
-interface OrdersResponse {
-  common: {
-    status: string;
-    order_address?: any;
-    note?: string | null;
-    payment_method?: string;
-    payment_status?: string | null;
-    shipping_info?: any;
-    user: {
-      id: string;
-      user_name: string;
-      email: string;
-    };
-  };
-  orders: Order[];
-}
-
 export default function CheckoutPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -177,7 +163,7 @@ export default function CheckoutPage() {
             </Link>
           </p>
         </div>
-        <div className="px-2">
+        <div className="px-2  h-120 [&::-webkit-scrollbar]:hidden scrollbar-hide overflow-y-auto">
           <CartSummary />
         </div>
       </div>

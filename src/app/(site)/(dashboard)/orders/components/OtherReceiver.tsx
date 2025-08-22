@@ -68,10 +68,12 @@ export default function OtherReceiver({
             </RadioGroup>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <Input
+                type="text"
                 className="rounded-full h-11 px-4 bg-white dark:bg-gray-900 dark:border-white"
                 placeholder="Họ và tên người nhận"
               />
               <Input
+                type="number"
                 className="rounded-full h-11 px-4 bg-white dark:bg-gray-900 dark:border-white"
                 placeholder="Số điện thoại người nhận"
               />

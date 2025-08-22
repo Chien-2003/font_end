@@ -20,7 +20,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 function getProductLink(product?: Product) {
-  if (!product) return '#';
+  if (!product) return '##';
   return `/${product.category.slug_category}/${product.subcategory?.slug ?? ''}/${product.id}`;
 }
 
@@ -77,7 +77,6 @@ export default function CartSummary() {
       alertError('Xóa thất bại');
     }
   }
-  
   if (loading)
     return <div className="text-center">Đang tải giỏ hàng...</div>;
   if (error) return <EmptyPlaceholder description={error} />;
@@ -100,11 +99,11 @@ export default function CartSummary() {
       </div>
       {orders.length > 0 ? (
         orders.map((order) => (
-          <div key={order.id} className="flex flex-col gap-4 mb-4">
+          <div key={order.id} className="flex flex-col w-full">
             {order.items.map((item, idx) => (
               <div
                 key={item.variant_id + idx}
-                className="flex gap-4 w-full border-b pb-4"
+                className="flex gap-4 w-full border-b last:border-b-0 pb-4"
               >
                 <div className="flex flex-col items-center justify-center">
                   <Checkbox className="mt-2" />
