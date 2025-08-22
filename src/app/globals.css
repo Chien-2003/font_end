@@ -6,6 +6,7 @@
 body {
   line-height: 1.6;
   @apply overscroll-none bg-transparent;
+  font-family: var(--font-sans);
 }
 .ProseMirror img {
   display: block;
