@@ -15,6 +15,7 @@ import { deleteCartItem } from '@/services/cartApi';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { ShoppingCart, Trash2 } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 
 function formatVND(value: number) {
@@ -38,7 +39,17 @@ export default function CartPage() {
   if (cartItems.length === 0) {
     return (
       <div className="max-w-3xl w-full mx-auto px-4 py-6">
-        <h1 className="text-2xl font-bold mb-6">Giỏ hàng của bạn</h1>
+        <div className="flex items-center flex-row justify-between">
+          <h1 className="text-2xl font-bold mb-6">
+            Giỏ hàng của bạn
+          </h1>
+          <Link
+            href="/orders/create-order"
+            className="hover:underline hover:text-primary"
+          >
+            Tạo đơn hàng
+          </Link>
+        </div>
         <div className="flex flex-col items-center justify-center mt-16 text-gray-500">
           <ShoppingCart className="w-12 h-12" />
           <p className="mt-2 text-sm">Giỏ hàng của bạn đang trống</p>
@@ -85,7 +96,15 @@ export default function CartPage() {
 
   return (
     <div className="max-w-3xl w-full mx-auto px-4 py-6 relative">
-      <h1 className="text-2xl font-bold mb-6">Giỏ hàng của bạn</h1>
+      <div className="flex items-center flex-row justify-between">
+        <h1 className="text-2xl font-bold mb-6">Giỏ hàng của bạn</h1>
+        <Link
+          href="/orders/create-order"
+          className="hover:underline hover:text-primary"
+        >
+          Tạo đơn hàng
+        </Link>
+      </div>
 
       <Card className="p-4 dark:bg-gray-900">
         <div className="flex items-center justify-between mb-4">

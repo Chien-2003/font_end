@@ -1,5 +1,6 @@
 'use client';
 
+import { EmptyPlaceholder } from '@/components/shared/EmptyPlaceholder';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -9,8 +10,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { alertError, alertSuccess } from '@/lib/alerts';
 import { formatCurrency } from '@/lib/format';
-import { getOrders, Order } from '@/services/orderApi';
+import { deleteOrder, getOrders, Order } from '@/services/orderApi';
 import { Minus, Plus, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -19,12 +21,15 @@ export default function CartSummary() {
   const [orders, setOrders] = useState<Order[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  const [message, setMessage] = useState<string | null>(null);
   useEffect(() => {
     async function fetchOrders() {
       try {
         const res = await getOrders();
         setOrders(res.orders);
+        if (res.message) {
+          setMessage(res.message);
+        }
       } catch (err) {
         setError(err instanceof Error ? err.message : String(err));
       } finally {
@@ -36,7 +41,19 @@ export default function CartSummary() {
 
   if (loading)
     return <div className="text-center">Đang tải giỏ hàng...</div>;
-  if (error) return <div>Lỗi: {error}</div>;
+  if (error) return <EmptyPlaceholder description={error} />;
+  async function handleDeleteOrder(orderId: string) {
+    try {
+      const res = await deleteOrder(orderId);
+      setOrders((prev) =>
+        prev ? prev.filter((o) => o.id !== orderId) : null,
+      );
+      alertSuccess(res.message);
+    } catch (err) {
+      console.error('Xóa thất bại:', err);
+      alertError('Xóa thất bại');
+    }
+  }
 
   return (
     <div className="space-y-4">
@@ -133,7 +150,10 @@ export default function CartSummary() {
                     </div>
                   </div>
                   <div className="mt-1 flex items-end justify-start">
-                    <div className="flex items-center gap-0.5 text-sm opacity-70 hover:text-primary cursor-pointer justify-center">
+                    <div
+                      onClick={() => handleDeleteOrder(order.id)}
+                      className="flex items-center gap-0.5 text-sm opacity-70 hover:text-primary cursor-pointer justify-center"
+                    >
                       <Trash2 className="w-4 h-4" />
                       <div className="flex items-center text-center mt-1">
                         Xóa
@@ -146,7 +166,7 @@ export default function CartSummary() {
           </div>
         ))
       ) : (
-        <div>Không có sản phẩm trong giỏ hàng.</div>
+        <div>{message}</div>
       )}
     </div>
   );

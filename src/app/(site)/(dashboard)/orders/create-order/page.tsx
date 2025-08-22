@@ -132,7 +132,6 @@ export default function CheckoutPage() {
 
   if (loading)
     return <div className="text-center">Đang tải đơn hàng...</div>;
-  if (error) return <div>Lỗi: {error}</div>;
 
   return (
     <div className="max-w-7xl mx-auto px-3 py-8">

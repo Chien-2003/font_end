@@ -15,6 +15,7 @@ export interface OrderResponse {
   id: string;
 }
 export interface OrdersResponse {
+  message?: string; // <-- thêm dòng này
   common: {
     status: string;
     order_address?: {
@@ -32,9 +33,10 @@ export interface OrdersResponse {
       user_name: string;
       email: string;
     };
-  };
+  } | null;
   orders: Order[];
 }
+
 export interface Order {
   id: string;
   items: OrderItem[];
@@ -88,8 +90,10 @@ export async function updateOrder(
     body: JSON.stringify(data),
   });
 }
-export async function deleteOrder(id: string): Promise<void> {
-  return await apiFetch<void>(`/orders/${id}`, {
+export async function deleteOrder(
+  id: string,
+): Promise<{ message: string }> {
+  return await apiFetch<{ message: string }>(`/orders/${id}`, {
     method: 'DELETE',
   });
 }
