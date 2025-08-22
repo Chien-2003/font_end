@@ -15,7 +15,7 @@ export interface OrderResponse {
   id: string;
 }
 export interface OrdersResponse {
-  message?: string; // <-- thêm dòng này
+  message?: string;
   common: {
     status: string;
     order_address?: {
