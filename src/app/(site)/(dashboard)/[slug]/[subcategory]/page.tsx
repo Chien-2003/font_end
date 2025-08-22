@@ -93,12 +93,11 @@ export default async function Page({
   const totalItems = productsResponse.pagination?.total || 0;
   const totalPages = Math.ceil(totalItems / PAGE_SIZE);
   const createHref = (pageNum: number) => {
+    if (pageNum < 1) pageNum = 1;
     const params = new URLSearchParams();
-    if (pageNum > 1) params.set('page', String(pageNum));
-    const queryString = params.toString();
-    return queryString ? `?${queryString}` : '';
+    params.set('page', String(pageNum));
+    return `?${params.toString()}`;
   };
-
   if (products.length === 0) return notFound();
 
   return (

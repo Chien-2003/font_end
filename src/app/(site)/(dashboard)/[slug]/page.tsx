@@ -94,11 +94,11 @@ export default async function CategoryPage({
   const totalPages = Math.ceil(totalItems / PAGE_SIZE);
   const paginatedProducts = products;
   const createHref = (pageNum: number) => {
+    if (pageNum < 1) pageNum = 1;
     const params = new URLSearchParams();
-    if (pageNum > 1) params.set('page', String(pageNum));
+    params.set('page', String(pageNum));
     if (subSlug) params.set('sub', subSlug);
-    const queryString = params.toString();
-    return queryString ? `?${queryString}` : '';
+    return `?${params.toString()}`;
   };
 
   return (
