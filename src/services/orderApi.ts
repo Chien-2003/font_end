@@ -4,6 +4,8 @@ export interface OrderItem {
   variant_id: string;
   product_id: string;
   product_name: string;
+  image: string;
+  price: string;
   color: string;
   size: string;
   quantity: number;

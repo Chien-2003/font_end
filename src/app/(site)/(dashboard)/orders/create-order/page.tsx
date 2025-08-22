@@ -130,7 +130,8 @@ export default function CheckoutPage() {
     fetchOrders();
   }, []);
 
-  if (loading) return <div>Đang tải đơn hàng...</div>;
+  if (loading)
+    return <div className="text-center">Đang tải đơn hàng...</div>;
   if (error) return <div>Lỗi: {error}</div>;
 
   return (
@@ -177,7 +178,7 @@ export default function CheckoutPage() {
             </Link>
           </p>
         </div>
-        <div>
+        <div className="px-2">
           <CartSummary />
         </div>
       </div>

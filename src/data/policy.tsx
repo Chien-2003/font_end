@@ -280,3 +280,47 @@ export const items = [
     ],
   },
 ];
+export const policyItems = [
+  {
+    href: '#',
+    img: '/time.png',
+    alt: 'giao hàng nhanh',
+    title: 'giao hàng nhanh',
+    desc: 'từ 2 -5 ngày',
+  },
+  {
+    href: '#',
+    img: '/free.png',
+    alt: 'Miễn phí vận chuyển',
+    title: 'Miễn phí vận chuyển',
+    desc: 'Đơn hàng từ 299K',
+  },
+  {
+    href: '#',
+    img: '/qualty.png',
+    alt: 'Cam kết chất lượng',
+    title: 'Cam kết chất lượng',
+    desc: 'Cam kết chất lượng sản phẩm cao nhất đến quý khách hàng',
+  },
+  {
+    href: '#',
+    img: '/authentic.png',
+    alt: 'Cam kết chính hãng',
+    title: 'Cam kết chính hãng',
+    desc: 'Cam kết quyền sở hữu nhãn hàng tại thị trường Việt Nam',
+  },
+  {
+    href: '#',
+    img: '/card.png',
+    alt: 'Thanh toán dễ dàng nhiều hình thức',
+    title: 'Thanh toán dễ dàng nhiều hình thức',
+    desc: '',
+  },
+  {
+    href: '#',
+    img: '/call.png',
+    alt: 'Hotline hỗ trợ',
+    title: 'Hotline hỗ trợ',
+    desc: '0906954368',
+  },
+];

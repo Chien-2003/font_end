@@ -6,7 +6,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs';
-
+import PolicyContent from './policyContent';
 interface ProductTabsProps {
   description: string;
 }
@@ -41,7 +41,9 @@ export default function ProductTabs({
       </TabsContent>
 
       <TabsContent value="policy">
-        <div className="text-foreground p-4 text-sm leading-relaxed space-y-2"></div>
+        <div className="text-foreground p-4 text-sm leading-relaxed space-y-2">
+          <PolicyContent />
+        </div>
       </TabsContent>
     </Tabs>
   );

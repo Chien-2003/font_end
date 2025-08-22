@@ -103,9 +103,20 @@ export default async function ProductDetailPage({
             <ProductVariantSelector
               productId={product.id}
               variants={(product.variants ?? []).map((v) => ({
-                ...v,
+                id: v.id,
                 product_id: product.id,
                 product_name: product.name,
+                color: v.color,
+                size: v.size,
+                quantity: v.quantity,
+                price: String(
+                  product.discounted_price ?? product.price,
+                ), // convert number → string
+                image:
+                  Array.isArray(product.image_url) &&
+                  product.image_url.length > 0
+                    ? product.image_url[0]
+                    : '',
               }))}
             />
           </div>

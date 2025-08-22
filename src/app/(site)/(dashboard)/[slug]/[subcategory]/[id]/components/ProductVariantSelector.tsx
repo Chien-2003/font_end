@@ -21,6 +21,8 @@ export interface ProductVariant {
   color: string;
   size: string;
   quantity: number;
+  price: string;
+  image: string;
 }
 
 interface ProductVariantSelectorProps {
@@ -103,6 +105,8 @@ export default function ProductVariantSelector({
             color: currentVariant.color,
             size: currentVariant.size,
             quantity,
+            price: currentVariant.price,
+            image: currentVariant.image,
           },
         ],
       };
