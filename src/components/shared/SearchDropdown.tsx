@@ -51,7 +51,7 @@ export default function SearchCommand() {
           type="text"
           placeholder="Tìm kiếm sản phẩm..."
           onFocus={() => setOpen(true)}
-          className="w-full pl-4 pr-10 py-2 rounded-full border border-gray-300 focus:outline-none transition-all dark:bg-gray-900 dark:text-white dark:border-gray-700 shadow-2xl"
+          className="w-full pl-4 pr-10 py-2 rounded-full border border-gray-300 focus:outline-none transition-all dark:bg-gray-900 dark:text-white dark:border-gray-700 shadow-2xl cursor-pointer"
         />
         <button
           type="button"

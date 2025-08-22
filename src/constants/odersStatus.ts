@@ -1,4 +1,4 @@
-const ORDER_STATUS_LABELS = {
+const ORDER_STATUS = {
   pending: 'Chờ xác nhận',
   confirmed: 'Đã xác nhận',
   paid: 'Đã thanh toán',
