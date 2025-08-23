@@ -1,5 +1,6 @@
 'use client';
 
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -59,20 +60,13 @@ export default function UserMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          size="icon"
-          variant="ghost"
-          aria-label="Open user menu"
-          className="rounded-full overflow-hidden"
-        >
-          <Image
+        <Avatar className="w-8 h-8">
+          <AvatarImage
             src={user.avatar || '/image.webp'}
             alt="User Avatar"
-            width={30}
-            height={30}
-            className="rounded-full w-full h-full"
+            className="cursor-pointer"
           />
-        </Button>
+        </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="center"

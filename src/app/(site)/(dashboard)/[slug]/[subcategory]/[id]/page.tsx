@@ -111,7 +111,7 @@ export default async function ProductDetailPage({
                 quantity: v.quantity,
                 price: String(
                   product.discounted_price ?? product.price,
-                ), // convert number → string
+                ),
                 image:
                   Array.isArray(product.image_url) &&
                   product.image_url.length > 0

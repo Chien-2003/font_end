@@ -1,3 +1,6 @@
+'use client';
+
+import { EmptyPlaceholder } from '@/components/shared/EmptyPlaceholder';
 import HomeBanner from '@/components/shared/HomeBanner';
 import HomeCategorySection from '@/components/shared/HomeCategorySection';
 import ProductCard from '@/components/shared/ItemCard';
@@ -8,28 +11,34 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import ModalFitterProduct from '@/model/modalFitterProduct';
 import { getProducts } from '@/services/productsApi';
+import { SortType } from '@/types/sort';
 import { ChevronsRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Fragment } from 'react';
-export default async function HomePage() {
-  const allProductsResponse = await getProducts({
-    page: 1,
-    limit: 100,
-  });
-  const allProducts = allProductsResponse?.data ?? [];
+import { Fragment, useEffect, useState } from 'react';
 
-  const maleProducts = allProducts.filter(
-    (product) => product.category?.category_type === 'nam',
+export default function HomePage() {
+  const [products, setProducts] = useState<any[]>([]);
+  const [sortByCategory, setSortByCategory] = useState<
+    Record<string, SortType>
+  >({});
+
+  useEffect(() => {
+    getProducts({ page: 1, limit: 100 })
+      .then((res) => setProducts(res.data))
+      .catch(() => setProducts([]));
+  }, []);
+
+  const maleProducts = products.filter(
+    (p) => p.category?.category_type === 'nam',
   );
-
-  const femaleProducts = allProducts.filter(
-    (product) => product.category?.category_type === 'nu',
+  const femaleProducts = products.filter(
+    (p) => p.category?.category_type === 'nu',
   );
-
-  const accessories = allProducts.filter(
-    (product) => product.category?.category_type === 'khac',
+  const accessories = products.filter(
+    (p) => p.category?.category_type === 'khac',
   );
 
   return (
@@ -38,15 +47,24 @@ export default async function HomePage() {
       <HomeCategorySection />
       <Section
         title={maleProducts[0]?.category?.name}
+        categorySlug={maleProducts[0]?.category?.slug_category}
         products={maleProducts}
+        sortByCategory={sortByCategory}
+        setSortByCategory={setSortByCategory}
       />
       <Section
         title={femaleProducts[0]?.category?.name}
+        categorySlug={femaleProducts[0]?.category?.slug_category}
         products={femaleProducts}
+        sortByCategory={sortByCategory}
+        setSortByCategory={setSortByCategory}
       />
       <Section
         title={accessories[0]?.category?.name}
+        categorySlug={accessories[0]?.category?.slug_category}
         products={accessories}
+        sortByCategory={sortByCategory}
+        setSortByCategory={setSortByCategory}
       />
     </Fragment>
   );
@@ -54,17 +72,55 @@ export default async function HomePage() {
 
 function Section({
   title,
+  categorySlug,
   products,
+  sortByCategory,
+  setSortByCategory,
 }: {
   title: string;
+  categorySlug: string;
   products: any[];
+  sortByCategory: Record<string, SortType>;
+  setSortByCategory: React.Dispatch<
+    React.SetStateAction<Record<string, SortType>>
+  >;
 }) {
   const categoryImage = products[0]?.category?.image;
+  const sort = sortByCategory[categorySlug] ?? 'newest';
+  const sortedProducts = [...products].sort((a, b) => {
+    switch (sort) {
+      case 'newest':
+        return (
+          new Date(b.created_at).getTime() -
+          new Date(a.created_at).getTime()
+        );
+      case 'oldest':
+        return (
+          new Date(a.created_at).getTime() -
+          new Date(b.created_at).getTime()
+        );
+      case 'price_asc':
+        return (
+          (a.discounted_price ?? a.price) -
+          (b.discounted_price ?? b.price)
+        );
+      case 'price_desc':
+        return (
+          (b.discounted_price ?? b.price) -
+          (a.discounted_price ?? a.price)
+        );
+      case 'name_asc':
+        return a.name.localeCompare(b.name);
+      case 'name_desc':
+        return b.name.localeCompare(a.name);
+      default:
+        return 0;
+    }
+  });
 
   return (
-    <div className="mx-auto max-w-full md:px-14 xl:px-15 2xl:px-16 px-4 sm:px-6 lg:px-15 w-full h-full py-8">
-      {/* <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 w-full h-full py-8"> */}
-      <div className="flex flex-col mb-4 space-y-4">
+    <div className="mx-auto max-w-full px-4 sm:px-6 md:px-14 lg:px-15 xl:px-15 2xl:px-16 w-full h-full py-8">
+      <div className="flex flex-col mb-4 space-y-4 w-full">
         {categoryImage && (
           <div className="relative w-full h-[630px] overflow-hidden">
             <Image
@@ -76,23 +132,34 @@ function Section({
             />
           </div>
         )}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center w-full justify-between">
           <h2 className="text-3xl font-medium">{title}</h2>
-          <Link
-            href={`/${products[0]?.category?.slug_category}`}
-            className="text-base font-medium text-primary hover:underline hover:opacity-80 transform transition-all flex flex-row gap-1"
-          >
-            Xem tất cả <ChevronsRight />
-          </Link>
+          <div className="flex items-center justify-end gap-2 md:gap-4 lg:gap-6">
+            <ModalFitterProduct
+              sort={sort}
+              onSortChange={(val) =>
+                setSortByCategory((prev) => ({
+                  ...prev,
+                  [categorySlug]: val,
+                }))
+              }
+            />
+            <Link
+              href={`/${categorySlug}`}
+              className="text-base font-medium text-primary hover:underline hover:opacity-80 flex flex-row gap-1"
+            >
+              Xem tất cả <ChevronsRight />
+            </Link>
+          </div>
         </div>
       </div>
 
-      {products.length === 0 ? (
-        <p className="text-center w-full">Không có sản phẩm nào.</p>
+      {sortedProducts.length === 0 ? (
+        <EmptyPlaceholder description="Không có sản phẩm nào." />
       ) : (
         <Carousel className="w-full">
           <CarouselContent>
-            {products.map((product) => (
+            {sortedProducts.map((product) => (
               <CarouselItem
                 key={product.id}
                 className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
@@ -118,8 +185,8 @@ function Section({
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="hidden lg:flex cursor-pointer" />
-          <CarouselNext className="hidden lg:flex cursor-pointer" />
+          <CarouselPrevious className="hidden lg:flex cursor-pointer bg-primary hover:bg-primary/90 text-white hover:text-white" />
+          <CarouselNext className="hidden lg:flex cursor-pointer bg-primary hover:bg-primary/90 text-white hover:text-white" />
         </Carousel>
       )}
     </div>

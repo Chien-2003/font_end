@@ -12,10 +12,12 @@ import {
 import { useCart } from '@/contexts/CartContext';
 import { alertError, alertSuccess } from '@/lib/alerts';
 import { deleteCartItem } from '@/services/cartApi';
+import { createOrder } from '@/services/orderApi';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { ShoppingCart, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 function formatVND(value: number) {
@@ -32,6 +34,7 @@ export default function CartPage() {
   const [previewImage, setPreviewImage] = useState<string | null>(
     null,
   );
+  const router = useRouter();
 
   if (isLoading) {
     return <CartPageSkeleton />;
@@ -39,10 +42,8 @@ export default function CartPage() {
   if (cartItems.length === 0) {
     return (
       <div className="max-w-3xl w-full mx-auto px-4 py-6">
-        <div className="flex items-center flex-row justify-between">
-          <h1 className="text-2xl font-bold mb-6">
-            Giỏ hàng của bạn
-          </h1>
+        <div className="flex items-center flex-row justify-between mb-6">
+          <h1 className="text-2xl font-bold">Giỏ hàng của bạn</h1>
           <Link
             href="/orders/create-order"
             className="hover:underline hover:text-primary"
@@ -94,10 +95,48 @@ export default function CartPage() {
       return sum + price * item.quantity;
     }, 0);
 
+  const handleCheckout = async () => {
+    try {
+      const selectedProducts = cartItems.filter((item) =>
+        selectedItems.includes(item.id),
+      );
+
+      if (selectedProducts.length === 0) {
+        alertError('Vui lòng chọn ít nhất 1 sản phẩm để thanh toán!');
+        return;
+      }
+      const orderData = {
+        items: selectedProducts.map((item) => ({
+          variant_id: item.variant?.id ?? '',
+          product_id: item.variant?.product?.id ?? '',
+          product_name: item.variant?.product?.name ?? '',
+          color: item.variant?.color ?? '',
+          size: item.variant?.size ?? '',
+          quantity: item.quantity,
+          price: (item.variant?.product?.price ?? 0).toString(),
+          image: item.variant?.product?.image_url?.[0] ?? '',
+        })),
+      };
+      await createOrder(orderData);
+      await Promise.all(
+        selectedProducts.map((item) => deleteCartItem(item.id)),
+      );
+      await refreshCart();
+      setSelectedItems([]);
+
+      alertSuccess('Đơn hàng đã được tạo!');
+      router.push('/orders/create-order');
+    } catch (error: any) {
+      alertError(
+        error?.response?.data?.message || 'Thanh toán thất bại!',
+      );
+    }
+  };
+
   return (
     <div className="max-w-3xl w-full mx-auto px-4 py-6 relative">
-      <div className="flex items-center flex-row justify-between">
-        <h1 className="text-2xl font-bold mb-6">Giỏ hàng của bạn</h1>
+      <div className="flex items-center flex-row justify-between mb-6">
+        <h1 className="text-2xl font-bold">Giỏ hàng của bạn</h1>
         <Link
           href="/orders/create-order"
           className="hover:underline hover:text-primary"
@@ -125,7 +164,6 @@ export default function CartPage() {
             </button>
           )}
         </div>
-
         <div className="space-y-4">
           {cartItems.map((item) => {
             const product = item.variant?.product;
@@ -196,24 +234,22 @@ export default function CartPage() {
             );
           })}
         </div>
-
         <div className="flex justify-between items-center mt-6">
           <h2 className="text-lg font-semibold">Tổng cộng:</h2>
           <p className="text-lg text-primary font-semibold">
             {formatVND(totalPrice)}
           </p>
         </div>
-
         <div className="text-right mt-4">
           <Button
             disabled={selectedItems.length === 0}
-            className="text-white"
+            onClick={handleCheckout}
+            className="text-white bg-orange-500 hover:bg-orange-600"
           >
             Thanh toán ({selectedItems.length} sản phẩm)
           </Button>
         </div>
       </Card>
-
       <Dialog open={openImage} onOpenChange={setOpenImage}>
         <DialogContent className="p-0 max-w-4xl bg-transparent shadow-none border-none">
           <VisuallyHidden>

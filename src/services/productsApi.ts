@@ -37,7 +37,13 @@ export interface CreateProductData {
 export async function getProducts(params?: {
   category_id?: string;
   subcategory_slug?: string;
-  sort?: 'price_asc' | 'price_desc' | 'newest';
+  sort?:
+    | 'price_asc'
+    | 'price_desc'
+    | 'newest'
+    | 'oldest'
+    | 'name_asc'
+    | 'name_desc';
   page?: number;
   limit?: number;
 }): Promise<PaginatedResponse<Product>> {

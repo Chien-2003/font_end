@@ -58,9 +58,7 @@ export default function NavLinks({
   ];
 
   return (
-    <NavigationMenu
-      className={`${className} bg-background dark:bg-gray-900`}
-    >
+    <NavigationMenu className={`${className}`}>
       <NavigationMenuList className="flex gap-6">
         {categories.map((category) => {
           const href = `/${category.slug_category}`;
