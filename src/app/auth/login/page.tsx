@@ -17,9 +17,9 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-import LoginWithFacebookButton from '@/components/shared/LoginWithFacebookButton';
-import LoginWithGoogleButton from '@/components/shared/LoginWithGoogleButton';
-import PasswordInput from '@/components/shared/PasswordInput';
+import LoginWithFacebookButton from '@/components/views/LoginWithFacebookButton';
+import LoginWithGoogleButton from '@/components/views/LoginWithGoogleButton';
+import PasswordInput from '@/components/views/PasswordInput';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import Swal from 'sweetalert2';

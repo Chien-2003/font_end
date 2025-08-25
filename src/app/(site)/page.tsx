@@ -1,9 +1,5 @@
 'use client';
 
-import { EmptyPlaceholder } from '@/components/shared/EmptyPlaceholder';
-import HomeBanner from '@/components/shared/HomeBanner';
-import HomeCategorySection from '@/components/shared/HomeCategorySection';
-import ProductCard from '@/components/shared/ItemCard';
 import {
   Carousel,
   CarouselContent,
@@ -11,6 +7,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import { EmptyPlaceholder } from '@/components/views/EmptyPlaceholder';
+import HomeBanner from '@/components/views/HomeBanner';
+import HomeCategorySection from '@/components/views/HomeCategorySection';
+import ProductCard from '@/components/views/ItemCard';
 import ModalFitterProduct from '@/model/modalFitterProduct';
 import { getProducts } from '@/services/productsApi';
 import { SortType } from '@/types/sort';

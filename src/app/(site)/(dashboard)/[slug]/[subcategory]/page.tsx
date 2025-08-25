@@ -1,9 +1,6 @@
 export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
 
-import Breadcrumbs from '@/components/shared/Breadcrumbs';
-import FilterPriceSidebar from '@/components/shared/FitterPriceSidebar';
-import ProductCard from '@/components/shared/ItemCard';
 import {
   Pagination,
   PaginationContent,
@@ -13,6 +10,9 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { SidebarProvider } from '@/components/ui/sidebar';
+import Breadcrumbs from '@/components/views/Breadcrumbs';
+import FilterPriceSidebar from '@/components/views/FitterPriceSidebar';
+import ProductCard from '@/components/views/ItemCard';
 import {
   getCategoryBySlug,
   getSubcategoryBySlug,

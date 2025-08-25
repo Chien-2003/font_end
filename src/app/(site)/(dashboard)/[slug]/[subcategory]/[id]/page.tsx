@@ -1,4 +1,4 @@
-import Breadcrumbs from '@/components/shared/Breadcrumbs';
+import Breadcrumbs from '@/components/views/Breadcrumbs';
 import { getProductDetail } from '@/services/productsApi';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';

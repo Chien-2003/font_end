@@ -1,6 +1,5 @@
 'use client';
 
-import { EmptyPlaceholder } from '@/components/shared/EmptyPlaceholder';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -10,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { EmptyPlaceholder } from '@/components/views/EmptyPlaceholder';
 import { alertError, alertSuccess } from '@/lib/alerts';
 import { formatCurrency } from '@/lib/format';
 import { deleteOrder, getOrders, Order } from '@/services/orderApi';

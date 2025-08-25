@@ -1,7 +1,6 @@
 'use client';
 
 import Editor from '@/components/editor/Editor';
-import Alert from '@/components/shared/Alert';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -12,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import Alert from '@/components/views/Alert';
 import { createPrivacyPolicy } from '@/services/policyApi';
 import { useState } from 'react';
 

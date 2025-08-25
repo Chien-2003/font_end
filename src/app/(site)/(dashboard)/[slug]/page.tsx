@@ -1,7 +1,3 @@
-import Breadcrumbs from '@/components/shared/Breadcrumbs';
-import { AppSidebar } from '@/components/shared/CategoryFitterSidebar';
-import { EmptyPlaceholder } from '@/components/shared/EmptyPlaceholder';
-import ProductCard from '@/components/shared/ItemCard';
 import {
   Pagination,
   PaginationContent,
@@ -11,6 +7,10 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { SidebarProvider } from '@/components/ui/sidebar';
+import Breadcrumbs from '@/components/views/Breadcrumbs';
+import { AppSidebar } from '@/components/views/CategoryFitterSidebar';
+import { EmptyPlaceholder } from '@/components/views/EmptyPlaceholder';
+import ProductCard from '@/components/views/ItemCard';
 import { Category, getCategoryBySlug } from '@/services/categoryApi';
 import { getProducts, Product } from '@/services/productsApi';
 import type { Metadata } from 'next';

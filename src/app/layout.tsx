@@ -1,8 +1,8 @@
 'use client';
 import '@/app/globals.css';
 import SessionProviderWrapper from '@/components/providers/SessionProviderWrapper';
-import NProgressProvider from '@/components/shared/nprogress-provider';
 import { ThemeProvider } from '@/components/theme/theme-provider';
+import NProgressProvider from '@/components/views/nprogress-provider';
 import { CartProvider } from '@/contexts/CartContext';
 import { UserProvider } from '@/contexts/UserContext';
 import { fontSans } from '@/lib/fonts';

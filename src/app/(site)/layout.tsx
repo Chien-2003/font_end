@@ -1,5 +1,5 @@
-import Footer from '@/components/shared/Footer';
-import Navbar from '@/components/shared/Header';
+import Footer from '@/components/views/Footer';
+import Navbar from '@/components/views/Header';
 import { Metadata } from 'next';
 import { Fragment } from 'react';
 export const metadata: Metadata = {

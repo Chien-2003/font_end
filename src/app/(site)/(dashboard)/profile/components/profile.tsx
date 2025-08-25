@@ -17,9 +17,9 @@ import { useUser } from '@/contexts/UserContext';
 import { showError, showSuccess } from '@/lib/swal';
 import { UpdateProfileResponse } from '@/services/profileApi';
 
-import { EmptyPlaceholder } from '@/components/shared/EmptyPlaceholder';
 import { ProfilePageSkeleton } from '@/components/skeleton/ProfileSkeleton';
 import { Typography } from '@/components/ui/typography';
+import { EmptyPlaceholder } from '@/components/views/EmptyPlaceholder';
 import { Loader2Icon } from 'lucide-react';
 import AddressesPage, { AddressesPageRef } from './AddressesPage';
 import FavoritesPage from './FavoritesPage';

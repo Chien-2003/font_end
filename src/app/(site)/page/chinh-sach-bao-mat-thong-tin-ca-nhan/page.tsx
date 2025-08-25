@@ -1,4 +1,4 @@
-import { EmptyPlaceholder } from '@/components/shared/EmptyPlaceholder';
+import { EmptyPlaceholder } from '@/components/views/EmptyPlaceholder';
 import { getPrivacyPolicy } from '@/services/policyApi';
 
 import { Metadata } from 'next';

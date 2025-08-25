@@ -1,5 +1,5 @@
-import Navbar from '@/components/shared/Header';
-import Footer from '@/components/shared/Footer';
+import Footer from '@/components/views/Footer';
+import Navbar from '@/components/views/Header';
 import { Fragment } from 'react';
 
 export default function AuthLayout({

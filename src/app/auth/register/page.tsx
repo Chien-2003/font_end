@@ -10,9 +10,6 @@ import { register } from '@/app/actions/register';
 import { useUser } from '@/contexts/UserContext';
 import { showError, showSuccess } from '@/lib/swal';
 
-import LoginWithFacebookButton from '@/components/shared/LoginWithFacebookButton';
-import LoginWithGoogleButton from '@/components/shared/LoginWithGoogleButton';
-import PasswordInput from '@/components/shared/PasswordInput';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -29,6 +26,9 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import LoginWithFacebookButton from '@/components/views/LoginWithFacebookButton';
+import LoginWithGoogleButton from '@/components/views/LoginWithGoogleButton';
+import PasswordInput from '@/components/views/PasswordInput';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 

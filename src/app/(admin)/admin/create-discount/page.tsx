@@ -1,6 +1,5 @@
 'use client';
 
-import Alert from '@/components/shared/Alert';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -18,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import Alert from '@/components/views/Alert';
 import { useFileUpload } from '@/hooks/use-file-upload';
 import { Category, getAllCategories } from '@/services/categoryApi';
 import { createDiscount } from '@/services/discountApi';

@@ -1,6 +1,6 @@
 'use client';
 
-import { ModeToggle } from '@/components/shared/ModeToggle';
+import { ModeToggle } from '@/components/views/ModeToggle';
 import { mainMenu, topMenu } from '@/data/top-bar';
 import Image from 'next/image';
 import Link from 'next/link';

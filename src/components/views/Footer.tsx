@@ -27,23 +27,26 @@ const STORE_LINKS = [
 const POLICY_LINKS = [
   {
     label: 'Chính sách đổi trả 60 ngày',
-    href: '/dich-vu-60-ngay-doi-tra',
+    href: '/page/dich-vu-60-ngay-doi-tra',
   },
   {
     label: 'Chính sách khuyến mãi',
-    href: '/chuong-trinh-va-chinh-sach-khuyen-mai',
+    href: '/page/chuong-trinh-va-chinh-sach-khuyen-mai',
   },
   {
     label: 'Chính sách bảo mật',
-    href: '/chinh-sach-bao-mat-thong-tin-ca-nhan',
+    href: '/page/chinh-sach-bao-mat-thong-tin-ca-nhan',
   },
-  { label: 'Chính sách giao hàng', href: '/chinh-sach-giao-hang' },
+  {
+    label: 'Chính sách giao hàng',
+    href: '/page/chinh-sach-giao-hang',
+  },
 ];
 
 const SUPPORT_LINKS = [
-  { label: 'Liên hệ', href: '#' },
-  { label: 'Hỏi đáp - FAQs', href: '/hoi-dap-faq' },
-  { label: 'Blog', href: '#' },
+  { label: 'Liên hệ', href: '/page/lien-he' },
+  { label: 'Hỏi đáp - FAQs', href: '/page/hoi-dap-faq' },
+  { label: 'Blog', href: '/page/blog' },
   { label: 'Theo dõi Đơn hàng', href: '#' },
 ];
 

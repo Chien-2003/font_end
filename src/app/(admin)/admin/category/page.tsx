@@ -1,6 +1,5 @@
 'use client';
 
-import Alert from '@/components/shared/Alert';
 import {
   Accordion,
   AccordionContent,
@@ -9,6 +8,7 @@ import {
 } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import Alert from '@/components/views/Alert';
 import {
   Category,
   getAllCategories,

@@ -54,7 +54,7 @@ export default function NavLinks({
   const staticLinks = [
     { name: 'Liên hệ', href: '/lien-he' },
     { name: 'Về chúng tôi', href: '/ve-chung-toi' },
-    { name: 'Blog', href: '/blog' },
+    { name: 'Blog', href: '/page/blog' },
   ];
 
   return (

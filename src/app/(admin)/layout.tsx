@@ -1,11 +1,11 @@
-import Breadcrumbs from '@/components/shared/Breadcrumbs';
-import { ModeToggle } from '@/components/shared/ModeToggle';
 import { Separator } from '@/components/ui/separator';
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
+import Breadcrumbs from '@/components/views/Breadcrumbs';
+import { ModeToggle } from '@/components/views/ModeToggle';
 import { Fragment, Suspense } from 'react';
 import { AppSidebar } from './components/app-sidebar';
 
