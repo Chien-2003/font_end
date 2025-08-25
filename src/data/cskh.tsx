@@ -36,7 +36,7 @@ export const items = [
     desc: 'Mang đến trải nghiệm hài lòng',
   },
   {
-    href: '##',
+    href: '/hoi-dap-faq',
     imgSrc: '/7.png',
     title: 'Thư viện Hỏi & Đáp',
     desc: 'Bạn hỏi - CSKH trả lời',

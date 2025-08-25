@@ -1,5 +1,6 @@
 'use client';
 
+import Editor from '@/components/editor/Editor';
 import Alert from '@/components/shared/Alert';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,7 +14,7 @@ import {
 } from '@/components/ui/select';
 import { createPrivacyPolicy } from '@/services/policyApi';
 import { useState } from 'react';
-import SimpleEditor from '../../components/SimpleEditor';
+
 export default function CreatePostPage() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -90,13 +91,9 @@ export default function CreatePostPage() {
             </SelectContent>
           </Select>
         </div>
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col space-y-2 admin-policy">
           <Label>Nội dung</Label>
-          <SimpleEditor
-            // key={content}
-            initialContent={content}
-            onChange={(html) => setContent(html)}
-          />
+          <Editor content={content} setContent={setContent} />
         </div>
 
         <div className="pt-4">

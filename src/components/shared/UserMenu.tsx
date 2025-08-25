@@ -16,6 +16,7 @@ import { logoutApi } from '@/services/authApi';
 import {
   CircleUserRoundIcon,
   LayoutDashboardIcon,
+  ListTodo,
   LogOutIcon,
 } from 'lucide-react';
 import { signOut } from 'next-auth/react';
@@ -95,6 +96,12 @@ export default function UserMenu() {
             <Link href="/profile" className="flex items-center gap-2">
               <CircleUserRoundIcon size={16} className="opacity-60" />
               <span>Thông tin cá nhân</span>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="/profile" className="flex items-center gap-2">
+              <ListTodo size={16} className="opacity-60" />
+              <span>Danh sách đơn hàng</span>
             </Link>
           </DropdownMenuItem>
           {user.email === 'nguyendinhchien19042003@gmail.com' && (

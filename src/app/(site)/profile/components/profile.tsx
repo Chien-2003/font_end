@@ -24,6 +24,7 @@ import { Loader2Icon } from 'lucide-react';
 import AddressesPage, { AddressesPageRef } from './AddressesPage';
 import FavoritesPage from './FavoritesPage';
 import OrdersPage from './OrdersPage';
+import Payment from './Payment';
 import PersonalInfoPage, {
   PersonalInfoPageRef,
 } from './PersonalInfoPage';
@@ -103,7 +104,7 @@ export default function ProfilePage() {
         className="w-full flex-row"
       >
         <div className="grid md:grid-cols-4 gap-6 w-full max-w-[1400px] mx-auto">
-          <Card className="p-6 flex flex-col dark:bg-gray-900">
+          <Card className="p-6 flex flex-col dark:bg-gray-900 shadow-none">
             <Link href="/" className="flex items-center gap-2 mb-4">
               <Image
                 src="/logo.svg"
@@ -145,6 +146,12 @@ export default function ProfilePage() {
               >
                 Địa chỉ nhận hàng
               </TabsTrigger>
+              <TabsTrigger
+                value="payment"
+                className={commonTriggerClass}
+              >
+                Hình thức thanh toán
+              </TabsTrigger>
             </TabsList>
           </Card>
           <div className="md:col-span-3 space-y-4">
@@ -160,6 +167,9 @@ export default function ProfilePage() {
               </TabsContent>
               <TabsContent value="addresses">
                 <AddressesPage ref={addressRef} />
+              </TabsContent>
+              <TabsContent value="payment">
+                <Payment />
               </TabsContent>
 
               {(tab === 'personal' || tab === 'addresses') && (

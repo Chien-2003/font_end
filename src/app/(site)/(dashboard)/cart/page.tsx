@@ -14,7 +14,12 @@ import { alertError, alertSuccess } from '@/lib/alerts';
 import { deleteCartItem } from '@/services/cartApi';
 import { createOrder } from '@/services/orderApi';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
-import { ShoppingCart, Trash2 } from 'lucide-react';
+import {
+  ChevronRight,
+  Loader2,
+  ShoppingCart,
+  Trash2,
+} from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -34,6 +39,7 @@ export default function CartPage() {
   const [previewImage, setPreviewImage] = useState<string | null>(
     null,
   );
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
   if (isLoading) {
@@ -46,9 +52,9 @@ export default function CartPage() {
           <h1 className="text-2xl font-bold">Giỏ hàng của bạn</h1>
           <Link
             href="/orders/create-order"
-            className="hover:underline hover:text-primary"
+            className="hover:text-white text-white flex flex-row items-center gap-0.5 bg-primary py-3 px-2 rounded-full hover:bg-primary/90"
           >
-            Tạo đơn hàng
+            Trang đặt hàng <ChevronRight size={19} />
           </Link>
         </div>
         <div className="flex flex-col items-center justify-center mt-16 text-gray-500">
@@ -105,6 +111,8 @@ export default function CartPage() {
         alertError('Vui lòng chọn ít nhất 1 sản phẩm để thanh toán!');
         return;
       }
+
+      setIsSubmitting(true);
       const orderData = {
         items: selectedProducts.map((item) => ({
           variant_id: item.variant?.id ?? '',
@@ -117,6 +125,7 @@ export default function CartPage() {
           image: item.variant?.product?.image_url?.[0] ?? '',
         })),
       };
+
       await createOrder(orderData);
       await Promise.all(
         selectedProducts.map((item) => deleteCartItem(item.id)),
@@ -130,6 +139,8 @@ export default function CartPage() {
       alertError(
         error?.response?.data?.message || 'Thanh toán thất bại!',
       );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -139,9 +150,9 @@ export default function CartPage() {
         <h1 className="text-2xl font-bold">Giỏ hàng của bạn</h1>
         <Link
           href="/orders/create-order"
-          className="hover:underline hover:text-primary"
+          className="hover:text-white text-white flex flex-row items-center gap-0.5 bg-primary py-3 px-2 rounded-full hover:bg-primary/90"
         >
-          Tạo đơn hàng
+          Trang đặt hàng <ChevronRight size={19} />
         </Link>
       </div>
 
@@ -242,11 +253,15 @@ export default function CartPage() {
         </div>
         <div className="text-right mt-4">
           <Button
-            disabled={selectedItems.length === 0}
+            disabled={selectedItems.length === 0 || isSubmitting}
             onClick={handleCheckout}
             className="text-white bg-orange-500 hover:bg-orange-600"
           >
-            Thanh toán ({selectedItems.length} sản phẩm)
+            {isSubmitting ? (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            ) : (
+              `Đặt hàng (${selectedItems.length} sản phẩm)`
+            )}
           </Button>
         </div>
       </Card>

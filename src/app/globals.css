@@ -384,3 +384,10 @@ body {
 .nav-link:hover {
   color: var(--primary) !important;
 }
+.admin-blog .jodit-workplace,
+.admin-policy .jodit-workplace {
+  min-height: 100vh !important;
+}
+.jodit-status-bar {
+  display: none !important;
+}

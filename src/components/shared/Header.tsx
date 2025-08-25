@@ -1,11 +1,10 @@
 'use client';
 
+import { ModeToggle } from '@/components/shared/ModeToggle';
+import { mainMenu, topMenu } from '@/data/top-bar';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Fragment, useEffect, useState } from 'react';
-
-import { ModeToggle } from '@/components/shared/ModeToggle';
-import { mainMenu, topMenu } from '@/data/top-bar';
 import CartButton from './CartButton';
 import MobileMenu from './MobileMenu';
 import NavLinks from './NavLinks';
@@ -21,10 +20,10 @@ export default function Navbar() {
     const handleScroll = () => {
       setIsSticky(window.scrollY > 0);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
   return (
     <Fragment>
       <div
@@ -75,7 +74,7 @@ export default function Navbar() {
         </div>
       </div>
       <nav
-        className={`${isSticky ? 'sticky top-0 z-50 shadow-lg backdrop-blur-md bg-background/90 dark:bg-gray-900/90' : 'bg-background dark:bg-gray-900'} transition-all duration-300 ease-in-out`}
+        className={`${isSticky ? 'sticky top-0 z-50 shadow backdrop-blur-md bg-background/90 dark:bg-gray-900/90' : 'bg-background dark:bg-gray-900'} transition-all duration-300 ease-in-out`}
       >
         <div
           data-label="container"
