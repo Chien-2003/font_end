@@ -1,21 +1,22 @@
 const nextConfig = {
   images: {
-    domains: [
-      'images.unsplash.com',
-      'tailwindcss.com',
-      'placehold.co',
-      'file.hstatic.net',
-      'product.hstatic.net',
-      'cdn.hstatic.net',
-      'lh3.googleusercontent.com',
-      'n7media.coolmate.me',
-      'platform-lookaside.fbsbx.com',
-      'res.cloudinary.com',
-      'mcdn.coolmate.me',
-      'raw.githubusercontent.com',
-      'stylerepublik.vn',
-      'leika.vn',
+    remotePatterns: [
+      { protocol: 'https', hostname: 'images.unsplash.com' },
+      { protocol: 'https', hostname: 'tailwindcss.com' },
+      { protocol: 'https', hostname: 'placehold.co' },
+      { protocol: 'https', hostname: 'file.hstatic.net' },
+      { protocol: 'https', hostname: 'product.hstatic.net' },
+      { protocol: 'https', hostname: 'cdn.hstatic.net' },
+      { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
+      { protocol: 'https', hostname: 'n7media.coolmate.me' },
+      { protocol: 'https', hostname: 'platform-lookaside.fbsbx.com' },
+      { protocol: 'https', hostname: 'res.cloudinary.com' },
+      { protocol: 'https', hostname: 'mcdn.coolmate.me' },
+      { protocol: 'https', hostname: 'raw.githubusercontent.com' },
+      { protocol: 'https', hostname: 'stylerepublik.vn' },
+      { protocol: 'https', hostname: 'leika.vn' },
     ],
   },
 };
+
 module.exports = nextConfig;
