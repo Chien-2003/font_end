@@ -33,7 +33,7 @@ export default function RootLayout({
         <SessionProviderWrapper>
           <ThemeProvider
             attribute="class"
-            defaultTheme="dark"
+            defaultTheme="light"
             enableSystem
             disableTransitionOnChange
           >
@@ -49,7 +49,7 @@ export default function RootLayout({
                   closeButton={true}
                   expand={false}
                 />
-                <div className="bg-background dark:bg-gray-900 elysia-wear">
+                <div className="bg-background dark:bg-gray elysia-wear">
                   {children}
                 </div>
                 {/* <Chat /> */}

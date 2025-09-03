@@ -65,7 +65,7 @@ export default function CheckoutFooter({
         </div>
         <Button
           variant="default"
-          className="uppercase bg-gray-900 hover:bg-gray-800 h-full rounded-none text-base md:px-10 text-white"
+          className="uppercase bg-gray hover:bg-gray-800 h-full rounded-none text-base md:px-10 text-white"
         >
           Thanh toán
         </Button>

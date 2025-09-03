@@ -1,3 +1,5 @@
+const BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 export interface CartItem {
   id: string;
   variant_id: string;
@@ -15,9 +17,6 @@ export interface CartItem {
     };
   };
 }
-
-const BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 
 export async function addToCart(
   variant_id: string,

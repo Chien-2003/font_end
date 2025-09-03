@@ -1,3 +1,4 @@
+import Breadcrumbs from '@/components/views/Breadcrumbs';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Fragment } from 'react';
@@ -6,6 +7,9 @@ export default function Page() {
   return (
     <Fragment>
       <div className="mx-auto lg:max-w-[900px] max-w-full flex flex-col space-y-3 md:px-4 xl:px-12 2xl:px-16 px-2 sm:px-2 lg:px-8 w-full h-full py-4">
+        <div className="mb-6">
+          <Breadcrumbs />
+        </div>
         <h1 className="text-2xl font-medium">Dịch vụ giao hàng</h1>
         <div className="w-full relative" style={{ height: 350 }}>
           <Image

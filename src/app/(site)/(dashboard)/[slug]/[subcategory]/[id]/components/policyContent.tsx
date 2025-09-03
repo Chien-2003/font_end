@@ -6,13 +6,13 @@ import { Fragment } from 'react';
 export default function PolicyContent() {
   return (
     <Fragment>
-      <div className="mx-auto max-w-full md:px-14 xl:px-15 2xl:px-16 px-4 sm:px-6 lg:px-15 w-full h-full py-8">
+      <div className="mx-auto max-w-full px-2 lg:px-4 w-full h-full py-8">
         <Image
           src="/csdt.jpg"
           alt="chính sách đổi hàng online"
           width={890}
           height={1115}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover bg-transparent"
         />
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-5">
           {policyItems.map((item, idx) => (
@@ -20,7 +20,7 @@ export default function PolicyContent() {
               key={idx}
               className="flex justify-start items-center"
             >
-              <div className="m-[42px_20px] rounded">
+              <div className="m-[22px_10px] lg:m-[42px_20px] rounded">
                 <Link href={item.href} className="text-foreground">
                   <div className="flex gap-1.5">
                     <Image

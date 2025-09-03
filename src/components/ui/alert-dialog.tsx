@@ -135,7 +135,7 @@ function AlertDialogAction({
 }: React.ComponentProps<typeof AlertDialogPrimitive.Action>) {
   return (
     <AlertDialogPrimitive.Action
-      className={cn(buttonVariants(), className)}
+      className={cn('cursor-pointer', buttonVariants(), className)}
       {...props}
     />
   );
@@ -148,6 +148,7 @@ function AlertDialogCancel({
   return (
     <AlertDialogPrimitive.Cancel
       className={cn(
+        'cursor-pointer',
         buttonVariants({ variant: 'outline' }),
         className,
       )}

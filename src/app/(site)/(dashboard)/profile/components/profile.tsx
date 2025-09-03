@@ -1,7 +1,6 @@
 'use client';
 
 import gsap from 'gsap';
-import Image from 'next/image';
 import Link from 'next/link';
 import React, { Fragment, useRef } from 'react';
 
@@ -19,8 +18,14 @@ import { UpdateProfileResponse } from '@/services/profileApi';
 
 import { ProfilePageSkeleton } from '@/components/skeleton/ProfileSkeleton';
 import { Typography } from '@/components/ui/typography';
-import { EmptyPlaceholder } from '@/components/views/EmptyPlaceholder';
-import { Loader2Icon } from 'lucide-react';
+import {
+  CreditCardIcon,
+  HeartIcon,
+  Loader2Icon,
+  MapPinIcon,
+  ShoppingBagIcon,
+  UserIcon,
+} from 'lucide-react';
 import AddressesPage, { AddressesPageRef } from './AddressesPage';
 import FavoritesPage from './FavoritesPage';
 import OrdersPage from './OrdersPage';
@@ -36,33 +41,94 @@ export default function ProfilePage() {
   const addressRef = useRef<AddressesPageRef>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
   const [tab, setTab] = React.useState('personal');
-  const commonTriggerClass =
-    'data-[state=active]:after:bg-primary relative w-full p-2 justify-start rounded-none after:absolute after:inset-y-0 after:start-0 after:w-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none border-none cursor-pointer';
+
+  const tabConfig = [
+    {
+      value: 'personal',
+      label: 'Thông tin cá nhân',
+      icon: UserIcon,
+      description: 'Quản lý thông tin cơ bản',
+    },
+    {
+      value: 'orders',
+      label: 'Đơn hàng của bạn',
+      icon: ShoppingBagIcon,
+      description: 'Xem lịch sử đặt hàng',
+    },
+    {
+      value: 'favorites',
+      label: 'Sản phẩm yêu thích',
+      icon: HeartIcon,
+      description: 'Danh sách sản phẩm đã lưu',
+    },
+    {
+      value: 'addresses',
+      label: 'Địa chỉ nhận hàng',
+      icon: MapPinIcon,
+      description: 'Cập nhật địa chỉ giao hàng',
+    },
+    {
+      value: 'payment',
+      label: 'Hình thức thanh toán',
+      icon: CreditCardIcon,
+      description: 'Quản lý phương thức thanh toán',
+    },
+  ];
 
   if (loading) return <ProfilePageSkeleton />;
 
   if (error) {
     return (
-      <div className="mx-auto max-w-3xl w-full px-4 py-6 text-center text-red-600">
-        <EmptyPlaceholder />
-        <p>{error}</p>
-        <Link href="/auth/login">
-          <Button className="mt-4 bg-primary text-white">
-            Đăng nhập
-          </Button>
-        </Link>
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card className="max-w-md w-full p-8 text-center bg-card border-border">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-destructive/10 flex items-center justify-center">
+            <svg
+              className="w-8 h-8 text-destructive"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+          <Typography variant="h3" className="mb-2 text-destructive">
+            Có lỗi xảy ra
+          </Typography>
+          <p className="text-muted-foreground mb-6">{error}</p>
+          <Link href="/auth/login">
+            <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+              Đăng nhập lại
+            </Button>
+          </Link>
+        </Card>
       </div>
     );
   }
 
   if (!user) {
     return (
-      <div className="mx-auto max-w-3xl w-full px-4 py-6 text-center text-gray-500">
-        <EmptyPlaceholder description="Không có thông tin." />
-        <p>Vui lòng đăng nhập để xem hồ sơ của bạn.</p>
-        <Link href="/auth/login">
-          <Button className="mt-4 text-white">Đăng nhập</Button>
-        </Link>
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card className="max-w-md w-full p-8 text-center bg-card border-border">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
+            <UserIcon className="w-8 h-8 text-primary" />
+          </div>
+          <Typography variant="h3" className="mb-2">
+            Chưa đăng nhập
+          </Typography>
+          <p className="text-muted-foreground mb-6">
+            Vui lòng đăng nhập để xem hồ sơ của bạn.
+          </p>
+          <Link href="/auth/login">
+            <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+              Đăng nhập
+            </Button>
+          </Link>
+        </Card>
       </div>
     );
   }
@@ -88,6 +154,9 @@ export default function ProfilePage() {
       }
       await fetchUser();
       if (response?.message) showSuccess(response.message);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     } catch (err: any) {
       if (err?.message) showError(err.message);
     } finally {
@@ -96,105 +165,125 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="mx-auto max-w-full md:px-4 lg:py-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 w-full h-full">
-      <Tabs
-        value={tab}
-        onValueChange={setTab}
-        orientation="vertical"
-        className="w-full flex-row"
-      >
-        <div className="grid md:grid-cols-4 gap-6 w-full max-w-[1400px] mx-auto">
-          <Card className="p-6 flex flex-col dark:bg-gray-900 shadow-none">
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <Image
-                src="/logo.svg"
-                alt="Elysia Wear"
-                width={32}
-                height={32}
-              />
-              <span className="font-semibold text-lg">
-                Elysia Wear
-              </span>
-            </Link>
-
-            <Typography variant="h2" className="mb-6">
-              {user.full_name || 'Chưa có tên'}
-            </Typography>
-
-            <TabsList className="flex-col rounded-none border-l bg-transparent p-0 space-y-4">
-              <TabsTrigger
-                value="personal"
-                className={commonTriggerClass}
-              >
-                Thông tin cá nhân
-              </TabsTrigger>
-              <TabsTrigger
-                value="orders"
-                className={commonTriggerClass}
-              >
-                Đơn hàng của bạn
-              </TabsTrigger>
-              <TabsTrigger
-                value="favorites"
-                className={commonTriggerClass}
-              >
-                Sản phẩm yêu thích
-              </TabsTrigger>
-              <TabsTrigger
-                value="addresses"
-                className={commonTriggerClass}
-              >
-                Địa chỉ nhận hàng
-              </TabsTrigger>
-              <TabsTrigger
-                value="payment"
-                className={commonTriggerClass}
-              >
-                Hình thức thanh toán
-              </TabsTrigger>
-            </TabsList>
-          </Card>
-          <div className="md:col-span-3 space-y-4">
-            <div className="rounded-md border text-start p-5 h-full">
-              <TabsContent value="personal">
-                <PersonalInfoPage ref={personalInfoRef} />
-              </TabsContent>
-              <TabsContent value="orders">
-                <OrdersPage />
-              </TabsContent>
-              <TabsContent value="favorites">
-                <FavoritesPage />
-              </TabsContent>
-              <TabsContent value="addresses">
-                <AddressesPage ref={addressRef} />
-              </TabsContent>
-              <TabsContent value="payment">
-                <Payment />
-              </TabsContent>
-
+    <div className="min-h-screen bg-background">
+      <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Tabs
+          value={tab}
+          onValueChange={setTab}
+          orientation="vertical"
+          className="flex flex-col lg:flex-row gap-8"
+        >
+          <div className="lg:w-80 w-full">
+            <Card className="p-6 bg-card border-border sticky top-8">
+              <div className="text-center mb-4">
+                <Typography
+                  variant="h3"
+                  className="mb-1 text-card-foreground"
+                >
+                  {user.full_name || 'Chưa có tên'}
+                </Typography>
+                <p className="text-muted-foreground text-sm">
+                  {user.email || 'Chưa có email'}
+                </p>
+              </div>
+              <TabsList className="flex-col h-auto bg-transparent p-0 w-full space-y-2">
+                {tabConfig.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = tab === item.value;
+                  return (
+                    <TabsTrigger
+                      key={item.value}
+                      value={item.value}
+                      className={`
+                        w-full justify-start p-4 h-auto rounded-lg border-0
+                        transition-all duration-200 ease-in-out
+                        ${
+                          isActive
+                            ? 'bg-primary text-primary-foreground shadow-sm'
+                            : 'bg-transparent hover:bg-accent hover:text-accent-foreground'
+                        }
+                        data-[state=active]:bg-primary data-[state=active]:text-primary-foreground
+                        data-[state=active]:shadow-sm
+                      `}
+                    >
+                      <div className="flex items-center gap-3 w-full">
+                        <Icon className="w-5 h-5 flex-shrink-0" />
+                        <div className="text-left flex-1">
+                          <div className="font-medium text-sm">
+                            {item.label}
+                          </div>
+                          <div
+                            className={`text-xs mt-0.5 ${isActive ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}
+                          >
+                            {item.description}
+                          </div>
+                        </div>
+                      </div>
+                    </TabsTrigger>
+                  );
+                })}
+              </TabsList>
+            </Card>
+          </div>
+          <div className="flex-1">
+            <Card className="bg-card border-border shadow-sm overflow-hidden py-0">
+              <div className="p-8">
+                <TabsContent value="personal" className="mt-0">
+                  <PersonalInfoPage ref={personalInfoRef} />
+                </TabsContent>
+                <TabsContent value="orders" className="mt-0">
+                  <OrdersPage />
+                </TabsContent>
+                <TabsContent value="favorites" className="mt-0">
+                  <FavoritesPage />
+                </TabsContent>
+                <TabsContent value="addresses" className="mt-0">
+                  <AddressesPage ref={addressRef} />
+                </TabsContent>
+                <TabsContent value="payment" className="mt-0">
+                  <Payment />
+                </TabsContent>
+              </div>
               {(tab === 'personal' || tab === 'addresses') && (
-                <div className="text-center flex flex-row justify-center mt-4">
-                  <Button
-                    ref={btnRef}
-                    onClick={handleUpdate}
-                    className="dark:text-accent-foreground cursor-pointer flex items-center justify-center gap-2"
-                    disabled={loadingBtn}
-                  >
-                    {loadingBtn ? (
-                      <Fragment>
-                        <Loader2Icon className="animate-spin h-5 w-5" />
-                        Đang cập nhật...
-                      </Fragment>
-                    ) : (
-                      'Cập nhật thông tin'
-                    )}
-                  </Button>
+                <div className="bg-muted/30 border-t border-border px-8 py-6">
+                  <div className="flex justify-end px-6">
+                    <Button
+                      ref={btnRef}
+                      onClick={handleUpdate}
+                      disabled={loadingBtn}
+                      className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 font-medium transition-all duration-200 disabled:opacity-50"
+                    >
+                      {loadingBtn ? (
+                        <Fragment>
+                          <Loader2Icon className="animate-spin h-5 w-5 mr-2" />
+                          Đang cập nhật...
+                        </Fragment>
+                      ) : (
+                        <Fragment>
+                          <svg
+                            className="w-4 h-4 mr-2"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M5 13l4 4L19 7"
+                            />
+                          </svg>
+                          Cập nhật thông tin
+                        </Fragment>
+                      )}
+                    </Button>
+                  </div>
                 </div>
               )}
-            </div>
+            </Card>
           </div>
-        </div>
-      </Tabs>
+        </Tabs>
+      </div>
     </div>
   );
 }

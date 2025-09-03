@@ -6,18 +6,26 @@ import {
   useRouter,
   useSearchParams,
 } from 'next/navigation';
-import { useEffect, useTransition } from 'react';
+import { useEffect, useRef, useTransition } from 'react';
 
 export default function NProgressProvider() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
   const fullUrl = pathname + '?' + searchParams.toString();
+  const previousUrlRef = useRef(fullUrl);
 
   useEffect(() => {
     NProgress.done();
+    previousUrlRef.current = fullUrl;
   }, [fullUrl]);
+
+  useEffect(() => {
+    if (!isPending) {
+      NProgress.done();
+    }
+  }, [isPending]);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -44,17 +52,26 @@ export default function NProgressProvider() {
       }
 
       e.preventDefault();
+      const newUrl = href.startsWith('/') ? href : '/' + href;
+      const currentUrl =
+        pathname +
+        (searchParams.toString()
+          ? '?' + searchParams.toString()
+          : '');
 
       NProgress.start();
 
       startTransition(() => {
+        if (newUrl === currentUrl || newUrl === pathname) {
+          return;
+        }
         router.push(href);
       });
     }
 
     document.addEventListener('click', handleClick);
     return () => document.removeEventListener('click', handleClick);
-  }, [router, startTransition]);
+  }, [router, startTransition, pathname, searchParams]);
 
   return null;
 }

@@ -1,15 +1,14 @@
 import Footer from '@/components/views/Footer';
 import Navbar from '@/components/views/Header';
+import { APP_DESCRIPTION, APP_TITLE } from '@/constants/metadata';
 import { Metadata } from 'next';
 import { Fragment } from 'react';
 export const metadata: Metadata = {
   title: {
-    default:
-      'Elysia Wear - Thương Hiệu Thời Trang Chất Lượng Từ Việt Nam',
+    default: `Elysia Wear - ${APP_TITLE}`,
     template: '%s - Elysia Wear',
   },
-  description:
-    'Elysia Wear - cửa hàng thời trang hiện đại, cập nhật xu hướng mỗi ngày.',
+  description: APP_DESCRIPTION,
   keywords: [
     'elysia',
     'thời trang nam nữ',
@@ -19,10 +18,8 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'Elysia Team', url: 'https://elysiawear.vn' }],
   openGraph: {
-    title:
-      'Elysia Wear - Thương Hiệu Thời Trang Chất Lượng Từ Việt Nam',
-    description:
-      'Elysia Wear - cửa hàng thời trang hiện đại, cập nhật xu hướng mỗi ngày.',
+    title: `Elysia Wear - ${APP_TITLE}`,
+    description: APP_DESCRIPTION,
     url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
     siteName: 'Elysia Wear',
     images: [
@@ -40,9 +37,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Elysia Wear',
-    description:
-      'Elysia Wear - cửa hàng thời trang hiện đại, cập nhật xu hướng mỗi ngày.',
+    title: `Elysia Wear - ${APP_TITLE}`,
+    description: APP_DESCRIPTION,
     images: [
       process.env.NEXT_PUBLIC_SITE_URL + '/og-default.jpg' ||
         'https://n7media.coolmate.me/uploads/July2025/EXCOOL_-_Desktop-1.jpg',

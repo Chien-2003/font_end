@@ -177,7 +177,7 @@ export default function CreateDiscountForm() {
 
   return (
     <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 w-full h-full py-8">
-      <Card className="max-w-xl mx-auto p-4 space-y-6 dark:bg-gray-900">
+      <Card className="max-w-xl mx-auto p-4 space-y-6 dark:bg-gray">
         <CardHeader>
           <CardTitle>Tạo mã giảm giá</CardTitle>
         </CardHeader>
@@ -236,7 +236,7 @@ export default function CreateDiscountForm() {
             onChange={handleChange}
           />
           <Select value="" onValueChange={() => {}} open={false}>
-            <Card className="border rounded-md p-4 dark:bg-gray-900">
+            <Card className="border rounded-md p-4 dark:bg-gray">
               <CardHeader className="lg:px-6 md:px-2 px-0">
                 <CardTitle>Chọn danh mục áp dụng</CardTitle>
               </CardHeader>
@@ -258,7 +258,7 @@ export default function CreateDiscountForm() {
             </Card>
           </Select>
           <Select value="" onValueChange={() => {}} open={false}>
-            <Card className="border rounded-md p-4 dark:bg-gray-900">
+            <Card className="border rounded-md p-4 dark:bg-gray">
               <CardHeader className="lg:px-6 md:px-2 px-0">
                 <CardTitle>Chọn danh mục con áp dụng</CardTitle>
               </CardHeader>

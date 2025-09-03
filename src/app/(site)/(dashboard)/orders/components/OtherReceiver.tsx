@@ -41,7 +41,7 @@ export default function OtherReceiver({
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="overflow-hidden rounded p-4 space-y-4 bg-neutral-100 dark:bg-gray-900"
+            className="overflow-hidden rounded p-4 space-y-4 bg-neutral-100 dark:bg-gray"
           >
             <RadioGroup
               defaultValue="nu"
@@ -69,12 +69,12 @@ export default function OtherReceiver({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <Input
                 type="text"
-                className="rounded-full h-11 px-4 bg-white dark:bg-gray-900 dark:border-white"
+                className="rounded-full h-11 px-4 bg-white dark:bg-gray dark:border-white"
                 placeholder="Họ và tên người nhận"
               />
               <Input
                 type="number"
-                className="rounded-full h-11 px-4 bg-white dark:bg-gray-900 dark:border-white"
+                className="rounded-full h-11 px-4 bg-white dark:bg-gray dark:border-white"
                 placeholder="Số điện thoại người nhận"
               />
             </div>

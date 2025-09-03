@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react';
 
 interface PasswordInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
@@ -17,7 +17,7 @@ export default function PasswordInput({
       <Input
         {...props}
         type={showPassword ? 'text' : 'password'}
-        className="pr-10"
+        className="pr-10 h-12"
       />
       <button
         type="button"

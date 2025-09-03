@@ -83,6 +83,10 @@ body {
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-purple: var(--purple);
+  --color-blue: var(--blue);
+  --color-white: var(--white);
+  --color-gray: var(--gray);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -114,7 +118,6 @@ body {
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
 }
-
 :root {
   --background: oklch(0.9818 0.0054 95.0986);
   --foreground: oklch(0.3438 0.0269 95.7226);
@@ -148,6 +151,10 @@ body {
   --sidebar-accent-foreground: oklch(0.325 0 0);
   --sidebar-border: oklch(0.9401 0 0);
   --sidebar-ring: oklch(0.7731 0 0);
+  --purple: oklch(55.8% 0.288 302.321);
+  --blue: oklch(62.3% 0.214 259.815);
+  --gray: oklch(21% 0.034 264.665);
+  --white: #ffffff;
   --font-sans:
     ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
@@ -180,7 +187,6 @@ body {
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 }
-
 .dark {
   --background: oklch(0.2679 0.0036 106.6427);
   --foreground: oklch(0.8074 0.0142 93.0137);
@@ -214,6 +220,10 @@ body {
   --sidebar-accent-foreground: oklch(0.8074 0.0142 93.0137);
   --sidebar-border: oklch(0.9401 0 0);
   --sidebar-ring: oklch(0.7731 0 0);
+  --purple: oklch(55.8% 0.288 302.321);
+  --blue: oklch(62.3% 0.214 259.815);
+  --gray: oklch(21% 0.034 264.665);
+  --white: #ffffff;
   --font-sans:
     ui-sans-serif, system-ui,  -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
@@ -244,6 +254,7 @@ body {
     0 8px 10px -1.5px hsl(0 0% 0% / 0.21);
   --shadow-2xl: 0 1px 6px -0.5px hsl(0 0% 0% / 0.53);
 }
+
 :root {
   --font-sans: var(--font-inter);
   --header-height: calc(var(--spacing) * 12 + 1px);
@@ -352,7 +363,7 @@ body {
     @apply bg-background text-foreground;
   }
 }
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   height: 4px;
   width: 4px;
 }
@@ -377,6 +388,15 @@ body {
 }
 .dark ::-webkit-scrollbar-thumb:hover {
   background: #1f2937;
+} */
+::-webkit-scrollbar {
+  display: none !important;
+}
+html {
+  scrollbar-width: none !important;
+}
+html {
+  -ms-overflow-style: none !important;
 }
 .reset-all {
   all: revert;

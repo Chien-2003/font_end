@@ -20,7 +20,6 @@ import {
   LogOutIcon,
 } from 'lucide-react';
 import { signOut } from 'next-auth/react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -61,26 +60,26 @@ export default function UserMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className="w-8 h-8">
+        <Avatar className="w-9 h-9">
           <AvatarImage
             src={user.avatar || '/image.webp'}
             alt="User Avatar"
-            className="cursor-pointer"
+            className="cursor-pointer object-cover"
           />
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="center"
-        className="max-w-60 bg-background dark:bg-gray-900"
+        className="max-w-60 bg-background dark:bg-gray"
       >
-        <DropdownMenuLabel className="flex items-start gap-3">
-          <Image
-            src={user.avatar || '/image.webp'}
-            alt="Avatar"
-            width={32}
-            height={32}
-            className="rounded-full shrink-0"
-          />
+        <DropdownMenuLabel className="flex items-center gap-3">
+          <Avatar className="w-10 h-10">
+            <AvatarImage
+              src={user.avatar || '/image.webp'}
+              alt="User Avatar"
+              className="object-cover"
+            />
+          </Avatar>
           <div className="flex min-w-0 flex-col">
             <span className="truncate text-sm font-medium">
               {user.full_name}

@@ -37,7 +37,7 @@ export function Chat() {
 
   return (
     <div className="relative">
-      <div className="flex flex-col h-[600px] justify-end float-right border rounded-md dark:bg-gray-900 z-50 w-[500px] absolute bottom-5 right-9">
+      <div className="flex flex-col h-[600px] justify-end float-right border rounded-md dark:bg-gray z-50 w-[500px] absolute bottom-5 right-9">
         <MessageList messages={messages} />
         <form
           onSubmit={(e) => {

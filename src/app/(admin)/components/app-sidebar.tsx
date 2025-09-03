@@ -114,7 +114,7 @@ export function AppSidebar({
                     width={35}
                     height={35}
                   />
-                  <div className="text-gray-900 dark:text-white font-semibold text-lg">
+                  <div className="text-gray dark:text-white font-semibold text-lg">
                     Elysia Wear
                   </div>
                 </div>

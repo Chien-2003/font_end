@@ -114,10 +114,19 @@ export default async function CategoryPage({
         </div>
       )}
       <div className="mx-auto max-w-full md:px-4 xl:px-12 2xl:px-16 px-2 sm:px-2 lg:px-8 w-full h-full py-8">
-        <SidebarProvider className="mt-3">
+        <SidebarProvider
+          className="mt-3"
+          style={
+            {
+              '--sidebar-width': '20rem',
+            } as React.CSSProperties
+          }
+        >
           <AppSidebar category={category} />
           <main className="ml-2 lg:ml-3">
-            <Breadcrumbs />
+            <div className="mb-6">
+              <Breadcrumbs />
+            </div>
             {paginatedProducts.length === 0 ? (
               <div className="w-full">
                 <EmptyPlaceholder description="Không có sản phẩm nào để hiển thị." />
