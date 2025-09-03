@@ -1,3 +1,4 @@
+import Breadcrumbs from '@/components/views/Breadcrumbs';
 import { EmptyPlaceholder } from '@/components/views/EmptyPlaceholder';
 import { getPrivacyPolicy } from '@/services/policyApi';
 
@@ -26,6 +27,9 @@ export default async function Page() {
 
   return (
     <div className="mx-auto max-w-[900px] flex flex-col gap-3.5 md:px-4 xl:px-12 2xl:px-16 px-4 sm:px-6 lg:px-8 w-full h-full py-4">
+      <div className="mt-6">
+        <Breadcrumbs />
+      </div>
       <h1 className="text-2xl font-bold mb-4">{data.title}</h1>
       <div
         className="prose max-w-none"

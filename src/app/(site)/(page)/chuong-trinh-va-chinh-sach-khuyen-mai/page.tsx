@@ -5,6 +5,7 @@ import {
   AccordionContent,
   AccordionItem,
 } from '@/components/ui/accordion';
+import Breadcrumbs from '@/components/views/Breadcrumbs';
 import { items } from '@/data/policy';
 import { PlusIcon } from 'lucide-react';
 import { Accordion as AccordionPrimitive } from 'radix-ui';
@@ -15,6 +16,9 @@ export default function Page() {
 
   return (
     <Fragment>
+      <div className="mt-6 px-3">
+        <Breadcrumbs />
+      </div>
       <div className="mx-auto max-w-6xl w-full h-full py-8 px-2 sm:px-2 md:px-4 lg:px-8 xl:px-12 2xl:px-16 flex flex-col gap-5">
         <h1 className="text-2xl font-bold text-center">
           Chương trình và chính sách khuyến mãi

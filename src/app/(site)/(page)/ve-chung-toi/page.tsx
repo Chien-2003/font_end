@@ -1,5 +1,6 @@
 'use client';
 
+import Breadcrumbs from '@/components/views/Breadcrumbs';
 import {
   motion,
   useInView,
@@ -324,6 +325,9 @@ export default function AboutPage() {
           </div>
         </section>
         <div className="mx-auto max-w-full md:px-14 xl:px-15 2xl:px-16 px-4 sm:px-6 lg:px-15 w-full h-full">
+          <div className="mt-6">
+            <Breadcrumbs />
+          </div>
           <section ref={storyRef} className="py-20">
             <motion.div
               initial={{ opacity: 0, y: 50 }}

@@ -1,4 +1,5 @@
 'use client';
+import Breadcrumbs from '@/components/views/Breadcrumbs';
 import { items } from '@/data/cskh';
 import PolicyModal from '@/model/modalPolicy';
 import { ExternalLink } from 'lucide-react';
@@ -24,13 +25,15 @@ export default function CustomerServicePage() {
 
   return (
     <Fragment>
-      <div className="bg-gradient-to-br from-[#2f5acf] via-[#3d6ad4] to-[#4b7bd9] relative overflow-hidden">
+      <div className="bg-gradient-to-br from-blue/40 via-blue/70 to-blue/90 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 left-10 w-20 h-20 bg-white rounded-full blur-sm animate-pulse"></div>
           <div className="absolute top-40 right-20 w-16 h-16 bg-[#f2fd5d] rounded-full blur-sm animate-pulse delay-300"></div>
           <div className="absolute bottom-20 left-1/4 w-12 h-12 bg-white rounded-full blur-sm animate-pulse delay-700"></div>
         </div>
-
+        <div className="my-6 px-3 z-50">
+          <Breadcrumbs />
+        </div>
         <div className="mx-auto max-w-[1280px] px-4 w-full h-full py-8 md:py-10 lg:py-16 relative">
           <div className="text-center mb-12">
             <div className="inline-block mb-4">

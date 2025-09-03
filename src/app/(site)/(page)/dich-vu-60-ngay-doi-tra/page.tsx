@@ -1,10 +1,10 @@
-import { BiSolidDislike } from 'react-icons/bi';
-import { BiSolidLike } from 'react-icons/bi';
+import { Button } from '@/components/ui/button';
+import Breadcrumbs from '@/components/views/Breadcrumbs';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Fragment } from 'react';
-import { Button } from '@/components/ui/button';
+import { BiSolidDislike, BiSolidLike } from 'react-icons/bi';
 
 export const metadata: Metadata = {
   title: 'Dịch vụ 60 ngày đổi trả',
@@ -41,6 +41,9 @@ export default function page() {
         <div className="rich-html">
           <div className="page-header">
             <div className="container">
+              <div className="mt-6">
+                <Breadcrumbs />
+              </div>
               <h1 className="pt-7 text-[2.625rem] leading-[41px] font-medium mb-3">
                 Dịch vụ 60 ngày đổi trả
               </h1>

@@ -20,6 +20,13 @@ const SPECIAL_LABELS: Record<string, string> = {
   'chinh-sach-giao-hang': 'Chính sách giao hàng',
   'lien-he': 'Liên hệ',
   blog: 'Bài viết',
+  'cham-soc-khach-hang': 'Chăm sóc khách hàng',
+  'chinh-sach-bao-mat-thong-tin-ca-nhan':
+    'Chính sách bảo mật thông tin cá nhân',
+  'chuong-trinh-va-chinh-sach-khuyen-mai':
+    'Chương trình và chính sách khuyến mãi',
+  'dich-vu-60-ngay-doi-tra': 'Dịch vụ đổi trả',
+  profile: 'Thông tin cá nhân',
   admin: 'Trang quản lý',
   'tao-san-pham': 'Tạo sản phẩm',
   'create-banner': 'Tạo banner',
@@ -126,7 +133,8 @@ export default function Breadcrumbs() {
                 {isLast ? (
                   <BreadcrumbPage
                     aria-current="page"
-                    className="px-2 py-1.5 rounded-md bg-primary/10 text-primary font-semibold max-w-[200px] truncate border border-primary/20"
+                    // max-w-[200px]
+                    className="px-2 py-1.5 rounded-md bg-primary/10 text-primary font-semibold truncate border border-primary/20"
                     title={label}
                   >
                     {label}
@@ -135,7 +143,8 @@ export default function Breadcrumbs() {
                   <BreadcrumbLink asChild>
                     <Link
                       href={href}
-                      className="px-2 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-all duration-200 font-medium max-w-[180px] truncate focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                      // max-w-[180px]
+                      className="px-2 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-all duration-200 font-medium truncate focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                       title={label}
                     >
                       {label}

@@ -1,8 +1,8 @@
 import { Star } from 'lucide-react';
 
 export const topMenu = [
-  { label: 'VỀ Elysia Wear', href: '##' },
-  { label: 'CXP', href: '##' },
+  { label: 'VỀ Elysia Wear', href: '/ve-chung-toi' },
+  { label: 'CXP', href: '/mo-hinh' },
 ];
 
 export const mainMenu = [

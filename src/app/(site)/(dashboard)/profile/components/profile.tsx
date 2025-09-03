@@ -18,6 +18,7 @@ import { UpdateProfileResponse } from '@/services/profileApi';
 
 import { ProfilePageSkeleton } from '@/components/skeleton/ProfileSkeleton';
 import { Typography } from '@/components/ui/typography';
+import Breadcrumbs from '@/components/views/Breadcrumbs';
 import {
   CreditCardIcon,
   HeartIcon,
@@ -167,6 +168,9 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="my-6">
+          <Breadcrumbs />
+        </div>
         <Tabs
           value={tab}
           onValueChange={setTab}

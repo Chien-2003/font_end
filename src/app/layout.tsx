@@ -2,6 +2,7 @@
 import '@/app/globals.css';
 import SessionProviderWrapper from '@/components/providers/SessionProviderWrapper';
 import { ThemeProvider } from '@/components/theme/theme-provider';
+import BackToTop from '@/components/views/BackToTop';
 import NProgressProvider from '@/components/views/nprogress-provider';
 import { CartProvider } from '@/contexts/CartContext';
 import { UserProvider } from '@/contexts/UserContext';
@@ -58,6 +59,7 @@ export default function RootLayout({
             {/* </ActiveThemeProvider> */}
           </ThemeProvider>
         </SessionProviderWrapper>
+        <BackToTop />
       </body>
     </html>
   );
