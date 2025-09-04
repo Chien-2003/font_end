@@ -48,7 +48,7 @@ const SUPPORT_LINKS = [
   { label: 'Liên hệ', href: '/lien-he' },
   { label: 'Hỏi đáp - FAQs', href: '/hoi-dap-faq' },
   { label: 'Blog', href: '/blog' },
-  { label: 'Theo dõi Đơn hàng', href: '#' },
+  { label: 'Theo dõi Đơn hàng', href: '/order-tracking' },
 ];
 
 const SOCIAL_ICONS = [

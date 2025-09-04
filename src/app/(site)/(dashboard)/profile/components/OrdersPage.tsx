@@ -218,8 +218,12 @@ export default function OrdersPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div>
-            <p className="text-sm text-muted-foreground">Ngày đặt hàng</p>
-            <p className="font-medium text-card-foreground">15 Tháng 12, 2024</p>
+            <p className="text-sm text-muted-foreground">
+              Ngày đặt hàng
+            </p>
+            <p className="font-medium text-card-foreground">
+              15 Tháng 12, 2024
+            </p>
           </div>
           <div>
             <p className="text-sm text-muted-foreground">Tổng tiền</p>
@@ -236,7 +240,9 @@ export default function OrdersPage() {
         </div>
 
         <div className="border-t border-border pt-4">
-          <p className="text-sm text-muted-foreground">Địa chỉ giao hàng</p>
+          <p className="text-sm text-muted-foreground">
+            Địa chỉ giao hàng
+          </p>
           <p className="font-medium text-card-foreground">
             123 Nguyễn Văn Linh, Quận 7, TP. Hồ Chí Minh
           </p>

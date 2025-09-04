@@ -18,6 +18,7 @@ import {
   LayoutDashboardIcon,
   ListTodo,
   LogOutIcon,
+  Package,
 } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
@@ -101,6 +102,15 @@ export default function UserMenu() {
             <Link href="/profile" className="flex items-center gap-2">
               <ListTodo size={16} className="opacity-60" />
               <span>Danh sách đơn hàng</span>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link
+              href="/order-tracking"
+              className="flex items-center gap-2"
+            >
+              <Package size={16} className="opacity-60" />
+              <span>Theo dõi đơn hàng</span>
             </Link>
           </DropdownMenuItem>
           {user.email === 'nguyendinhchien19042003@gmail.com' && (
