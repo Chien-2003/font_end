@@ -26,6 +26,7 @@ const SPECIAL_LABELS: Record<string, string> = {
   'chuong-trinh-va-chinh-sach-khuyen-mai':
     'Chương trình và chính sách khuyến mãi',
   'dich-vu-60-ngay-doi-tra': 'Dịch vụ đổi trả',
+  'order-tracking': 'Theo dõi đơn hàng',
   profile: 'Thông tin cá nhân',
   admin: 'Trang quản lý',
   'tao-san-pham': 'Tạo sản phẩm',
