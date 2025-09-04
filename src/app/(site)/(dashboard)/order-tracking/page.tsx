@@ -1,5 +1,6 @@
 'use client';
 
+import Breadcrumbs from '@/components/views/Breadcrumbs';
 import {
   AlertCircle,
   Calendar,
@@ -59,8 +60,6 @@ export default function OrderTracking() {
   );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
-  // Mock data for demo
   const mockOrderData: OrderStatus = {
     id: 'ORD-2025-001',
     status: 'shipped',
@@ -119,11 +118,8 @@ export default function OrderTracking() {
       setError('Vui lòng nhập đầy đủ thông tin');
       return;
     }
-
     setLoading(true);
     setError('');
-
-    // Simulate API call
     setTimeout(() => {
       if (
         trackingInput === 'ORD-2025-001' ||
@@ -195,6 +191,9 @@ export default function OrderTracking() {
       <div className="fixed inset-0 -z-10 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 dark:from-primary/10 dark:to-accent/10" />
       <div className="mx-auto max-w-full md:px-14 xl:px-15 2xl:px-16 px-4 sm:px-6 lg:px-15 w-full h-full py-8">
         <div className="max-w-4xl mx-auto space-y-8">
+          <div className="animate-in fade-in duration-300">
+            <Breadcrumbs />
+          </div>
           <div className="text-center space-y-4 animate-in slide-in-from-top duration-500">
             <div className="flex items-center justify-center gap-3">
               <div className="relative">
