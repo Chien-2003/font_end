@@ -94,7 +94,7 @@ export default function CartButton() {
           </div>
         </TooltipTrigger>
 
-        <TooltipContent className="bg-primary text-background border-border font-medium">
+        <TooltipContent className="bg-primary text-background flex items-center justify-center text-center border-primary font-medium">
           <p>
             {totalCount === 0
               ? 'Giỏ hàng trống'

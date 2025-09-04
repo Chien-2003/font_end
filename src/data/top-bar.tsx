@@ -6,7 +6,7 @@ export const topMenu = [
 ];
 
 export const mainMenu = [
-  { label: 'ElysiaWearClub', href: '##', icon: Star },
+  { label: 'ElysiaWearClub', href: '/elysia-wear-club', icon: Star },
   { label: 'Blog', href: '/blog' },
   { label: 'CSKH', href: '/cham-soc-khach-hang' },
 ];

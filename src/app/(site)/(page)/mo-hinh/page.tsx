@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Fragment } from 'react';
 
@@ -171,14 +172,78 @@ export default function ElysiaWearPrintPage() {
     },
   ];
   const products = [
-    { name: 'Áo thun', image: '👕', popular: true },
-    { name: 'Áo Polo', image: '👔', popular: true },
-    { name: 'Áo khoác', image: '🧥', popular: false },
-    { name: 'Áo hoodie', image: '👗', popular: true },
-    { name: 'Áo dài tay', image: '👘', popular: false },
-    { name: 'Nón', image: '🧢', popular: true },
-    { name: 'Túi', image: '🎒', popular: false },
-    { name: 'Phụ kiện khác', image: '🎁', popular: false },
+    {
+      name: 'Áo T-shirt',
+      image:
+        'https://n7media.coolmate.me/uploads/February2023/mceclip18_22.png',
+      popular: true,
+    },
+    {
+      name: 'Áo Polo',
+      image:
+        'https://n7media.coolmate.me/uploads/February2023/mceclip19_74.png',
+      popular: true,
+    },
+    {
+      name: 'Áo khoác/Hoodies',
+      image:
+        'https://n7media.coolmate.me/uploads/March2023/mceclip16.png',
+      popular: false,
+    },
+    {
+      name: 'Áo dài tay',
+      image:
+        'https://n7media.coolmate.me/uploads/February2023/mceclip21_56.png',
+      popular: true,
+    },
+    {
+      name: 'Áo sơ mi',
+      image:
+        'https://n7media.coolmate.me/uploads/February2023/mceclip22_97.png',
+      popular: true,
+    },
+    {
+      name: 'Under wear',
+      image:
+        'https://n7media.coolmate.me/uploads/February2023/mceclip23_53.png',
+      popular: true,
+    },
+    {
+      name: 'Quần Short',
+      image:
+        'https://n7media.coolmate.me/uploads/February2023/mceclip30_30.png',
+      popular: true,
+    },
+    {
+      name: 'Mũ lưỡi trai/ mũ bucket',
+      image:
+        'https://n7media.coolmate.me/uploads/March2023/mceclip14.png',
+      popular: false,
+    },
+    {
+      name: 'Khẩu trang',
+      image:
+        'https://n7media.coolmate.me/uploads/February2023/mceclip26_46.png',
+      popular: false,
+    },
+    {
+      name: 'Tất',
+      image:
+        'https://n7media.coolmate.me/uploads/February2023/mceclip27_46.png',
+      popular: false,
+    },
+    {
+      name: 'Túi tote',
+      image:
+        'https://n7media.coolmate.me/uploads/February2023/mceclip28_50.png',
+      popular: false,
+    },
+    {
+      name: 'Bình nước, móc chìa khóa, sổ',
+      image:
+        'https://n7media.coolmate.me/uploads/February2023/mceclip29_2.png',
+      popular: false,
+    },
   ];
   const testimonials = [
     {
@@ -205,7 +270,7 @@ export default function ElysiaWearPrintPage() {
   ];
   return (
     <Fragment>
-      <div className="min-h-screen bg-background text-foreground">
+      <div className="min-h-screen bg-background dark:bg-gray text-foreground">
         <section className="relative py-10 px-6 overflow-hidden">
           <div className="max-w-7xl mx-auto">
             <div className="text-center">
@@ -277,7 +342,7 @@ export default function ElysiaWearPrintPage() {
             <div className="absolute top-1/2 left-1/2 w-24 h-24 bg-chart-3/10 rounded-full blur-2xl animate-pulse delay-500"></div>
           </div>
         </section>
-        <section className="py-10 px-6 bg-card">
+        <section className="py-10 px-6 bg-card dark:bg-gray">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold text-card-foreground mb-4">
@@ -344,7 +409,7 @@ export default function ElysiaWearPrintPage() {
             </div>
           </div>
         </section>
-        <section className="py-10 px-6 bg-card">
+        <section className="py-10 px-6 bg-card dark:bg-gray">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold text-card-foreground mb-4">
@@ -359,7 +424,7 @@ export default function ElysiaWearPrintPage() {
               {products.map((product, index) => (
                 <div
                   key={index}
-                  className="relative group p-6 bg-background rounded-2xl border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 text-center"
+                  className="relative group p-6 bg-neutral-100 dark:bg-background rounded-2xl border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 text-center"
                 >
                   {product.popular && (
                     <div className="absolute -top-2 -right-2 bg-chart-2 text-white text-xs px-2 py-1 rounded-full font-medium">
@@ -367,9 +432,15 @@ export default function ElysiaWearPrintPage() {
                     </div>
                   )}
                   <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">
-                    {product.image}
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      width={227}
+                      height={259}
+                      className="object-cover w-[227px] h-[259px]"
+                    />
                   </div>
-                  <h3 className="font-semibold text-foreground">
+                  <h3 className="font-bold text-foreground">
                     {product.name}
                   </h3>
                 </div>

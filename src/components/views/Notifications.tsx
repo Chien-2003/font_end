@@ -1,253 +1,605 @@
 'use client';
 
 import {
-  initialNotifications,
-  Notification,
-} from '@/data/notifications';
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/ui/tabs';
 import {
   Bell,
   Check,
   Clock,
-  GitPullRequest,
-  MessageSquare,
-  Share2,
-  User,
+  Package,
   UserPlus,
+  X,
 } from 'lucide-react';
-import Link from 'next/link';
-import { useState } from 'react';
-import { Button } from '../ui/button';
+import { useEffect, useState } from 'react';
 
-interface NotificationIconProps {
-  type: string;
-  className?: string;
-}
+type Notification = {
+  id: string;
+  user: string;
+  action: string;
+  target: string;
+  timestamp: string;
+  unread: boolean;
+  type: 'order' | 'user' | 'system';
+};
 
-function NotificationIcon({
+const NotificationIcon = ({
   type,
   className,
-}: NotificationIconProps) {
-  const iconProps = { size: 14, className };
-
-  switch (type) {
-    case 'review':
-      return <GitPullRequest {...iconProps} />;
-    case 'share':
-      return <Share2 {...iconProps} />;
-    case 'assign':
-      return <UserPlus {...iconProps} />;
-    case 'comment':
-      return <MessageSquare {...iconProps} />;
-    case 'mention':
-      return <User {...iconProps} />;
-    default:
-      return <Bell {...iconProps} />;
-  }
-}
-
-interface AvatarProps {
-  initials: string;
-  isOnline?: boolean;
-}
-
-function Avatar({ initials, isOnline = false }: AvatarProps) {
-  const colors = [
-    'bg-gradient-to-br from-blue-500 to-blue-600',
-    'bg-gradient-to-br from-emerald-500 to-emerald-600',
-    'bg-gradient-to-br from-purple-500 to-purple-600',
-    'bg-gradient-to-br from-rose-500 to-rose-600',
-    'bg-gradient-to-br from-amber-500 to-amber-600',
-    'bg-gradient-to-br from-cyan-500 to-cyan-600',
-  ];
-
-  const colorIndex = initials.charCodeAt(0) % colors.length;
-
-  return (
-    <div className="relative">
-      <div
-        className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-semibold shadow-sm ${colors[colorIndex]}`}
-      >
-        {initials}
-      </div>
-      {isOnline && (
-        <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-popover rounded-full"></div>
-      )}
-    </div>
-  );
-}
-
-interface DotProps {
+}: {
+  type: string;
   className?: string;
-}
+}) => {
+  switch (type) {
+    case 'order':
+      return <Package className={className} size={16} />;
+    case 'user':
+      return <UserPlus className={className} size={16} />;
+    default:
+      return <Bell className={className} size={16} />;
+  }
+};
 
-function Dot({ className }: DotProps) {
-  return (
-    <div
-      className={`w-2 h-2 bg-primary rounded-full animate-pulse ${className || ''}`}
-    ></div>
-  );
-}
+export default function NotificationDropdown() {
+  const [notifications, setNotifications] = useState<Notification[]>([
+    {
+      id: '1',
+      user: 'John Doe',
+      action: 'placed an order',
+      target: '#1234',
+      timestamp: '2m ago',
+      unread: true,
+      type: 'order',
+    },
+    {
+      id: '2',
+      user: 'Jane Smith',
+      action: 'signed up',
+      target: 'your platform',
+      timestamp: '10m ago',
+      unread: true,
+      type: 'user',
+    },
+    {
+      id: '3',
+      user: 'System',
+      action: 'updated',
+      target: 'your settings',
+      timestamp: '1h ago',
+      unread: false,
+      type: 'system',
+    },
+    {
+      id: '4',
+      user: 'Mike Johnson',
+      action: 'cancelled order',
+      target: '#5678',
+      timestamp: '2h ago',
+      unread: false,
+      type: 'order',
+    },
+    {
+      id: '5',
+      user: 'Sarah Wilson',
+      action: 'completed order',
+      target: '#9012',
+      timestamp: '3h ago',
+      unread: false,
+      type: 'order',
+    },
+  ]);
 
-export default function Notifications() {
-  const [notifications, setNotifications] = useState<Notification[]>(
-    initialNotifications,
-  );
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isAnimating, setIsAnimating] = useState<boolean>(false);
-  const unreadCount = notifications.filter((n) => n.unread).length;
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [clearAllDialogOpen, setClearAllDialogOpen] = useState(false);
+  const [viewDialogOpen, setViewDialogOpen] = useState(false);
+  const [selectedNotification, setSelectedNotification] =
+    useState<Notification | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [bellAnimation, setBellAnimation] = useState(false);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (unreadCount > 0) {
+        setBellAnimation(true);
+        setTimeout(() => setBellAnimation(false), 600);
+      }
+    }, 3000);
 
-  const handleMarkAllAsRead = (): void => {
-    setNotifications(
-      notifications.map((notification) => ({
-        ...notification,
-        unread: false,
-      })),
-    );
-  };
+    return () => clearInterval(interval);
+  }, [notifications]);
 
-  const handleNotificationClick = (id: number): void => {
-    setNotifications(
-      notifications.map((notification) =>
-        notification.id === id
-          ? { ...notification, unread: false }
-          : notification,
+  const handleViewNotification = (notification: Notification) => {
+    setNotifications((prev) =>
+      prev.map((n) =>
+        n.id === notification.id ? { ...n, unread: false } : n,
       ),
     );
+    setSelectedNotification(notification);
+    setViewDialogOpen(true);
   };
 
+  const handleDeleteNotification = () => {
+    if (selectedNotification) {
+      setNotifications((prev) =>
+        prev.filter((n) => n.id !== selectedNotification.id),
+      );
+      setSelectedNotification(null);
+    }
+    setDeleteDialogOpen(false);
+    setViewDialogOpen(false);
+  };
+
+  const handleClearAll = () => {
+    setNotifications([]);
+    setClearAllDialogOpen(false);
+  };
+
+  const markAllAsRead = () => {
+    setNotifications((prev) =>
+      prev.map((n) => ({ ...n, unread: false })),
+    );
+  };
+
+  const unreadCount = notifications.filter((n) => n.unread).length;
+  const readNotifications = notifications.filter((n) => !n.unread);
+  const unreadNotifications = notifications.filter((n) => n.unread);
   return (
-    <div className="relative">
-      <Button
-        variant="ghost"
-        onClick={() => setIsOpen(!isOpen)}
-        className="relative group p-2 hover:bg-accent rounded-full transition-all duration-300 transform hover:scale-105"
-        aria-label="Open notifications"
-      >
-        <Bell
-          size={20}
-          className={`text-foreground transition-all duration-300 ${
-            isOpen ? 'rotate-12' : 'group-hover:rotate-6'
-          }`}
-          aria-hidden="true"
-        />
-        {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-destructive-foreground text-xs font-bold rounded-full flex items-center justify-center shadow-lg animate-bounce">
-            {unreadCount > 99 ? '99+' : unreadCount}
-          </span>
-        )}
-        {unreadCount > 0 && (
-          <div className="absolute inset-0 rounded-full bg-primary/20 animate-ping"></div>
-        )}
-      </Button>
-
-      <div
-        className={`absolute left-1/2 -translate-x-1/2 top-full mt-2 w-96 z-50 bg-popover/95 backdrop-blur-sm border border-border shadow-2xl rounded-2xl overflow-hidden transform origin-top transition-all duration-300 ease-out ${
-          isOpen
-            ? 'opacity-100 scale-100 translate-y-0'
-            : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
-        }`}
-      >
-        <div className="bg-primary px-6 py-4 text-primary-foreground">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-primary-foreground/20 rounded-full flex items-center justify-center">
-                <Bell size={16} />
-              </div>
-              <div>
-                <h3 className="font-semibold text-lg">Thông báo</h3>
-                <p className="text-primary-foreground/80 text-sm">
-                  {unreadCount > 0
-                    ? `${unreadCount} thông báo mới`
-                    : 'Tất cả đã đọc'}
-                </p>
-              </div>
-            </div>
+    <div>
+      <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="outline"
+            size="icon"
+            className={`relative rounded-2xl border-none bg-background transition-all duration-300 hover:scale-105 group shadow-none focus-visible:ring-0 ${
+              bellAnimation ? 'animate-pulse' : ''
+            }`}
+          >
+            <Bell
+              size={18}
+              className={`transition-all duration-300 group-hover:text-[var(--primary)] ${
+                bellAnimation ? 'animate-bounce' : ''
+              }`}
+              style={{ color: 'var(--foreground)' }}
+            />
             {unreadCount > 0 && (
-              <button
-                className="text-primary-foreground hover:bg-primary-foreground/20 rounded-full text-xs px-3 py-1 flex items-center gap-1 transition-colors"
-                onClick={handleMarkAllAsRead}
+              <span
+                className="absolute -top-2 -right-2 h-6 w-6 flex text-primary-foreground items-center justify-center rounded-full text-xs font-bold shadow-lg animate-pulse border-2 border-white"
+                style={{
+                  background:
+                    'linear-gradient(135deg, var(--primary) 0%, var(--ring) 100%)',
+                }}
               >
-                <Check size={14} />
-                Đánh dấu đã đọc
-              </button>
+                {unreadCount > 9 ? '9+' : unreadCount}
+              </span>
             )}
-          </div>
-        </div>
-        <div
-          className="max-h-96 overflow-y-auto [&::-webkit-scrollbar]:hidden scrollbar-hide
-"
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent
+          className="-right-50 absolute max-w-[510px]"
+          style={{
+            background:
+              'linear-gradient(135deg, var(--popover) 0%, var(--secondary) 100%)',
+          }}
         >
-          {notifications.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
-              <Bell size={48} className="mb-4 opacity-50" />
-              <p className="text-sm font-medium">
-                Không có thông báo nào
-              </p>
-              <p className="text-xs opacity-70 mt-1">
-                Bạn sẽ thấy thông báo tại đây
-              </p>
+          <DropdownMenuLabel className="text-lg font-bold flex items-center justify-between px-6 py-4 border-b border-[var(--border)] gap-2">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-xl bg-primary text-primary-foreground">
+                <Bell size={18} />
+              </div>
+              <span className="text-foreground">Notifications</span>
+              {unreadCount > 0 && (
+                <span className="px-2 py-1 rounded-full whitespace-nowrap text-xs font-semibold bg-primary text-primary-foreground">
+                  {unreadCount} new
+                </span>
+              )}
             </div>
-          ) : (
-            <div className="divide-y divide-border">
-              {notifications.map((notification, index) => (
-                <div
-                  key={notification.id}
-                  className={`group relative px-6 py-4 hover:bg-accent/50 transition-all duration-300 cursor-pointer ${
-                    notification.unread ? 'bg-primary/5' : ''
-                  }`}
-                  onClick={() =>
-                    handleNotificationClick(notification.id)
-                  }
+            <div className="flex items-center gap-2">
+              {unreadCount > 0 && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-xs transition-all duration-200 rounded-xl px-3 py-1 text-primary"
+                  onClick={markAllAsRead}
                 >
-                  <div className="flex items-start gap-3">
-                    <Avatar
-                      initials={notification.avatar}
-                      isOnline={index < 2}
-                    />
-
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between mb-1">
-                        <p className="text-sm text-foreground">
-                          <span className="font-semibold hover:text-primary transition-colors">
-                            {notification.user}
-                          </span>
-                          <span className="text-muted-foreground mx-1">
-                            {notification.action}
-                          </span>
-                          <span className="font-semibold hover:text-primary transition-colors">
-                            {notification.target}
-                          </span>
-                        </p>
-                        {notification.unread && <Dot />}
-                      </div>
-
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <NotificationIcon
-                          type={notification.type}
-                          className="opacity-60"
-                        />
-                        <Clock size={12} />
-                        <span>{notification.timestamp}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-primary to-primary/80 transform scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-top"></div>
-                </div>
-              ))}
+                  <Check size={14} className="mr-1" />
+                  Mark all read
+                </Button>
+              )}
+              {notifications.length > 0 && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-xs transition-all duration-200 hover:scale-105 rounded-xl px-3 py-1"
+                  style={{ color: 'var(--destructive)' }}
+                  onClick={() => setClearAllDialogOpen(true)}
+                >
+                  <X size={14} className="mr-1" />
+                  Clear All
+                </Button>
+              )}
             </div>
-          )}
-        </div>
-        {notifications.length > 0 && (
-          <div className="border-t border-border p-4 bg-muted/50">
-            <Link
-              href="/thong-bao"
-              className="block w-full text-center text-sm font-medium text-primary hover:text-primary/80 hover:bg-accent py-2 rounded-lg transition-all duration-200"
+          </DropdownMenuLabel>
+
+          <Tabs defaultValue="all" className="w-full">
+            <TabsList className="grid grid-cols-3 w-full rounded m-4 mx-auto mb-2 p-1 bg-muted">
+              <TabsTrigger
+                value="all"
+                className="rounded-xl transition-all text-muted-foreground duration-200"
+              >
+                All ({notifications.length})
+              </TabsTrigger>
+              <TabsTrigger
+                value="unread"
+                className="rounded-xl text-muted-foreground transition-all duration-200"
+              >
+                Unread ({unreadNotifications.length})
+              </TabsTrigger>
+              <TabsTrigger
+                value="read"
+                className="rounded-xl text-muted-foreground transition-all duration-200"
+              >
+                Read ({readNotifications.length})
+              </TabsTrigger>
+            </TabsList>
+
+            {['all', 'unread', 'read'].map((tab) => {
+              const items =
+                tab === 'all'
+                  ? notifications
+                  : tab === 'unread'
+                    ? unreadNotifications
+                    : readNotifications;
+
+              return (
+                <TabsContent
+                  key={tab}
+                  value={tab}
+                  className="max-h-[500px] overflow-y-auto  px-4 py-4 space-y-2"
+                >
+                  {items.length > 0 ? (
+                    <DropdownMenuGroup className="space-y-2">
+                      {items.map((notification, index) => (
+                        <DropdownMenuItem
+                          key={notification.id}
+                          onClick={() =>
+                            handleViewNotification(notification)
+                          }
+                          className={`flex items-start gap-4 px-4 py-4 rounded-2xl cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-lg border border-transparent ${
+                            notification.unread
+                              ? 'border-[var(--primary)]/20 shadow-md'
+                              : 'hover:border-[var(--border)]'
+                          }`}
+                          style={{
+                            background: notification.unread
+                              ? 'linear-gradient(135deg, var(--accent) 0%, var(--muted) 100%)'
+                              : 'var(--card)',
+                            animationDelay: `${index * 0.1}s`,
+                          }}
+                        >
+                          <div
+                            className="flex-shrink-0 mt-1 p-2 rounded-xl transition-all duration-300"
+                            style={{
+                              background: notification.unread
+                                ? 'var(--primary)'
+                                : 'var(--muted)',
+                              color: notification.unread
+                                ? 'var(--primary-foreground)'
+                                : 'var(--muted-foreground)',
+                            }}
+                          >
+                            <NotificationIcon
+                              type={notification.type}
+                            />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm leading-relaxed">
+                              <span
+                                className="font-bold"
+                                style={{ color: 'var(--foreground)' }}
+                              >
+                                {notification.user}
+                              </span>{' '}
+                              <span
+                                style={{
+                                  color: 'var(--muted-foreground)',
+                                }}
+                              >
+                                {notification.action}
+                              </span>{' '}
+                              <span
+                                className="font-semibold"
+                                style={{ color: 'var(--primary)' }}
+                              >
+                                {notification.target}
+                              </span>
+                            </p>
+                            <div
+                              className="flex items-center gap-2 text-xs mt-2"
+                              style={{
+                                color: 'var(--muted-foreground)',
+                              }}
+                            >
+                              <Clock size={12} />
+                              {notification.timestamp}
+                              {notification.type === 'order' && (
+                                <span
+                                  className="px-2 py-0.5 rounded-full text-xs font-medium"
+                                  style={{
+                                    background: 'var(--primary)/10',
+                                    color: 'var(--primary)',
+                                  }}
+                                >
+                                  Order
+                                </span>
+                              )}
+                              {notification.type === 'user' && (
+                                <span
+                                  className="px-2 py-0.5 rounded-full text-xs font-medium"
+                                  style={{
+                                    background: 'var(--secondary)',
+                                    color:
+                                      'var(--secondary-foreground)',
+                                  }}
+                                >
+                                  User
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                          {notification.unread && (
+                            <div className="flex flex-col items-center gap-2">
+                              <span
+                                className="h-3 w-3 rounded-full animate-pulse shadow-lg"
+                                style={{
+                                  background: 'var(--primary)',
+                                }}
+                              />
+                            </div>
+                          )}
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuGroup>
+                  ) : (
+                    <div className="text-center py-12">
+                      <div
+                        className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center"
+                        style={{ background: 'var(--muted)' }}
+                      >
+                        <Bell
+                          size={24}
+                          style={{ color: 'var(--muted-foreground)' }}
+                        />
+                      </div>
+                      <p
+                        className="text-sm font-medium"
+                        style={{ color: 'var(--muted-foreground)' }}
+                      >
+                        No {tab} notifications
+                      </p>
+                      <p
+                        className="text-xs mt-1"
+                        style={{ color: 'var(--muted-foreground)' }}
+                      >
+                        You're all caught up!
+                      </p>
+                    </div>
+                  )}
+                </TabsContent>
+              );
+            })}
+          </Tabs>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <AlertDialog
+        open={viewDialogOpen}
+        onOpenChange={setViewDialogOpen}
+      >
+        <AlertDialogContent
+          className="max-w-lg rounded-3xl border-2 backdrop-blur-xl"
+          style={{
+            background:
+              'linear-gradient(135deg, var(--popover) 0%, var(--secondary) 100%)',
+            borderColor: 'var(--border)',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+          }}
+        >
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-4 text-xl">
+              <div
+                className="p-3 rounded-2xl"
+                style={{
+                  background: 'var(--primary)',
+                  color: 'var(--primary-foreground)',
+                }}
+              >
+                <NotificationIcon
+                  type={selectedNotification?.type || ''}
+                  className="w-5 h-5"
+                />
+              </div>
+              <span style={{ color: 'var(--foreground)' }}>
+                Notification Detail
+              </span>
+            </AlertDialogTitle>
+            <AlertDialogDescription
+              className="text-base leading-relaxed pl-16"
+              style={{ color: 'var(--muted-foreground)' }}
             >
-              Xem tất cả thông báo
-            </Link>
-          </div>
-        )}
-      </div>
+              <div
+                className="p-4 rounded-2xl mb-4"
+                style={{ background: 'var(--accent)' }}
+              >
+                <p className="text-lg">
+                  <span
+                    className="font-bold"
+                    style={{ color: 'var(--foreground)' }}
+                  >
+                    {selectedNotification?.user}
+                  </span>{' '}
+                  <span style={{ color: 'var(--muted-foreground)' }}>
+                    {selectedNotification?.action}
+                  </span>{' '}
+                  <span
+                    className="font-semibold"
+                    style={{ color: 'var(--primary)' }}
+                  >
+                    {selectedNotification?.target}
+                  </span>
+                </p>
+                <div
+                  className="flex items-center gap-2 text-sm mt-3"
+                  style={{ color: 'var(--muted-foreground)' }}
+                >
+                  <Clock size={14} />
+                  {selectedNotification?.timestamp}
+                </div>
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="gap-3 pt-6">
+            <AlertDialogCancel
+              className="rounded-2xl transition-all duration-200 hover:scale-105"
+              style={{
+                background: 'var(--secondary)',
+                color: 'var(--secondary-foreground)',
+                borderColor: 'var(--border)',
+              }}
+            >
+              Close
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => setDeleteDialogOpen(true)}
+              className="rounded-2xl transition-all duration-200 hover:scale-105 shadow-lg"
+              style={{
+                background:
+                  'linear-gradient(135deg, var(--destructive) 0%, #dc2626 100%)',
+                color: 'var(--destructive-foreground)',
+              }}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      <AlertDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+      >
+        <AlertDialogContent
+          className="rounded-3xl border-2"
+          style={{
+            background: 'var(--popover)',
+            borderColor: 'var(--border)',
+          }}
+        >
+          <AlertDialogHeader>
+            <AlertDialogTitle
+              className="text-xl"
+              style={{ color: 'var(--foreground)' }}
+            >
+              Delete notification
+            </AlertDialogTitle>
+            <AlertDialogDescription
+              className="text-base leading-relaxed"
+              style={{ color: 'var(--muted-foreground)' }}
+            >
+              Are you sure you want to delete this notification? This
+              action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="gap-3">
+            <AlertDialogCancel
+              className="rounded-2xl"
+              style={{
+                background: 'var(--secondary)',
+                color: 'var(--secondary-foreground)',
+              }}
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteNotification}
+              className="rounded-2xl"
+              style={{
+                background: 'var(--destructive)',
+                color: 'var(--destructive-foreground)',
+              }}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      <AlertDialog
+        open={clearAllDialogOpen}
+        onOpenChange={setClearAllDialogOpen}
+      >
+        <AlertDialogContent
+          className="rounded-3xl border-2"
+          style={{
+            background: 'var(--popover)',
+            borderColor: 'var(--border)',
+          }}
+        >
+          <AlertDialogHeader>
+            <AlertDialogTitle
+              className="text-xl"
+              style={{ color: 'var(--foreground)' }}
+            >
+              Clear all notifications
+            </AlertDialogTitle>
+            <AlertDialogDescription
+              className="text-base leading-relaxed"
+              style={{ color: 'var(--muted-foreground)' }}
+            >
+              This will remove all notifications. Are you sure you
+              want to continue?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="gap-3">
+            <AlertDialogCancel
+              className="rounded-2xl"
+              style={{
+                background: 'var(--secondary)',
+                color: 'var(--secondary-foreground)',
+              }}
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleClearAll}
+              className="rounded-2xl"
+              style={{
+                background: 'var(--destructive)',
+                color: 'var(--destructive-foreground)',
+              }}
+            >
+              Clear All
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
