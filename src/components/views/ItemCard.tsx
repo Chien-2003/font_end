@@ -171,7 +171,7 @@ export default function ProductCard({
             {isWishlisted ? (
               <FaHeart className="text-red-500 text-sm" />
             ) : (
-              <FaRegHeart className="text-gray-600 text-sm hover:text-red-500 transition-colors" />
+              <FaRegHeart className="text-gray/60 text-sm hover:text-red-500 transition-colors" />
             )}
           </motion.button>
           <Link href={productUrl}>
@@ -213,7 +213,7 @@ export default function ProductCard({
                 {variants.length > 4 && (
                   <Link
                     href={productUrl}
-                    className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-2 rounded-lg transition-all duration-300 flex items-center"
+                    className="text-xs bg-gray/10 hover:bg-gray/20 text-gray/60 px-3 py-2 rounded-lg transition-all duration-300 flex items-center"
                   >
                     +{variants.length - 4}
                   </Link>
@@ -241,12 +241,12 @@ export default function ProductCard({
                     className={`text-xs ${
                       i < Math.floor(rating)
                         ? 'text-yellow-400'
-                        : 'text-gray-200'
+                        : 'text-gray/20'
                     }`}
                   />
                 ))}
               </div>
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-gray/50">
                 {rating} ({reviewCount} đánh giá)
               </span>
             </div>
@@ -254,7 +254,7 @@ export default function ProductCard({
           <div className="flex items-center justify-between mt-auto">
             <div className="flex items-center gap-4">
               {oldPrice && oldPrice > price && (
-                <span className="text-sm line-through text-gray-400">
+                <span className="text-sm line-through text-gray/40">
                   {oldPrice.toLocaleString('vi-VN')}
                 </span>
               )}
@@ -315,13 +315,7 @@ function VariantAddButton({
           ref={btnRef}
           whileHover={{ scale: 1.05, y: -2 }}
           whileTap={{ scale: 0.95 }}
-          className={`text-xs font-medium px-3 py-2 rounded-lg transition-all cursor-pointer duration-300 ${
-            variant.quantity > 0
-              ? 'bg-primary/10 hover:bg-primary hover:text-white text-primary border border-primary/20 hover:border-primary'
-              : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-          }
-            ${isLoading ? 'opacity-50 cursor-wait' : ''}
-          `}
+          className={`text-xs font-medium px-3 py-2 rounded-lg transition-all cursor-pointer duration-300 ${variant.quantity > 0 ? 'bg-primary/10 hover:bg-primary hover:text-white text-primary border border-primary/20 hover:border-primary' : 'bg-gray/10 text-gray/40 cursor-not-allowed'} ${isLoading ? 'opacity-50 cursor-wait' : ''}`}
           onClick={handleAddToCart}
           disabled={variant.quantity === 0 || isLoading}
           type="button"
