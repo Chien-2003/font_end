@@ -19,7 +19,7 @@ import {
 import { MdMailOutline } from 'react-icons/md';
 
 const STORE_LINKS = [
-  { label: 'Tất cả sản phẩm', href: '#' },
+  { label: 'Tất cả sản phẩm', href: '/all-products' },
   { label: 'Hàng mới về', href: '#' },
   { label: 'Bán chạy', href: '#' },
   { label: 'Bộ sưu tập', href: '#' },

@@ -32,6 +32,9 @@ const SPECIAL_LABELS: Record<string, string> = {
   'tao-san-pham': 'Tạo sản phẩm',
   'create-banner': 'Tạo banner',
   'update-banner': 'Cập nhật banner',
+  'create-discount': 'Tạo giảm giá',
+  policy: 'Chính sách',
+  category: 'Danh mục',
   lever: 'Level',
 };
 

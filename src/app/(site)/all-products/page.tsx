@@ -1,5 +1,6 @@
 'use client';
 
+import { Label } from '@/components/ui/label';
 import {
   Pagination,
   PaginationContent,
@@ -71,7 +72,7 @@ export default function AllProductsPage() {
         selectedSubSlug !== 'all' ? selectedSubSlug : undefined,
       sort,
       page: currentPage,
-      limit: 20,
+      limit: 12,
     })
       .then((res) => {
         setProducts(res.data);
@@ -113,7 +114,7 @@ export default function AllProductsPage() {
         <div className="flex flex-col gap-6">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold">
+              <h1 className="text-2xl md:text-3xl font-semibold text-foreground">
                 Tất cả sản phẩm
               </h1>
               <p className="text-foreground/70 mt-1">
@@ -121,10 +122,8 @@ export default function AllProductsPage() {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
-              <div className="flex items-center gap-1">
-                <label className="text-sm text-foreground/70 min-w-[80px]">
-                  Danh mục
-                </label>
+              <div className="flex items-center gap-1.5">
+                <Label className="text-sm">Danh mục</Label>
                 <Select
                   value={selectedCategoryId}
                   onValueChange={handleCategoryChange}
@@ -144,10 +143,8 @@ export default function AllProductsPage() {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="flex items-center gap-1">
-                <label className="text-sm text-foreground/70 min-w-[80px]">
-                  Phân loại
-                </label>
+              <div className="flex items-center gap-1.5">
+                <Label className="text-sm">Phân loại</Label>
                 <Select
                   value={selectedSubSlug}
                   onValueChange={handleSubcategoryChange}
@@ -247,7 +244,6 @@ export default function AllProductsPage() {
                             e.preventDefault();
                             handlePageChange(1);
                           }}
-                          className="cursor-pointer"
                         >
                           1
                         </PaginationLink>
@@ -275,7 +271,6 @@ export default function AllProductsPage() {
                             handlePageChange(page);
                           }}
                           isActive={page === currentPage}
-                          className="cursor-pointer"
                         >
                           {page}
                         </PaginationLink>
@@ -295,7 +290,6 @@ export default function AllProductsPage() {
                             e.preventDefault();
                             handlePageChange(totalPages);
                           }}
-                          className="cursor-pointer"
                         >
                           {totalPages}
                         </PaginationLink>
